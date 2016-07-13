@@ -1,0 +1,9 @@
+nl:
+  hello: "Hallo wereld"
+  layouts:
+    navigation:
+      edit_account: Account wijzigen
+      sign_out: Uitloggen
+      sign_in: Inloggen
+      sign_up: Registreren
+      users: Gebruikers
