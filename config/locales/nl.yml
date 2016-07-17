@@ -7,3 +7,43 @@ nl:
       sign_in: Inloggen
       sign_up: Registreren
       users: Gebruikers
+  visitors:
+    index:
+      title: XSPL
+      lead: Scrabble-variant met veel opties
+      feature1: Spelen met maximaal 8 personen
+      feature2: Extra (vieze, rare ...) woordenlijsten toevoegen
+      feature3: .... nog veel meer .....
+  devise:
+    registrations:
+      edit:
+        edit_user: Account wijzigen
+        password_no_update: Niets invullen, als u uw wachtwoord niet wilt wijzigen.
+        enter_current_password: U moet uw huidig wachtwoord opgeven als u iets wilt wijzigen.
+        cancel_account: Account verwijderen
+        btn_update: Oke
+        not_happy: Niet tevreden? Jammer dat je niet meer wilt.
+        btn_cancel_account: Verwijder mijn account
+        sure: Weet u het zeker?
+  activerecord:
+    models:
+      user: Gebruiker
+    attributes:
+      user:
+        name: Naam
+        email: E-mail
+        locale: Taal
+        password: Wachtwoord
+        password_confirmation: Wachtwoord bevestigen
+        current_password: Huidig wachtwoord
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: moet ingevuld zijn.
+  errors:
+    messages:
+      not_saved:
+        one: 'Niet opgeslagen, 1 fout gevonden'
+        other: 'Niet opgeslagen, %{count} fouten gevonden:'
