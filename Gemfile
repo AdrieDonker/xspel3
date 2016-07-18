@@ -16,6 +16,7 @@ group :development do
 end
 gem 'bootstrap-sass'
 gem 'devise'
+# gem 'devise-i18n'
 gem 'high_voltage'
 gem 'simple_form'
 group :development do

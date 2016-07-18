@@ -1,12 +1,21 @@
 nl:
-  hello: "Hallo wereld"
-  layouts:
-    navigation:
-      edit_account: Account wijzigen
-      sign_out: Uitloggen
-      sign_in: Inloggen
-      sign_up: Registreren
-      users: Gebruikers
+  edit_account: Account wijzigen
+  sign_out: Uitloggen
+  sign_in: Inloggen
+  sign_up: Registreren
+  user: Gebruiker
+  users: Gebruikers
+  forgot_password: Vergeten?
+  remember_me: Onthoudt mij
+  change_role: Wijzig Rol
+  delete_user: Verwijderen
+  sure: Weet u het zeker?
+  action: Actie
+  user_updated: Gebruiker is gewijzigd.
+  user_not_updated: Gebruiker is NIET gewijzigd!
+  user_deleted: Gebruiker is verwijderd.
+  no_access: Geen toegang!
+  
   visitors:
     index:
       title: XSPL
@@ -24,7 +33,6 @@ nl:
         btn_update: Oke
         not_happy: Niet tevreden? Jammer dat je niet meer wilt.
         btn_cancel_account: Verwijder mijn account
-        sure: Weet u het zeker?
   activerecord:
     models:
       user: Gebruiker
@@ -33,6 +41,8 @@ nl:
         name: Naam
         email: E-mail
         locale: Taal
+        language: Taal
+        role: Rol
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
         current_password: Huidig wachtwoord

@@ -12,6 +12,13 @@ img {
   // font-size: inherit;
   color: yellow;
   }
+// Clickable table (element)
+.click-this{
+  cursor: pointer;
+  &:hover{
+    background-color: lightgrey;
+  }
+}
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create your own classes

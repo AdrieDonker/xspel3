@@ -19,15 +19,15 @@
         <li><%= link_to 'About', page_path('about') %></li>
         <%#= render 'layouts/nav_links_for_auth' %>
         <% if user_signed_in? %>
-          <li><%= link_to t('.edit_account'), edit_user_registration_path %></li>
-          <li><%= link_to t('.sign_out'), destroy_user_session_path, :method=>'delete' %></li>
+          <li><%= link_to (t :edit_account), edit_user_registration_path %></li>
+          <li><%= link_to (t :sign_out), destroy_user_session_path, :method=>'delete' %></li>
         <% else %>
-          <li><%= link_to t('.sign_in'), new_user_session_path %></li>
-          <li><%= link_to t('.sign_up'), new_user_registration_path %></li>
+          <li><%= link_to (t :sign_in), new_user_session_path %></li>
+          <li><%= link_to (t :sign_up), new_user_registration_path %></li>
         <% end %>
         <% if user_signed_in? %>
           <% if current_user.try(:admin?) %>
-            <li><%= link_to t('.users'), users_path %></li>
+            <li><%= link_to (t :users), users_path %></li>
           <% end %>
         <% end %>
       </ul>

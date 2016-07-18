@@ -1,12 +1,21 @@
 en:
-  hello: "Hello world"
-  layouts:
-    navigation:
-      edit_account: Edit account
-      sign_out: Sign out
-      sign_in: Sign in
-      sign_up: Sign up
-      users: Users
+  edit_account: Edit account
+  sign_out: Sign out
+  sign_in: Sign in
+  sign_up: Sign up
+  user: User
+  users: Users
+  forgot_password: Forgot password?
+  remember_me: Remember me
+  change_role: Change Role
+  delete_user: Delete
+  sure: Are you sure? 
+  action: Actie
+  user_updated: User is updated.
+  user_not_updated: User is nNOT updated!
+  user_deleted: User is removed.
+  no_access: No access!
+
   visitors:
     index:
       title: XSPL
@@ -24,7 +33,6 @@ en:
         btn_update: Update
         not_happy: Unhappy? We'll be sad to see you go.
         btn_cancel_account: Cancel my account
-        sure: Are you sure?
   activerecord:
     models:
       user: User
@@ -33,6 +41,7 @@ en:
         name: Name
         email: Email
         locale: Language
+        language: Language
         password: Password
         password_confirmation: Password confirmation
         current_password: Current password
