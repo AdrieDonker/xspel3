@@ -46,12 +46,22 @@ nl:
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
         current_password: Huidig wachtwoord
+      password_confirmation:
+        confirmation: Wachtwoord moet bevestigd worden.
     errors:
       models:
         user:
           attributes:
+            password:
+              too_short: is te kort.
             current_password:
               blank: moet ingevuld zijn.
+              invalid: is fout.
+            email:
+              taken: is reeds in gebruik.
+            password_confirmation:
+              confirmation: is niet goed ingevuld.
+
   errors:
     messages:
       not_saved:
