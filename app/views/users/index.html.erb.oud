@@ -9,13 +9,15 @@
             <th><%= t User.human_attribute_name(:email) %></th>
             <th><%= t User.human_attribute_name(:language) %></th>
             <th><%= t User.human_attribute_name(:role) %></th>
-            <th><%= t :action %></th>
           </tr>
         </thead>
         <tbody>
           <% @users.each do |user| %>
-            <tr>
-              <%= render user %>
+            <tr  class="click-this" data-href="<%= user_path(user) %>">
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.language.try(:name) %></td>
+              <td><%= user.role.titleize %></td>
             </tr>
           <% end %>
         </tbody>

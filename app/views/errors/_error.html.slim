@@ -1,0 +1,6 @@
+- if model.errors.any?
+  #error_explanation
+    h2= t("errors.messages.not_saved", count: model.errors.count)
+    ul
+      - model.errors.full_messages.each do |msg|
+        li= msg

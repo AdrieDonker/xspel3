@@ -1,0 +1,18 @@
+.container
+  .row
+    h3= User.model_name.human.pluralize
+    .table_responsive
+      table.table.table-hover.clickable-table
+        thead
+          tr
+            th= User.human_attribute_name(:name)
+            th= User.human_attribute_name(:email)
+            th= User.human_attribute_name(:language)
+            th= User.human_attribute_name(:role)
+        tbody
+          - @users.each do |user|
+            tr.click-this data-href="#{user_path(user)}" 
+              td= user.name
+              td= user.email
+              td= user.language.try(:name)
+              td= user.role.titleize

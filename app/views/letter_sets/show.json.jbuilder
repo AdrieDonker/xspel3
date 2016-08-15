@@ -1,0 +1,1 @@
+json.partial! "letter_sets/letter_set", letter_set: @letter_set

@@ -1,0 +1,37 @@
+nav.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+      button.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button" 
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      .navbar-header
+        .dropdown.navbar-brand
+          button.btn.btn-default.btn-transparent.dropdown-toggle data-toggle="dropdown" type="button" 
+            | XSPL
+            span.caret
+          ul.dropdown-menu
+            li
+              a href="#"  Spelers: Speler 1, Speler2, Speler3, Speler4, Speler5, Speler6, Speler7, Speler8
+            li.divider
+            li
+              a href="#"  Tegen:
+            li.divider
+            li
+              a href="#"  JavaScript
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li= link_to 'Home', root_path
+        li= link_to 'About', page_path('about')
+        - if user_signed_in?
+          li= link_to (t :edit_account), edit_user_registration_path
+          li= link_to (t :sign_out), destroy_user_session_path, :method=>'delete'
+        - else
+          li= link_to (t :sign_in), new_user_session_path
+          li= link_to (t :sign_up), new_user_registration_path
+        - if user_signed_in?
+          - if current_user.try(:admin?)
+            li= link_to User.model_name.human.pluralize, users_path
+          - if current_user.try(:admin?) or current_user.try(:admin?)
+            li= link_to LetterSet.model_name.human.pluralize, letter_sets_path

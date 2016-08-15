@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @letter_set.name
+p
+  strong Letter amount points:
+  = @letter_set.letter_amount_points
+
+= link_to 'Edit', edit_letter_set_path(@letter_set)
+'|
+= link_to 'Back', letter_sets_path

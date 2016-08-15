@@ -1,18 +1,16 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :admin_only, :except => :show
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
     @users = User.all
   end
 
   def show
-    @user = User.find(params[:id])
-    unless current_user.admin?
-      unless @user == current_user
-        redirect_to :back, :alert => (t :no_access)
-      end
-    end
+  end
+
+  def edit
   end
 
   def update
@@ -20,7 +18,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(secure_params)
       redirect_to users_path, :notice => (t :user_updated)
     else
-      redirect_to users_path, :alert => (t :user_not_updated)
+      render :edit
     end
   end
 
@@ -39,7 +37,10 @@ class UsersController < ApplicationController
   end
 
   def secure_params
-    params.require(:user).permit(:name, :role, :locale)
+    params.require(:user).permit(:name, :role, :locale, :email)
   end
 
+  def set_user
+    @user = User.find(params[:id])
+  end
 end

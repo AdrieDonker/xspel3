@@ -5,7 +5,7 @@
   <%= user.email %>
 </td>
 <td>
-  <%= user.language.name if user.language %>
+  <%= user.language.try(:name) %>
 </td>
 <td>
   <%= form_for(user) do |f| %>

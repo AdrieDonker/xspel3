@@ -1,9 +1,11 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-user = CreateAdminService.new.call
-puts 'CREATED ADMIN USER: ' << user.email
+User.create!([
+  {email: "adrie.donker@gmail.com", encrypted_password: "$2a$11$UNDfmGaJESUbIYxl2pAlducQOKzT9HXhO2jVPuB19yjjdfU..rEUe", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 38, current_sign_in_at: "2016-08-14 18:57:59", last_sign_in_at: "2016-08-14 18:54:14", current_sign_in_ip: "94.215.220.66", last_sign_in_ip: "94.215.220.66", name: "Adrie Donker", role: "admin", locale: "nl"},
+  {email: "geerta@donker.biz", encrypted_password: "$2a$11$tjyMTQ.az6uFSZMVZTcc0OCUXWel8uwLssGW1ncg9HEhIZYnAnLp2", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-08-14 19:02:50", last_sign_in_at: "2016-08-14 19:02:50", current_sign_in_ip: "94.215.220.66", last_sign_in_ip: "94.215.220.66", name: "Geerta", role: "user", locale: nil},
+  {email: "thomas@google.com", encrypted_password: "$2a$11$EKHvKY7C1.EwKYNZXP4cqON1ko7YQiFRZ2uHQPDeStG7govIlrsKW", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-08-14 19:04:03", last_sign_in_at: "2016-08-14 19:04:03", current_sign_in_ip: "94.215.220.66", last_sign_in_ip: "94.215.220.66", name: "Thomas", role: "user", locale: nil},
+  {email: "silviadonker@gmail.com", encrypted_password: "$2a$11$y2aZ90ex68AtIeICQfzaJ.jSFaJBequxQMt3LiOtjhHt9wr95Qslm", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-08-14 19:04:37", last_sign_in_at: "2016-08-14 19:04:37", current_sign_in_ip: "94.215.220.66", last_sign_in_ip: "94.215.220.66", name: "Silvia", role: "user", locale: nil},
+  {email: "diondonker@gmail.com", encrypted_password: "$2a$11$io25bRbF140lmBD63aXuG.uF3JyNI3o267T999f1oPu7gFeShdt/G", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-08-14 19:05:29", last_sign_in_at: "2016-08-14 19:05:29", current_sign_in_ip: "94.215.220.66", last_sign_in_ip: "94.215.220.66", name: "Dion", role: "user", locale: nil}
+])
+Language.create!([
+  {name: "Nederlands", abbreviation: "nl"},
+  {name: "English", abbreviation: "en"}
+])

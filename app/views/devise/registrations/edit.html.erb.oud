@@ -40,7 +40,7 @@
   <% end %>
 </div>
 <div class="authform">
-<h3><%= t('.cancel_account') %></h3>
-<p><%= t('.not_happy') %></p>
-<%= button_to t('.btn_cancel_account'), registration_path(resource_name), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right' %>
+  <h3><%= t('.cancel_account') %></h3>
+  <p><%= t('.not_happy') %></p>
+  <%= button_to t('.btn_cancel_account'), registration_path(resource_name), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right' %>
 </div>

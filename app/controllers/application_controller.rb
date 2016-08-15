@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:locale, :name, :email])
     # devise_parameter_sanitizer.permit(:sign_in, keys: [:locale]) n/n
     devise_parameter_sanitizer.permit(:account_update, keys: [:locale, :name, :email])
+    # logger.info "INFO: did > configure_permitted_parameters"
   end
   
   # Set the language

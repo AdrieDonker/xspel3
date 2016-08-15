@@ -15,6 +15,8 @@ en:
   user_not_updated: User is nNOT updated!
   user_deleted: User is removed.
   no_access: No access!
+  btn_edit: Update
+  update: ' change'
 
   visitors:
     index:
@@ -25,6 +27,13 @@ en:
       feature3: .... and a lot more .....
   devise:
     registrations:
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      updated: "Your account has been updated successfully."
       edit:
         edit_user: Edit account
         password_no_update: Leave these fields blank if you don't want to change your password.

@@ -15,6 +15,9 @@ nl:
   user_not_updated: Gebruiker is NIET gewijzigd!
   user_deleted: Gebruiker is verwijderd.
   no_access: Geen toegang!
+  btn_edit: Wijzigen
+  btn_delete: Verwijderen
+  update: ' wijzigen'
   
   visitors:
     index:
@@ -25,6 +28,9 @@ nl:
       feature3: .... nog veel meer .....
   devise:
     registrations:
+      destroyed: Het account is opgeheven.
+      signed_up: Welkom! Je bent nu geregistreerd.
+      updated: Het account is gewijzigd.
       edit:
         edit_user: Account wijzigen
         password_no_update: Niets invullen, als u uw wachtwoord niet wilt wijzigen.
@@ -36,10 +42,11 @@ nl:
   activerecord:
     models:
       user: Gebruiker
+      letter_set: Letterset
     attributes:
       user:
         name: Naam
-        email: E-mail
+        email: 'E-mail'
         locale: Taal
         language: Taal
         role: Rol
@@ -52,6 +59,9 @@ nl:
       models:
         user:
           attributes:
+            name:
+              blank: moet ingevuld zijn.
+              taken: is reeds in gebruik.
             password:
               too_short: is te kort.
             current_password:
@@ -61,9 +71,8 @@ nl:
               taken: is reeds in gebruik.
             password_confirmation:
               confirmation: is niet goed ingevuld.
-
   errors:
     messages:
       not_saved:
         one: 'Niet opgeslagen, 1 fout gevonden'
-        other: 'Niet opgeslagen, %{count} fouten gevonden:'
+        other: 'Niet opgeslagen, %{count} fouten gevonden'

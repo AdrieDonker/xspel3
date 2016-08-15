@@ -1,0 +1,23 @@
+h1 Listing letter_sets
+
+table
+  thead
+    tr
+      th Name
+      th Letter amount points
+      th
+      th
+      th
+
+  tbody
+    - @letter_sets.each do |letter_set|
+      tr
+        td = letter_set.name
+        td = letter_set.letter_amount_points
+        td = link_to 'Show', letter_set
+        td = link_to 'Edit', edit_letter_set_path(letter_set)
+        td = link_to 'Destroy', letter_set, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Letter set', new_letter_set_path

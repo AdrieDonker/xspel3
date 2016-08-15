@@ -1,0 +1,15 @@
+= form_for @letter_set do |f|
+  - if @letter_set.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@letter_set.errors.count, "error")} prohibited this letter_set from being saved:"
+      ul
+        - @letter_set.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :letter_amount_points
+    = f.text_area :letter_amount_points
+  .actions = f.submit
