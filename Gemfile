@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'      
 gem 'listen'
+gem 'state_machine'
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'

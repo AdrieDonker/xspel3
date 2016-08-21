@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game: one
+  user: one
+  sequence_nbr: 1
+  score: 1
+  state: MyString
+  position: 1
+
+two:
+  game: two
+  user: two
+  sequence_nbr: 1
+  score: 1
+  state: MyString
+  position: 1

@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  game: one
+  score: 1
+  sequence_nbr: 1
+  bingo: false
+  state: MyString
+  start_letters: MyText
+  end_letters: MyText
+  started: 2016-08-21 19:20:19
+  ended: 2016-08-21 19:20:19
+
+two:
+  user: two
+  game: two
+  score: 1
+  sequence_nbr: 1
+  bingo: false
+  state: MyString
+  start_letters: MyText
+  end_letters: MyText
+  started: 2016-08-21 19:20:19
+  ended: 2016-08-21 19:20:19
