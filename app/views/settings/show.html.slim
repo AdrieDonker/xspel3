@@ -1,0 +1,18 @@
+.authform
+  h3= Setting.model_name.human
+  .record
+    .form-group
+      = label_tag Setting.human_attribute_name(:name)
+      .show-control #{@setting.name}
+    .form-group
+      = label_tag Setting.human_attribute_name(:max_invite_hours)
+      .show-control #{@setting.max_invite_hours}
+    .form-group
+      = label_tag Setting.human_attribute_name(:max_play_hours)
+      .show-control #{@setting.max_play_hours}
+    .form-group
+      = label_tag Setting.human_attribute_name(:extra_on_bingo)
+      .show-control #{@setting.extra_on_bingo}
+    .keys
+      = link_to t(:btn_edit), edit_setting_path(@setting), :class => 'button left'
+      = link_to t(:btn_delete), setting_path(@setting), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'

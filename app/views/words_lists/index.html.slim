@@ -1,0 +1,14 @@
+.container
+  .row
+    h3= WordsList.model_name.human(count: 2)
+    .table_responsive
+      table.table.table-hover.clickable-table
+        thead
+          tr
+            th= WordsList.human_attribute_name(:name)
+            th= WordsList.human_attribute_name(:group)
+            th= WordsList.human_attribute_name(:description)
+            th= WordsList.human_attribute_name(:words)
+        tbody
+          = render @words_lists
+    = link_to t(:btn_new), new_words_list_path, :class => 'btn btn-primary'

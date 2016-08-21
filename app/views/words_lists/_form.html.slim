@@ -1,0 +1,15 @@
+= form_for(@words_list, :html => {:role => 'form'}) do |f|
+  = render 'errors/error', model: @words_list
+  .form-group
+    = f.label :name
+    = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group
+    = f.label :group
+    = f.text_field :group, class: 'form-control form-control'
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control form-control'
+  .form-group
+    = f.label :words_spaced
+    = f.text_area :words_spaced, class: 'form-control large-control'
+  .keys = f.submit 'Oke', :class => 'button left'

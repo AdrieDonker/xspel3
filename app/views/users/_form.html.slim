@@ -1,0 +1,15 @@
+= form_for(@user, :html => {:role => 'form'}) do |f|
+  = render 'errors/error', model: @user
+  .form-group
+    = f.label :name
+    = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group
+    = f.label :email
+    = f.email_field :email, class: 'form-control', disabled: 'disabled' 
+  .form-group
+    = f.label :locale
+    = f.select :locale, Language.all.collect {|lang| [lang.name, lang.abbreviation]},{} , class: 'form-control'
+  .form-group
+    = f.label :role
+    = f.select :role, User.roles.keys.map {|role| [role.titleize,role]},{} , class: 'form-control'
+  .keys = f.submit 'Oke', :class => 'button left'

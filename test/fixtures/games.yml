@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  board: one
+  letter_set: one
+  words_list: one
+  words_list_groups: MyText
+  extra_words_lists: MyString
+  text: MyString
+
+two:
+  name: MyString
+  board: two
+  letter_set: two
+  words_list: two
+  words_list_groups: MyText
+  extra_words_lists: MyString
+  text: MyString

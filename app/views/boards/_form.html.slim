@@ -1,0 +1,9 @@
+= form_for(@board, :html => {:role => 'form'}) do |f|
+  = render 'errors/error', model: @board
+  .form-group
+    = f.label :name
+    = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group
+    = f.label :layout
+    = f.text_area :layout, class: 'form-control large-control'
+  .keys = f.submit 'Oke', :class => 'button left'

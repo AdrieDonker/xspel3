@@ -1,0 +1,15 @@
+= form_for(@setting, :html => {:role => 'form'}) do |f|
+  = render 'errors/error', model: @setting
+  .form-group
+    = f.label :name
+    = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group
+    = f.label :max_invite_hours
+    = f.number_field :max_invite_hours, class: 'form-control'
+  .form-group
+    = f.label :max_play_hours
+    = f.number_field :max_play_hours, class: 'form-control'
+  .form-group
+    = f.label :extra_on_bingo
+    = f.number_field :extra_on_bingo, class: 'form-control'
+  .keys = f.submit 'Oke', :class => 'button left'

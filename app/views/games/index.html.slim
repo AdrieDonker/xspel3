@@ -1,0 +1,33 @@
+h1 Listing games
+
+table
+  thead
+    tr
+      th Name
+      th Board
+      th Letter set
+      th Words list
+      th Words list groups
+      th Extra words lists
+      th Text
+      th
+      th
+      th
+
+  tbody
+    - @games.each do |game|
+      tr
+        td = game.name
+        td = game.board
+        td = game.letter_set
+        td = game.words_list
+        td = game.words_list_groups
+        td = game.extra_words_lists
+        td = game.text
+        td = link_to 'Show', game
+        td = link_to 'Edit', edit_game_path(game)
+        td = link_to 'Destroy', game, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Game', new_game_path

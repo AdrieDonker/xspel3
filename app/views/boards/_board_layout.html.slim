@@ -1,0 +1,6 @@
+table.board
+  - if model != ""
+      - model.each do |row|
+        tr
+          - row.each do |cel|
+            td class="cel_#{cel.nil? ? 'bg' : cel}"

@@ -1,0 +1,3 @@
+tr.click-this data-href="#{board_path(board)}" 
+  td= board.name
+  td= render partial: 'board_layout', locals: {model: board.layout}
