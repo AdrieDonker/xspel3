@@ -1,5 +1,3 @@
-h1 New letter_set
-
-== render 'form'
-
-= link_to 'Back', letter_sets_path
+.authform
+  h3= (t :newe) + LetterSet.model_name.human.downcase
+  = render 'form'

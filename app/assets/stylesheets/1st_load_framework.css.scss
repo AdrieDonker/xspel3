@@ -40,22 +40,56 @@ img {
 }
 
 .show-control {
-    display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: auto;
+}
+.large-control{
+  height: 180px;
+  overflow: auto;
+}
+textarea.large-control{
+  height: 180px;
+  resize: none;
 }
 .button_to form{
   border: 0;
 }
-    
+$bord_max: 435px;
+$cel_max: 25px;
+$font_max: 30px;
+table .board{
+  height: $bord_max;
+  width: $bord_max;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 1px;
+  border: 2px solid grey;
+  font-size: 30px;
+  color: black;
+  td{
+    padding: 1px;
+    width: $cel_max;
+    height: $cel_max;
+    line-height: 38px;
+    text-align: center;
+    background-repeat: no-repeat; background-size: 70%;
+  }
+  td.cel_bg{background-color: #166516;};
+  td.cel_2_l{background-image: url(xspel_2_l_n.png); background-color: #add8e6};
+  td.cel_3_l{background-image: url(xspel_3_l_n.png); background-color: #0000ff};
+  td.cel_2_w{background-image: url(xspel_2_w_n.png); background-color: #ffc0cb};
+  td.cel_3_w{background-image: url(xspel_3_w_n.png); background-color: #ff0000};
+}
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create your own classes
 // to make views framework-neutral
@@ -109,6 +143,9 @@ section {
 }
 .keys{
   height: 34px;
+  &:form{
+    padding:24px;
+  }
 }
 .authform .right {
   float: right !important;

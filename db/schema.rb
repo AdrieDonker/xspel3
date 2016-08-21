@@ -10,7 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810103403) do
+ActiveRecord::Schema.define(version: 20160821184329) do
+
+  create_table "boards", force: :cascade do |t|
+    t.string   "name"
+    t.text     "layout"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "board_id"
+    t.integer  "letter_set_id"
+    t.integer  "words_list_id"
+    t.text     "words_list_groups"
+    t.text     "extra_words_lists"
+    t.datetime "started"
+    t.text     "laid_letters"
+    t.text     "stock_letters"
+    t.string   "state"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["board_id"], name: "index_games_on_board_id"
+    t.index ["letter_set_id"], name: "index_games_on_letter_set_id"
+    t.index ["words_list_id"], name: "index_games_on_words_list_id"
+  end
 
   create_table "languages", force: :cascade do |t|
     t.string   "name"
@@ -24,6 +49,15 @@ ActiveRecord::Schema.define(version: 20160810103403) do
     t.text     "letter_amount_points"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "max_invite_hours"
+    t.integer  "max_play_hours"
+    t.integer  "extra_on_bingo"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,6 +78,15 @@ ActiveRecord::Schema.define(version: 20160810103403) do
     t.string   "locale"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "words_lists", force: :cascade do |t|
+    t.string   "name"
+    t.string   "group"
+    t.string   "description"
+    t.text     "words"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end

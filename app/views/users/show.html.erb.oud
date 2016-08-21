@@ -1,5 +1,0 @@
-<h3><%= t User.model_name.human %></h3>
-<p><%= t User.human_attribute_name(:name) %>: <%= @user.name %></p>
-<p><%= t User.human_attribute_name(:email) %>: <%= @user.email %></p>
-<p><%= t User.human_attribute_name(:language) %>: <%= @user.language.name if @user.language %></p>
-<p><%= t User.human_attribute_name(:role) %>: <%= @user.role.titleize %></p>

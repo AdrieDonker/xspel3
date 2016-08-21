@@ -1,12 +1,13 @@
-p#notice = notice
-
-p
-  strong Name:
-  = @letter_set.name
-p
-  strong Letter amount points:
-  = @letter_set.letter_amount_points
-
-= link_to 'Edit', edit_letter_set_path(@letter_set)
-'|
-= link_to 'Back', letter_sets_path
+.authform
+  h3= LetterSet.model_name.human
+  .record
+    .form-group
+      = label_tag LetterSet.human_attribute_name(:name)
+      .show-control #{@letter_set.name}
+    .form-group
+      = label_tag LetterSet.human_attribute_name(:letter_amount_points)
+      .show-control.large-control #{@letter_set.letter_amount_points}
+    .keys
+      = link_to t(:btn_edit), edit_letter_set_path(@letter_set), :class => 'button left'
+      = link_to t(:btn_delete), letter_set_path(@letter_set), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'
+      

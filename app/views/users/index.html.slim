@@ -10,9 +10,4 @@
             th= User.human_attribute_name(:language)
             th= User.human_attribute_name(:role)
         tbody
-          - @users.each do |user|
-            tr.click-this data-href="#{user_path(user)}" 
-              td= user.name
-              td= user.email
-              td= user.language.try(:name)
-              td= user.role.titleize
+          = render @users

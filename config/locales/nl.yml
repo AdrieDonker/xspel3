@@ -3,22 +3,23 @@ nl:
   sign_out: Uitloggen
   sign_in: Inloggen
   sign_up: Registreren
-  user: Gebruiker
-  users: Gebruikers
   forgot_password: Vergeten?
   remember_me: Onthoudt mij
   change_role: Wijzig Rol
   delete_user: Verwijderen
   sure: Weet u het zeker?
   action: Actie
-  user_updated: Gebruiker is gewijzigd.
-  user_not_updated: Gebruiker is NIET gewijzigd!
-  user_deleted: Gebruiker is verwijderd.
+  model_created: '%{model} %{name} is toegevoegd.'
+  model_updated: '%{model} %{name} is gewijzigd.'
+  model_not_updated: '%{model} %{name} is NIET gewijzigd!'
+  model_deleted: '%{model} %{name} is verwijderd.'
   no_access: Geen toegang!
+  btn_new: Nieuw
   btn_edit: Wijzigen
   btn_delete: Verwijderen
   update: ' wijzigen'
-  
+  new: 'Nieuw '
+  newe: 'Nieuwe '
   visitors:
     index:
       title: XSPL
@@ -37,12 +38,25 @@ nl:
         enter_current_password: U moet uw huidig wachtwoord opgeven als u iets wilt wijzigen.
         cancel_account: Account verwijderen
         btn_update: Oke
-        not_happy: Niet tevreden? Jammer dat je niet meer wilt.
+        not_happy: Niet tevreden? Jammer, maar helaas.
         btn_cancel_account: Verwijder mijn account
+    failure:
+      timeout: Je sessie is verlopen, meld je opnieuw aan om door te gaan.
   activerecord:
     models:
       user: Gebruiker
-      letter_set: Letterset
+      letter_set: 
+        one: Letterset
+        other: Lettersets
+      words_list: 
+        one: Woordenlijst
+        other: Woordenlijsten
+      board:
+        one: Bord
+        other: Borden
+      setting:
+        one: Instellingen
+        other: Instellingen
     attributes:
       user:
         name: Naam
@@ -55,6 +69,23 @@ nl:
         current_password: Huidig wachtwoord
       password_confirmation:
         confirmation: Wachtwoord moet bevestigd worden.
+      letter_set: 
+        name: Naam
+        letter_amount_points: 'Letter => [ aantal, waarde ]'
+      words_list:
+        name: Naam
+        group: Groep
+        description: Omschrijving
+        words: Woorden
+        words_spaced: Woorden
+      board:
+        name: Naam
+        layout: Indeling
+      setting:
+        name: Naam
+        max_invite_hours: Maximum tijd op uitnodiging (uren)
+        max_play_hours: Maximum speeltijd (uren)
+        extra_on_bingo: Extra punten bij bingo (alles 7 letters gelegd)
     errors:
       models:
         user:

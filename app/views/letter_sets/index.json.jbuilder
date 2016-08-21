@@ -1,1 +1,0 @@
-json.array! @letter_sets, partial: 'letter_sets/letter_set', as: :letter_set

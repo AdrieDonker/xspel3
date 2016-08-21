@@ -55,15 +55,17 @@ class LetterSet < ApplicationRecord
     lap
   end
 
-  private
-  
   # Return: (en save) standaard letterset als niet bestaat
-  def init_standaard
-    self.letter_amount_points = {'A': [6, 1], 'B': [2, 3], 'C': [2, 5], 'D': [5, 1], 'E': [18, 1],
-      'F': [2, 4], 'G': [3, 3], 'H': [2, 4], 'I': [4, 1], 'J': [2, 4], 'K': [3, 3], 'L': [3, 3],
-      'M': [3, 3], 'N': [10, 1], 'O': [6, 1], 'P': [2, 3], 'Q': [1, 10], 'R': [5, 2], 'S': [5, 2],
-      'T': [5, 2], 'U': [3, 4], 'V': [2, 4], 'W': [2, 5], 'X': [1, 8], 'Y': [1, 8], 'Z': [2, 4]}
-    self.name = 'standaard'
+  def self.create_standard_letter_set
+    sls = LetterSet.new
+    sls.letter_amount_points = 
+      {:A=>[6, 1], :B=>[2, 3],  :C=>[2, 5], :D=>[5, 1], :E=>[18, 1], :F=>[2, 4], 
+       :G=>[3, 3], :H=>[2, 4],  :I=>[4, 1], :J=>[2, 4], :K=>[3, 3],  :L=>[3, 3], 
+       :M=>[3, 3], :N=>[10, 1], :O=>[6, 1], :P=>[2, 3], :Q=>[1, 10], :R=>[5, 2], 
+       :S=>[5, 2], :T=>[5, 2],  :U=>[3, 4], :V=>[2, 4], :W=>[2, 5],  :X=>[1, 8], 
+       :Y=>[1, 8], :Z=>[2, 4],  :""=>[2, 0]}
+    sls.name = 'standaard'
+    sls.save
   end
   
 end

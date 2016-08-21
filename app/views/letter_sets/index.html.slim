@@ -1,23 +1,12 @@
-h1 Listing letter_sets
-
-table
-  thead
-    tr
-      th Name
-      th Letter amount points
-      th
-      th
-      th
-
-  tbody
-    - @letter_sets.each do |letter_set|
-      tr
-        td = letter_set.name
-        td = letter_set.letter_amount_points
-        td = link_to 'Show', letter_set
-        td = link_to 'Edit', edit_letter_set_path(letter_set)
-        td = link_to 'Destroy', letter_set, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Letter set', new_letter_set_path
+.container
+  .row
+    h3= LetterSet.model_name.human.pluralize
+    .table_responsive
+      table.table.table-hover.clickable-table
+        thead
+          tr
+            th= LetterSet.human_attribute_name(:name)
+            th= LetterSet.human_attribute_name(:letter_amount_points)
+        tbody
+          = render @letter_sets
+    = link_to t(:btn_new), new_letter_set_path, :class => 'btn btn-primary'

@@ -12,14 +12,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             | XSPL
             span.caret
           ul.dropdown-menu
-            li
-              a href="#"  Spelers: Speler 1, Speler2, Speler3, Speler4, Speler5, Speler6, Speler7, Speler8
+            / = render partial: 'games/in_play', locals: games: @games
             li.divider
             li
               a href="#"  Tegen:
-            li.divider
-            li
-              a href="#"  JavaScript
+              button.btn.btn-info.btn-lg data-target="#new-game" data-toggle="modal" type="button"  Nieuw spel
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li= link_to 'Home', root_path
@@ -32,6 +29,9 @@ nav.navbar.navbar-inverse.navbar-fixed-top
           li= link_to (t :sign_up), new_user_registration_path
         - if user_signed_in?
           - if current_user.try(:admin?)
+            li= link_to Setting.model_name.human, settings_path
             li= link_to User.model_name.human.pluralize, users_path
-          - if current_user.try(:admin?) or current_user.try(:admin?)
+          - if current_user.try(:admin?) or current_user.try(:vip?)
             li= link_to LetterSet.model_name.human.pluralize, letter_sets_path
+            li= link_to WordsList.model_name.human(count: 2), words_lists_path
+            li= link_to Board.model_name.human(count: 2), boards_path
