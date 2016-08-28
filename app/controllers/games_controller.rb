@@ -15,6 +15,10 @@ class GamesController < ApplicationController
   # GET /games/new
   def new
     @game = Game.new
+    # respond_to do |f|
+    #   f.js 
+    # end
+    
   end
 
   # GET /games/1/edit

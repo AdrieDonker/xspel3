@@ -3,21 +3,22 @@ en:
   sign_out: Sign out
   sign_in: Sign in
   sign_up: Sign up
-  user: User
-  users: Users
   forgot_password: Forgot password?
   remember_me: Remember me
   change_role: Change Role
-  delete_user: Delete
   sure: Are you sure? 
   action: Actie
-  user_updated: User is updated.
-  user_not_updated: User is nNOT updated!
-  user_deleted: User is removed.
+  model_created: '%{model} %{name} is created.'
+  model_updated: '%{model} %{name} is updated.'
+  model_not_updated: '%{model} %{name} is NOT updated!'
+  model_deleted: '%{model} %{name} is deleted.'
   no_access: No access!
+  btn_new: New
   btn_edit: Update
-  update: ' change'
-
+  btn_delete: Delete
+  update: ' uodate'
+  new: 'New '
+  newe: 'New '
   visitors:
     index:
       title: XSPL

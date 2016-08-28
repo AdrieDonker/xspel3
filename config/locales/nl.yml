@@ -6,7 +6,6 @@ nl:
   forgot_password: Vergeten?
   remember_me: Onthoudt mij
   change_role: Wijzig Rol
-  delete_user: Verwijderen
   sure: Weet u het zeker?
   action: Actie
   model_created: '%{model} %{name} is toegevoegd.'
@@ -40,8 +39,6 @@ nl:
         btn_update: Oke
         not_happy: Niet tevreden? Jammer, maar helaas.
         btn_cancel_account: Verwijder mijn account
-    failure:
-      timeout: Je sessie is verlopen, meld je opnieuw aan om door te gaan.
   activerecord:
     models:
       user: Gebruiker
@@ -57,6 +54,9 @@ nl:
       setting:
         one: Instellingen
         other: Instellingen
+      game:
+        one: Spel
+        other: Spellen
     attributes:
       user:
         name: Naam

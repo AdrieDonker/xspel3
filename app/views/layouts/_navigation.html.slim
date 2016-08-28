@@ -12,11 +12,13 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             | XSPL
             span.caret
           ul.dropdown-menu
-            / = render partial: 'games/in_play', locals: games: @games
-            li.divider
-            li
-              a href="#"  Tegen:
-              button.btn.btn-info.btn-lg data-target="#new-game" data-toggle="modal" type="button"  Nieuw spel
+            - if user_signed_in? && @games && @games.size > 0
+              = render partial: 'games/in_play', locals: {games: @games}
+              li.divider
+            li 
+              button.btn.btn-primary data-target="#ajax-modal" data-toggle="modal" type="button" 
+                | Nieuw spel
+            li= link_to (t :new) + Game.model_name.human, new_game_path, id: "btn_new_game", remote: true
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li= link_to 'Home', root_path
@@ -35,3 +37,16 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             li= link_to LetterSet.model_name.human.pluralize, letter_sets_path
             li= link_to WordsList.model_name.human(count: 2), words_lists_path
             li= link_to Board.model_name.human(count: 2), boards_path
+/! Modal
+#ajax-modal.modal.fade aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
+  .modal-dialog role="document" 
+    .modal-content
+      .modal-header
+        button.close aria-label="Close" data-dismiss="modal" type="button" 
+          span aria-hidden="true"  ×
+        h4#amLabel.modal-title Modal title
+      #amBody.modal-body
+        | \...
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+        button.btn.btn-primary type="button"  Save changes

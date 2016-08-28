@@ -1,0 +1,9 @@
+= form_for(@game, :html => {:role => 'form'}, remote: true) do |f|
+  = render 'errors/error', model: @game
+  .form-group
+    = f.label :name
+    = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group
+    = f.label :state
+    = f.text_field :state, class: 'form-control'
+  .keys = f.submit 'Oke', :class => 'button left'
