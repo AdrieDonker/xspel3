@@ -1,5 +1,4 @@
 class LetterSetsController < ApplicationController
-  before_action :authenticate_user!
   before_action :admin_only, except: :show
   before_action :set_letter_set, only: [:show, :edit, :update, :destroy]
 

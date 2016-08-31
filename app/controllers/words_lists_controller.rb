@@ -1,5 +1,4 @@
 class WordsListsController < ApplicationController
-  before_action :authenticate_user!
   before_action :admin_only, except: :show
   before_action :set_words_list, only: [:show, :edit, :update, :destroy]
 

@@ -1,9 +1,15 @@
 = form_for(@game, :html => {:role => 'form'}, remote: true) do |f|
-  = render 'errors/error', model: @game
+  #am-errors= render 'errors/error', model: @game
   .form-group
     = f.label :name
     = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group
-    = f.label :state
-    = f.text_field :state, class: 'form-control'
-  .keys = f.submit 'Oke', :class => 'button left'
+    = f.label :board
+    = f.select :board_id, Board.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
+  .form-group
+    = f.label :letter_set
+    = f.select :letter_set_id, LetterSet.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
+  .form-group
+    = f.label :words_list
+    = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
+  .keys = f.submit (t :btn_save), class: 'button left'

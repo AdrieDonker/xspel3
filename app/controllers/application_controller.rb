@@ -1,8 +1,10 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
+  before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  # before_action :games_in_play
 
   private
 
@@ -26,4 +28,5 @@ class ApplicationController < ActionController::Base
     lang
   end  
   # I18n.default_locale
+  
 end

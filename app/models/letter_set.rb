@@ -5,7 +5,7 @@ class LetterSet < ApplicationRecord
   def select_7
     de_7 = []
     selected = []
-    alp = alle_letters_punten     # [ ['A', 1], ['A', 1], ...]
+    alp = all_letters_points     # [ ['A', 1], ['A', 1], ...]
     letters_tal = aantal_letters # tbv rand
     while selected.size < 7
       new_sel = rand(letters_tal)
@@ -43,8 +43,8 @@ class LetterSet < ApplicationRecord
     ul
   end
 
-  # Return: alle letters van set met punten: [ [letter, punten], [letter, pu .. ]
-  def alle_letters_punten
+  # Return: Array alle letters van set met punten: [ [letter, punten], [letter, pu .. ]
+  def all_letters_points
     self.letter_amount_points ||= {}
     lap = []
     letter_amount_points.each do |l, ap|

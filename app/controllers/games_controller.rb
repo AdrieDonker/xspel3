@@ -1,10 +1,13 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
-  # GET /games
-  # GET /games.json
+  # GET /games.js
   def index
-    @games = Game.all
+    @games = []
+    if current_user
+      @games = current_user.games.order("created_at DESC")
+    end
+    render partial: 'in_play', locals: {games: @games}
   end
 
   # GET /games/1
@@ -12,32 +15,22 @@ class GamesController < ApplicationController
   def show
   end
 
-  # GET /games/new
+  # Only JS
   def new
     @game = Game.new
-    # respond_to do |f|
-    #   f.js 
-    # end
-    
   end
 
   # GET /games/1/edit
   def edit
   end
 
-  # POST /games
-  # POST /games.json
+  # POST /games.js
   def create
     @game = Game.new(game_params)
-
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    @game.users << current_user
+    if @game.save
+      flash.now[:notice] = (t :model_created, name: @game.name, model: Game.model_name.human)
+      render :add_game
     end
   end
 
@@ -73,6 +66,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :words_list_groups, :extra_words_lists, :text)
+      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, :text)
     end
 end

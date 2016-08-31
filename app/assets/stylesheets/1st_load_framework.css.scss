@@ -129,11 +129,15 @@ section {
 .authform {
   padding-top: 30px;
   max-width: 320px;
+  &.am {              // ajx-modal
+    max-width: 380px;
+  }
   margin: 0 auto;
 }
 .authform form {
   @extend .well;
   @extend .well-lg;
+  margin-bottom: 0px;
   // padding-bottom: 40px;
 }
 .authform .record {

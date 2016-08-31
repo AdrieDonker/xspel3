@@ -1,23 +1,15 @@
-# # called from a bootstrap dropdown, this closes the dropdown
-# $('a[data-toggle=modal]').on 'click', ->
-#   $('.dropdown').removeClass('open')
+# document ready actions
+$ ->
 
-# # this sets up the ajax loader, and it will stay until the method specific js removes it
-# $("#ajax-modal").on 'click', (e)->
-#   alert('hallo')
-#   e.preventDefault()
-#   e.stopPropagation()
-#   $('body').modalmanager('loading')
-#   $.rails.handleRemote( $(this) )
+  # Make elem with .click-this clickable to data-href
+  $(document).on 'click', '.click-this', ->
+    window.document.location = $(this).data('href')
+    return
 
-# #removes whatever is in the modal body content div upon clicking close/outside modal
-# $(document).on 'click', '[data-dismiss=modal], .modal-scrollable', ->
-#   $('.modal-body-content').empty()
-
-# $(document).ready ->
-#   $('#btn_new_game').click ->
-#     $('#ajax-modal').modal()
-#     alert "hallo"
-#     return
-#   return
-
+  # Load games in play
+  # document.addEventListener 'turbolinks:load', ->
+  $.ajax(url:"/games").done (html) ->
+    $("#games-list").html html
+    # return
+  return
+ 

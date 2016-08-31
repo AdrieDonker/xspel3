@@ -12,4 +12,4 @@
   .form-group
     = f.label :role
     = f.select :role, User.roles.keys.map {|role| [role.titleize,role]},{} , class: 'form-control'
-  .keys = f.submit 'Oke', :class => 'button left'
+  .keys = f.submit (t :btn_save), :class => 'button left'

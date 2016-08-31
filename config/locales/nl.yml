@@ -16,6 +16,7 @@ nl:
   btn_new: Nieuw
   btn_edit: Wijzigen
   btn_delete: Verwijderen
+  btn_save: Opslaan
   update: ' wijzigen'
   new: 'Nieuw '
   newe: 'Nieuwe '
@@ -86,6 +87,11 @@ nl:
         max_invite_hours: Maximum tijd op uitnodiging (uren)
         max_play_hours: Maximum speeltijd (uren)
         extra_on_bingo: Extra punten bij bingo (alles 7 letters gelegd)
+      game:
+        name: Naam
+        board: Bord
+        letter_set: Letterset
+        words_list: Woordenlijst
     errors:
       models:
         user:
@@ -102,6 +108,16 @@ nl:
               taken: is reeds in gebruik.
             password_confirmation:
               confirmation: is niet goed ingevuld.
+        game:
+          attributes:
+            board:
+              required: is verplicht.
+            letter_set:
+              required: is verplicht.
+            words_list:
+              required: is verplicht.
+            starter: 
+              required: is verplicht.
   errors:
     messages:
       not_saved:

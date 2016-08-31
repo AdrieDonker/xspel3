@@ -12,13 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
 
-// Clickable table-row
-jQuery(document).ready(function($) {
-    $(document).on( "click", ".click-this", function() {
-        window.document.location = $(this).data("href");
-    });
-});
