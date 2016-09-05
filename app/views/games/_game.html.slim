@@ -1,1 +1,19 @@
-li= link_to game.name, game_path(game), remote: true
+/ .col-lg-3.col-md-4.col-sm-6
+.col-lg-4.col-sm-6
+  .game-item.click-this data-href="#{game_path(game)}" 
+    .line
+      span= Gamer.model_name.human.pluralize + "(#{game.gamer_names.count}): "
+      = game.gamer_names.join(', ')
+    .line
+      span= Game.human_attribute_name(:started) + ': '
+      = game.started.nil? ? (t :not_yet) : game.started.strftime("%-d-%-m-'%y %H:%M")
+      span= '; ' + (t :words)
+      = game.words_list.name
+    .line
+      - if game.in_play
+        span= game.last_played(:user)
+        = ' ' + (t :played)
+        = ' [' + game.last_played(:words) + '], ' + game.last_played(:points) + ' '
+        span= (t :points)
+      - else
+        = (t :not_started)

@@ -1,18 +1,20 @@
-.authform
+.container
   h3= Setting.model_name.human
-  .record
-    .form-group
-      = label_tag Setting.human_attribute_name(:name)
-      .show-control #{@setting.name}
-    .form-group
-      = label_tag Setting.human_attribute_name(:max_invite_hours)
-      .show-control #{@setting.max_invite_hours}
-    .form-group
-      = label_tag Setting.human_attribute_name(:max_play_hours)
-      .show-control #{@setting.max_play_hours}
-    .form-group
-      = label_tag Setting.human_attribute_name(:extra_on_bingo)
-      .show-control #{@setting.extra_on_bingo}
-    .keys
-      = link_to t(:btn_edit), edit_setting_path(@setting), :class => 'button left'
-      = link_to t(:btn_delete), setting_path(@setting), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'
+  .form-group.row
+    = label_tag Setting.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@setting.name}
+  .form-group.row
+    = label_tag Setting.human_attribute_name(:max_invite_hours), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8 
+      p.form-control-static.show-control #{@setting.max_invite_hours}
+  .form-group.row
+    = label_tag Setting.human_attribute_name(:max_play_hours), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8 
+      p.form-control-static.show-control #{@setting.max_play_hours}
+  .form-group.row
+    = label_tag Setting.human_attribute_name(:extra_on_bingo), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8 
+      p.form-control-static.show-control #{@setting.extra_on_bingo}
+  = link_to t(:btn_edit), edit_setting_path(@setting), :class => 'btn btn-adrie'
+  = link_to t(:btn_delete), setting_path(@setting), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'

@@ -16,4 +16,10 @@ html
       #messages
         = render 'layouts/messages'
       = yield
+    #ajax-modal.modal.fade role="dialog" tabindex="-1" 
+      .modal-dialog.modal-sm.container role="document"
+        h3#am-title.modal-title
+        #am-errors
+        #am-body.modal-body
+
 

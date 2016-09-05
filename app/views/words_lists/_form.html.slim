@@ -1,15 +1,19 @@
 = form_for(@words_list, :html => {:role => 'form'}) do |f|
   = render 'errors/error', model: @words_list
-  .form-group
-    = f.label :name
-    = f.text_field :name, :autofocus => true, class: 'form-control'
-  .form-group
-    = f.label :group
-    = f.text_field :group, class: 'form-control form-control'
-  .form-group
-    = f.label :description
-    = f.text_field :description, class: 'form-control form-control'
-  .form-group
-    = f.label :words_spaced
-    = f.text_area :words_spaced, class: 'form-control large-control'
-  .keys = f.submit (t :btn_save), :class => 'button left'
+  .form-group.row
+    = f.label :name, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group.row
+    = f.label :group, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_field :group, class: 'form-control'
+  .form-group.row
+    = f.label :description, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_field :description, class: 'form-control'
+  .form-group.row
+    = f.label :words_spaced, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_area :words_spaced, class: 'form-control large-control'
+  = f.submit (t :btn_save), :class => 'btn btn-adrie'

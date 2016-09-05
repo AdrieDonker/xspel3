@@ -1,19 +1,20 @@
-.authform
+.container
   h3= WordsList.model_name.human
-  .record
-    .form-group
-      = label_tag WordsList.human_attribute_name(:name)
-      .show-control #{@words_list.name}
-    .form-group
-      = label_tag WordsList.human_attribute_name(:group)
-      .show-control #{@words_list.group}
-    .form-group
-      = label_tag WordsList.human_attribute_name(:description)
-      .show-control #{@words_list.description}
-    .form-group
-      = label_tag WordsList.human_attribute_name(:words)
-      .show-control.large-control #{@words_list.words_spaced}
-    .form-group
-    .keys
-      = link_to t(:btn_edit), edit_words_list_path(@words_list), :class => 'button left'
-      = link_to t(:btn_delete), words_list_path(@words_list), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'
+  .form-group.row
+    = label_tag WordsList.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@words_list.name}
+  .form-group.row
+    = label_tag WordsList.human_attribute_name(:group), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@words_list.group}
+  .form-group.row
+    = label_tag WordsList.human_attribute_name(:description), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@words_list.description}
+  .form-group.row
+    = label_tag WordsList.human_attribute_name(:words), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control.large-control #{@words_list.words_spaced}
+  = link_to t(:btn_edit), edit_words_list_path(@words_list), :class => 'btn btn-adrie'
+  = link_to t(:btn_delete), words_list_path(@words_list), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'

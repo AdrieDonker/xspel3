@@ -5,14 +5,19 @@ class GamesController < ApplicationController
   def index
     @games = []
     if current_user
-      @games = current_user.games.order("created_at DESC")
+      @games = Game.where(owner_id: current_user.id).order("created_at DESC")
     end
-    render partial: 'in_play', locals: {games: @games}
   end
 
   # GET /games/1
   # GET /games/1.json
   def show
+    # case @game.state
+    #   when 'new_game'
+    #     render 'select_players'
+    #   when 'startable'
+    #   else
+    # end
   end
 
   # Only JS
@@ -26,35 +31,13 @@ class GamesController < ApplicationController
 
   # POST /games.js
   def create
+    params[:game][:user_ids].reject!(&:empty?)
     @game = Game.new(game_params)
-    @game.users << current_user
+    @game.owner = current_user
+    # @game.users << User.find(params[:game][:user_ids]) 
     if @game.save
       flash.now[:notice] = (t :model_created, name: @game.name, model: Game.model_name.human)
-      render :add_game
-    end
-  end
-
-  # PATCH/PUT /games/1
-  # PATCH/PUT /games/1.json
-  def update
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /games/1
-  # DELETE /games/1.json
-  def destroy
-    @game.destroy
-    respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
-      format.json { head :no_content }
+      redirect_to action: :index
     end
   end
 
@@ -66,6 +49,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, :text)
+      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, :user_ids => [])
     end
 end

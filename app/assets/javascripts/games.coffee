@@ -1,3 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+# Start game
+# $(document).on 'turbolinks:load', ->
+#   $('.game-item').on 'click', (event) ->
+#     event.preventDefault()
+#     console.log $(this).text('poep')
+#     # window.open 'games/open', '_self'
+#     return
+#   return

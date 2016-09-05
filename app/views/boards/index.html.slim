@@ -1,7 +1,7 @@
 .container
   .row
     h3= Board.model_name.human(count: 2)
-    .table_responsive
+    .table-responsive
       table.table.table-hover.clickable-table
         thead
           tr
@@ -9,4 +9,4 @@
             th= Board.human_attribute_name(:layout)
         tbody
           = render @boards
-    = link_to t(:btn_new), new_board_path, :class => 'btn btn-primary'
+    = link_to t(:btn_new), new_board_path, :class => 'btn btn-adrie'

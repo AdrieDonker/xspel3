@@ -1,0 +1,11 @@
+.container
+  #game-area
+    .row
+      #board.col-md-9.col-sm-12
+        table
+          - @game.board.layout.each do |row|
+            tr
+              - row.each do |cel|
+                td class="cel_#{cel.nil? ? 'bg' : cel}"
+      #specs.col-md-3.col-sm-12
+        = 'specs hier'

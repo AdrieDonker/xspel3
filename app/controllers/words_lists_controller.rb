@@ -19,7 +19,7 @@ class WordsListsController < ApplicationController
   def create
     @words_list = WordsList.new(words_list_params)
     if @words_list.save
-      redirect_to words_lists_path, notice: (t :words_list_created, name: @words_list.name)
+      redirect_to words_lists_path, notice: (t :model_created, name: @words_list.name, model: WordsList.model_name.human)
     else
       render :new
     end
@@ -27,7 +27,7 @@ class WordsListsController < ApplicationController
 
   def update
     if @words_list.update_attributes(words_list_params)
-      redirect_to words_lists_path, :notice => (t :words_list_updated, name: @words_list.name)
+      redirect_to words_lists_path, :notice => (t :model_updated, name: @words_list.name, model: WordsList.model_name.human)
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class WordsListsController < ApplicationController
   def destroy
     name = @words_list.name
     @words_list.destroy
-    redirect_to words_lists_path, :notice => (t :words_list_deleted, name: name)
+    redirect_to words_lists_path, :notice => (t :model_deleted, name: name, model: WordsList.model_name.human)
   end
 
   private

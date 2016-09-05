@@ -1,3 +1,59 @@
-// Place all the styles related to the Games controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// Games summary
+.game-item{
+  height: 4rem;
+  background-color: #af5b5a;
+  border-radius: 0.25rem;
+  margin: 6px -8px;
+  color: white;
+  padding:0.3rem;
+  &:hover{
+    background-color: #ad6b6b;
+    cursor:pointer;
+  }
+  white-space: nowrap;
+  .line{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 85%;
+    // overflow-x: visible;
+    span {
+      font-size: 85%;
+      // font-weight: bolder;
+      color: #ffcaca;
+    }
+  }
+}
+
+// Play board
+#game-area{
+  #board{
+    border: 1px solid black;
+    height: 300px;
+  }
+  #specs{
+    border: 1px solid green;
+    height: 250px;
+  }
+}
+
+$bord_max: 435px;
+$cel_max: 25px;
+$font_max: 30px;
+table .board{
+  height: $bord_max;
+  width: $bord_max;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 1px;
+  border: 2px solid grey;
+  font-size: 30px;
+  color: black;
+  td{
+    padding: 1px;
+    width: $cel_max;
+    height: $cel_max;
+    line-height: 38px;
+    text-align: center;
+    background-repeat: no-repeat; background-size: 70%;
+  }
+}

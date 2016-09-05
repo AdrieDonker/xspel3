@@ -1,0 +1,4 @@
+.container
+  .row
+    = render @games
+  = link_to t(:btn_new), new_game_path, class: 'btn btn-adrie', remote: :true

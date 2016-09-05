@@ -1,15 +1,21 @@
-= form_for(@game, :html => {:role => 'form'}, remote: true) do |f|
+= form_for(@game, :html => {:role => 'form', remote: :true}) do |f|
   #am-errors= render 'errors/error', model: @game
-  .form-group
-    = f.label :name
-    = f.text_field :name, :autofocus => true, class: 'form-control'
-  .form-group
+  / .form-group.row
+  /  = f.label :name
+  /  = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group.row
     = f.label :board
     = f.select :board_id, Board.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
-  .form-group
+  .form-group.row
     = f.label :letter_set
     = f.select :letter_set_id, LetterSet.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
-  .form-group
+  .form-group.row
     = f.label :words_list
     = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
-  .keys = f.submit (t :btn_save), class: 'button left'
+  .form-group.row
+    = f.label :gamers
+    = f.collection_check_boxes(:user_ids, User.all, :id, :name) do |g|
+      .checkbox
+        = g.label { g.check_box(type: 'checkbox') + g.text }
+  = f.submit (t :btn_save), class: 'btn btn-adrie'
+  button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)

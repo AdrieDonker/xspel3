@@ -1,5 +1,6 @@
 class LetterSet < ApplicationRecord
   serialize   :letter_amount_points       # hash {‘A’ => [6, 1], ‘B’ => [2, 3]], ..  <letter> => [<aantal>, <punten>]
+  validates :name, presence: true, uniqueness: true
 
   # Return: 7 random letters uit volledige set
   def select_7

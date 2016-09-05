@@ -1,19 +1,21 @@
-.authform
+.container
   h3= User.model_name.human
-  .record
-    .form-group
-      = label_tag User.human_attribute_name(:name)
-      .show-control #{@user.name}
-    .form-group
-      = label_tag User.human_attribute_name(:email)
-      .show-control #{@user.email}
-    .form-group
-      = label_tag User.human_attribute_name(:language)
-      .show-control #{@user.language.try(:name)}
-    .form-group
-      = label_tag User.human_attribute_name(:role)
-      .show-control #{@user.role.titleize}
-    .keys
-      = link_to t(:btn_edit), edit_user_path(@user), :class => 'button left'
-      = link_to t(:btn_delete), user_path(@user), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'
+  .form-group.row
+    = label_tag User.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.name}
+  .form-group.row
+    = label_tag User.human_attribute_name(:email), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.email}
+  .form-group.row
+    = label_tag User.human_attribute_name(:language), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.language.try(:name)}
+  .form-group.row
+    = label_tag User.human_attribute_name(:role), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.role.titleize}
+  = link_to t(:btn_edit), edit_user_path(@user), :class => 'btn btn-adrie'
+  = link_to t(:btn_delete), user_path(@user), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'
       

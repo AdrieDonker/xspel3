@@ -1,7 +1,7 @@
 .container
   .row
     h3= Setting.model_name.human(count: 2)
-    .table_responsive
+    .table-responsive
       table.table.table-hover.clickable-table
         thead
           tr
@@ -11,4 +11,4 @@
             th= Setting.human_attribute_name(:extra_on_bingo)
         tbody
           = render @settings
-    = link_to t(:btn_new), new_setting_path, :class => 'btn btn-primary'
+    = link_to t(:btn_new), new_setting_path, :class => 'btn btn-adrie'

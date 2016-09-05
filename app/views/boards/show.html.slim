@@ -1,12 +1,12 @@
-.authform
+.container
   h3= Board.model_name.human
-  .record
-    .form-group
-      = label_tag Board.human_attribute_name(:name)
-      .show-control #{@board.name}
-    .form-group
-      = label_tag Board.human_attribute_name(:layout)
-      .show-control.large-control #{@board.layout}
-    .keys
-      = link_to t(:btn_edit), edit_board_path(@board), :class => 'button left'
-      = link_to t(:btn_delete), board_path(@board), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'button right'
+  .form-group.row
+    = label_tag Board.human_attribute_name(:name)
+    .col-sm-8
+      p.form-control-static.show-control #{@board.name}
+  .form-group.row
+    = label_tag Board.human_attribute_name(:layout)
+    .col-sm-8
+      p.form-control-static.show-control.large-control #{@board.layout}
+  = link_to t(:btn_edit), edit_board_path(@board), :class => 'btn btn-adrie'
+  = link_to t(:btn_delete), board_path(@board), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'

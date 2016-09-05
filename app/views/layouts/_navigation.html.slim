@@ -1,44 +1,23 @@
-nav.navbar.navbar-inverse.navbar-fixed-top
-  .container
-    .navbar-header
-      button.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button" 
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      .navbar-header
-        .navbar-brand
-          = link_to 'XSPL', games_path
-          button.btn.btn-default.btn-transparent.dropdown-toggle data-toggle="dropdown" type="button"
-            | XSPL
-            - if user_signed_in?
-              span.caret
-          - if user_signed_in?
-            ul#games-list.dropdown-menu
-    .collapse.navbar-collapse
-      ul.nav.navbar-nav
-        li= link_to 'Home', root_path
-        li= link_to 'About', page_path('about')
-        - if user_signed_in?
-          li= link_to (t :edit_account), edit_user_registration_path
-          li= link_to (t :sign_out), destroy_user_session_path, :method=>'delete'
-        - else
-          li= link_to (t :sign_in), new_user_session_path
-          li= link_to (t :sign_up), new_user_registration_path
-        - if user_signed_in?
-          - if current_user.try(:admin?)
-            li= link_to Setting.model_name.human, settings_path
-            li= link_to User.model_name.human.pluralize, users_path
-          - if current_user.try(:admin?) or current_user.try(:vip?)
-            li= link_to LetterSet.model_name.human.pluralize, letter_sets_path
-            li= link_to WordsList.model_name.human(count: 2), words_lists_path
-            li= link_to Board.model_name.human(count: 2), boards_path
-/ Modal for popups
-#ajax-modal.modal.fade role="dialog" tabindex="-1" 
-  .modal-dialog.authform.am.modal-lg role="document" 
-    .modal-content
-      .modal-header
-        button.close aria-label="Close" data-dismiss="modal" type="button" 
-          span aria-hidden="true"  ×
-        h3#amTitle.modal-title No title
-      #amBody.modal-body No body        | 
+nav.navbar.navbar-dark.bg-adrie.navbar-fixed-top.p-a-0
+  .navbar-header
+    = link_to 'XSPL', games_path, class: 'navbar-brand font-weight-bold p-l-2'
+  button.navbar-toggler.pull-xs-right.hidden-lg-up.navbar-brand.font-weight-bold aria-controls="exCollapsingNavbar2" aria-label=("Toggle navigation") data-target="#CollapsingNavbar" data-toggle="collapse" type="button" 
+    | &#9776;
+  #CollapsingNavbar.collapse.navbar-toggleable-md
+    ul.nav.navbar-nav
+      li.nav-item= link_to 'Home', root_path, class: 'nav-link'
+      li.nav-item= link_to 'About', page_path('about'), class: 'nav-link'
+      - if user_signed_in?
+        li.nav-item= link_to (t :edit_account), edit_user_registration_path, class: 'nav-link'
+        li.nav-item= link_to (t :sign_out), destroy_user_session_path, :method=>'delete', class: 'nav-link'
+      - else
+        li.nav-item= link_to (t :sign_in), new_user_session_path, class: 'nav-link'
+        li.nav-item= link_to (t :sign_up), new_user_registration_path, class: 'nav-link'
+      - if user_signed_in?
+        - if current_user.try(:admin?)
+          li.nav-item= link_to Setting.model_name.human, settings_path, class: 'nav-link'
+          li.nav-item= link_to User.model_name.human.pluralize, users_path, class: 'nav-link'
+        - if current_user.try(:admin?) or current_user.try(:vip?)
+          li.nav-item= link_to LetterSet.model_name.human.pluralize, letter_sets_path, class: 'nav-link'
+          li.nav-item= link_to WordsList.model_name.human(count: 2), words_lists_path, class: 'nav-link'
+          li.nav-item= link_to Board.model_name.human(count: 2), boards_path, class: 'nav-link'

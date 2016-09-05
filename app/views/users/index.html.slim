@@ -1,7 +1,7 @@
 .container
   .row
     h3= User.model_name.human.pluralize
-    .table_responsive
+    .table-responsive
       table.table.table-hover.clickable-table
         thead
           tr
@@ -11,3 +11,4 @@
             th= User.human_attribute_name(:role)
         tbody
           = render @users
+1

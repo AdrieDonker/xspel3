@@ -1,9 +1,11 @@
 = form_for(@letter_set, :html => {:role => 'form'}) do |f|
   = render 'errors/error', model: @letter_set
-  .form-group
-    = f.label :name
-    = f.text_field :name, :autofocus => true, class: 'form-control'
-  .form-group
-    = f.label :letter_amount_points
-    = f.text_area :letter_amount_points, class: 'form-control large-control'
-  .keys = f.submit (t :btn_save), :class => 'button left'
+  .form-group.row
+    = f.label :name, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_field :name, :autofocus => true, class: 'form-control'
+  .form-group.row
+    = f.label :letter_amount_points, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.text_area :letter_amount_points, class: 'form-control'
+  = f.submit (t :btn_save), :class => 'btn btn-adrie'

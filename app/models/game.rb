@@ -2,6 +2,7 @@ class Game < ApplicationRecord
   belongs_to :board
   belongs_to :letter_set
   belongs_to :words_list
+  belongs_to :owner, class_name: "User"  
   # belongs_to :starter, class_name: "User"
   has_many :gamers
   has_many :users, through: :gamers
@@ -12,12 +13,44 @@ class Game < ApplicationRecord
   serialize :words_list_groups # Array: [ [wl_groep, wl_id], ...]
   serialize :extra_words_lists # Array: [ [wl_groep, wl_id], ...]
   
+  # validates :name, presence: true, uniqueness: true
+  
   # State Machine
-  # state_machine :state, :initial => :new do
+  # state_machine :state, :initial => :new_game do
   #   event :add_players do
       # transition :new_game => :startable, if: self.gamers && self.gamers.size > 1
   #   end
   # end
+  
+  def gamer_names
+    gn = []
+    self.users.each do |g|
+      gn << g.name
+    end
+    return gn
+  end
+  
+  def last_played(attr)
+    unless self.turns.last.nil?
+      lp = self.turns.last
+      case attr
+        when :user
+          lp.user.name
+        when :words
+          lp.words
+        when :points
+          lp.score
+        else
+          'fout'
+      end
+    else
+      '(geen)'
+    end
+  end
+
+  def in_play
+    self.turns.count > 0
+  end
   
   def add_players
     self.gamers = []

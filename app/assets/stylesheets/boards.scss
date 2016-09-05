@@ -1,3 +1,27 @@
-// Place all the styles related to the Boards controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// Static board
+$bord_max: 435px;
+$cel_max: 25px;
+$font_max: 30px;
+table .board{
+  height: $bord_max;
+  width: $bord_max;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 1px;
+  border: 2px solid grey;
+  font-size: 30px;
+  color: black;
+  td{
+    padding: 1px;
+    width: $cel_max;
+    height: $cel_max;
+    line-height: 38px;
+    text-align: center;
+    background-repeat: no-repeat; background-size: 70%;
+  }
+  td.cel_bg{background-color: #166516;};
+  td.cel_2_l{background-image: url(xspel_2_l_n.png); background-color: #add8e6};
+  td.cel_3_l{background-image: url(xspel_3_l_n.png); background-color: #0000ff};
+  td.cel_2_w{background-image: url(xspel_2_w_n.png); background-color: #ffc0cb};
+  td.cel_3_w{background-image: url(xspel_3_w_n.png); background-color: #ff0000};
+}

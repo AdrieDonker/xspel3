@@ -12,7 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require turbolinks
+//= require turbolinks
+//= require tether
 //= require bootstrap-sprockets
 //= require_tree .
+
+// $(function() {
+//   $('body').on('click', '.game-item', function(event) {
+//     event.preventDefault();
+//     console.log($(this).text('poep'));
+//   });
+// });
 

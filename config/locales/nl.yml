@@ -20,6 +20,12 @@ nl:
   update: ' wijzigen'
   new: 'Nieuw '
   newe: 'Nieuwe '
+  back: Terug
+  words: 'Woorden: '
+  not_yet: '(niet)'
+  played: speelde
+  points: punten
+  not_started: (nog niet gestart)
   visitors:
     index:
       title: XSPL
@@ -40,6 +46,8 @@ nl:
         btn_update: Oke
         not_happy: Niet tevreden? Jammer, maar helaas.
         btn_cancel_account: Verwijder mijn account
+  games:
+    words: 'Woorden: '
   activerecord:
     models:
       user: Gebruiker
@@ -58,6 +66,7 @@ nl:
       game:
         one: Spel
         other: Spellen
+      gamer: Speler
     attributes:
       user:
         name: Naam
@@ -92,32 +101,24 @@ nl:
         board: Bord
         letter_set: Letterset
         words_list: Woordenlijst
+        started: Gestart
     errors:
+      messages:
+        blank: moet ingevuld zijn.
+        taken: is reeds in gebruik.
+        required: is verplicht.
       models:
         user:
           attributes:
-            name:
-              blank: moet ingevuld zijn.
-              taken: is reeds in gebruik.
             password:
               too_short: is te kort.
             current_password:
-              blank: moet ingevuld zijn.
               invalid: is fout.
             email:
-              taken: is reeds in gebruik.
             password_confirmation:
               confirmation: is niet goed ingevuld.
         game:
           attributes:
-            board:
-              required: is verplicht.
-            letter_set:
-              required: is verplicht.
-            words_list:
-              required: is verplicht.
-            starter: 
-              required: is verplicht.
   errors:
     messages:
       not_saved:

@@ -6,9 +6,8 @@ gem 'sass-rails'
 gem 'uglifier'      
 gem 'coffee-rails'  
 gem 'jquery-rails'
-# gem 'turbolinks'
-gem 'jbuilder'      
-gem 'listen'
+gem 'turbolinks'
+# gem 'jbuilder'      
 gem 'state_machine'
 group :development, :test do
   gem 'sqlite3'
@@ -16,6 +15,7 @@ group :development, :test do
   gem 'seed_dump'
 end
 group :development do
+  gem 'listen'
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'better_errors'
@@ -23,7 +23,9 @@ group :development do
   # gem 'quiet_assets'
   gem 'rails_layout'
 end
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
+gem 'bootstrap' #, '~> 4.0.0.alpha3.1'
+gem 'tether-rails'
 gem 'devise'
 gem 'high_voltage'
 gem 'slim-rails'
