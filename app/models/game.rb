@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  include AASM
+  
   belongs_to :board
   belongs_to :letter_set
   belongs_to :words_list
@@ -14,14 +16,15 @@ class Game < ApplicationRecord
   serialize :extra_words_lists # Array: [ [wl_groep, wl_id], ...]
   
   # validates :name, presence: true, uniqueness: true
-  
-  # State Machine
-  # state_machine :state, :initial => :new_game do
-  #   event :add_players do
-      # transition :new_game => :startable, if: self.gamers && self.gamers.size > 1
-  #   end
-  # end
-  
+  validate :minimum_2_players
+ 
+  # Validations
+  def minimum_2_players
+    if self.user_ids.size < 2
+      errors.add(:gamers, :minimum_2_players)
+    end
+  end
+    
   def gamer_names
     gn = []
     self.users.each do |g|
@@ -48,14 +51,6 @@ class Game < ApplicationRecord
     end
   end
 
-  def in_play
-    self.turns.count > 0
-  end
-  
-  def add_players
-    self.gamers = []
-  end
-  
   # private #-----------------------------------------------------------------------------------
 
   # Callbacks
@@ -64,7 +59,6 @@ class Game < ApplicationRecord
     # starter.save
   end
   before_create do
-    # self.state = 'new'
     # self.started = Time.now if status
     # self.laid_letters = Array.new(15){Array.new(15)} 
     self.stock_letters = letter_set.all_letters_points.shuffle
@@ -72,12 +66,12 @@ class Game < ApplicationRecord
   end
 
   before_save do 
+    # self.state = 'startable'
     set_words_list_delen
-    set_gamers
   end
   
   def set_words_list_delen
-    # Lees bijbehorende lijsten
+    # Read wordslists
     wl_groups = []
     WordsList.where( {:name => words_list.name}, :order => "group").each do |wl|
       wl_groups << [wl.group, wl.id] if wl.id != words_list.id
@@ -85,50 +79,40 @@ class Game < ApplicationRecord
     self.words_list_groups = wl_groups
   end
   
-  def set_gamers
-    # if @spel_speler_ids
-
-    #   # Verzamel ids
-    #   old_ids = spel_spelers.collect{|s| s.speler_id}
-    #   used_ids = []
-    #   new_ids = []
-    #   @spel_speler_ids.each do |s|
-
-    #     # Bestaat al, overslaan
-    #     if (idx = old_ids.index(s))
-    #       used_ids << old_ids[idx]
-
-    #     # Bestaat nog niet, toevoegen
-    #     else
-    #       new_ids << s
-    #     end
-    #   end
-
-    #   # Niet gebruikte wissen (incl beurt)
-    #   not_used = old_ids - used_ids
-    #   if not_used.size > 0
-    #     SpelSpeler.delete_all(["spel_id = ? AND speler_id in ?", id, not_used])
-    #     Beurt.delete_all(["spel_id = ? AND speler_id in ?", id, not_used])
-    #   end
-
-    #   # Nieuwe toevoegen
-    #   if new_ids.size > 0
-    #     new_spelers = Speler.find new_ids
-    #     self.spel_spelers << new_spelers.collect{ |s| SpelSpeler.new(:speler => s, :status => (s.id == speler_id ? 1 : 0)) }
-    #   end
-
-    #   @spel_speler_ids = nil
-    # end
-  end
-
-  def set_spel_spelers_volgnr
-    tel = 0
-    spel_spelers.sort{ |x, y| x.volgnr <=> y.volgnr}.each do |s|
-      s.volgnr = (tel+=1)
-      s.save
+  # State Machine
+  # aasm_column :state  #[DEPRECATION] aasm_column is deprecated. Use aasm.attribute_name instead
+  aasm.attribute_name :state
+  # aasm column: :state do
+  aasm do
+    state :startable, initial: true
+    state :playable
+    state :pre_aborted
+    state :in_play
+    state :ended
+    state :aborted
+    
+    event :start_now do
+      transitions from: :startable, to: :playable, guard: :send_invites
+      # transitions startable: :playable #, guard: :send_invites
     end
+    event :play_now do
+      transitions playable: :in_play, guard: :turns_started
+    end
+    event :ending do
+       transitions in_play: :ended
+    end
+      
   end
-
-
+  
+  def send_invites
+    # errors[:base] << "Invites versturen mislukt!"
+    # logger.info "Invites niet verstuurd"
+    true
+  end
+    
+  def turns_started
+    self.turns.count > 0
+  end
+  
 
 end

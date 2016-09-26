@@ -1,0 +1,38 @@
+.container
+  #game-area
+    .row
+      #board.col-md-8.col-sm-12.m-x-auto
+        .sized
+          table
+            - @game.board.layout.each do |row|
+              tr
+                - row.each do |cel|
+                  td class="cel_#{cel.nil? ? 'bg' : cel}"
+      #controls.col-md-4.col-sm-12
+        = 'controls hier'
+        = @game.state
+/ Invite = start
+- if @game.startable?
+  #invite_modal.modal.fade role="dialog" tabindex="-1" data-backdrop="static"
+    .modal-dialog.modal-md.container role="document"
+      h3#am-title.modal-title= (t :start_game)
+      .modal-body
+        .form-group.row
+          = label_tag Game.human_attribute_name(:board), nil, class: 'col-sm-4 col-form-label text-xs-right'
+          .col-sm-8
+            p.form-control-static.show-control= @game.board.name
+        .form-group.row
+          = label_tag Game.human_attribute_name(:letter_set), nil, class: 'col-sm-4 col-form-label text-xs-right'
+          .col-sm-8
+            p.form-control-static.show-control= @game.letter_set.name
+        .form-group.row
+          = label_tag Game.human_attribute_name(:words_list), nil, class: 'col-sm-4 col-form-label text-xs-right'
+          .col-sm-8
+            p.form-control-static.show-control= @game.words_list.name
+        .form-group.row
+          = label_tag Game.human_attribute_name(:gamers), nil, class: 'col-sm-4 col-form-label text-xs-right'
+          .col-sm-8
+            - @game.users.each do |g|
+              p.form-control-static.show-control= g.name
+        button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)
+    = javascript_tag "$('#invite_modal').modal('show')"

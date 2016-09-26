@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+  body
+    h1
+      | Welkom bij XSPL, #{@user.name}
+    p
+      | Je bent nu geregistreerd bij XSPL,
+      | Je spelersnaam is : #{@user.name}.
+      br/
+    p Klik op deze link om in te loggen: #{@url}.
+    p Veel plezier!

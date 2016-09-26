@@ -27,6 +27,11 @@ class WordsListsController < ApplicationController
 
   def update
     if @words_list.update_attributes(words_list_params)
+      
+      # Name changed?
+      if @words_list.name != params[:old_name]
+        WordsList.where( name: params[:old_name] ).update_all( name: @words_list.name )
+      end
       redirect_to words_lists_path, :notice => (t :model_updated, name: @words_list.name, model: WordsList.model_name.human)
     else
       render :edit

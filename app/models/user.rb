@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   after_initialize :set_default_role, :if => :new_record?
   validates :name, :email,  presence: true, uniqueness: true
 
-  
   def set_default_role
     self.role ||= :user
   end
@@ -17,5 +16,11 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :timeoutable #, :confirmable
+         :timeoutable, :confirmable
+         
+  # Allowing Unconfirmed Access
+  protected
+  # def confirmation_required?
+  #   false
+  # end
 end

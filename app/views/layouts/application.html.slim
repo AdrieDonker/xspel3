@@ -3,7 +3,7 @@ html
   head
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     = csrf_meta_tags
-    = action_cable_meta_tag
+    / = action_cable_meta_tag
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     title= content_for?(:title) ? yield(:title) : "Xspel3"
     meta content=("#{content_for?(:description) ? yield(:description) : "Xspel3"}") name="description" /
@@ -16,10 +16,8 @@ html
       #messages
         = render 'layouts/messages'
       = yield
-    #ajax-modal.modal.fade role="dialog" tabindex="-1" 
-      .modal-dialog.modal-sm.container role="document"
-        h3#am-title.modal-title
-        #am-errors
-        #am-body.modal-body
-
-
+    #ajax-modal-1.modal.fade role="dialog" tabindex="-1" data-modal-index="1"
+      .modal-dialog.modal-md.container role="document"
+        h3.am-title.modal-title
+        .am-errors
+        .am-body.modal-body

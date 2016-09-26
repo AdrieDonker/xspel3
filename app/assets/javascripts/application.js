@@ -15,12 +15,6 @@
 //= require turbolinks
 //= require tether
 //= require bootstrap-sprockets
+//= require plugins/bootstrap-select
 //= require_tree .
-
-// $(function() {
-//   $('body').on('click', '.game-item', function(event) {
-//     event.preventDefault();
-//     console.log($(this).text('poep'));
-//   });
-// });
 

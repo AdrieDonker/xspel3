@@ -17,3 +17,4 @@
     .col-sm-8
       = f.text_area :words_spaced, class: 'form-control large-control'
   = f.submit (t :btn_save), :class => 'btn btn-adrie'
+  input type='hidden' value=@words_list.name name='old_name'

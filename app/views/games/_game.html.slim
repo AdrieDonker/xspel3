@@ -1,6 +1,12 @@
-/ .col-lg-3.col-md-4.col-sm-6
 .col-lg-4.col-sm-6
-  .game-item.click-this data-href="#{game_path(game)}" 
+  / Determine path and format
+  - format = true
+  - if game.startable?
+    - path = ( game.owner_id == current_user.id ? edit_game_path(game) : game_path(game) )
+  - else
+    - path = play_game_path(game)
+    - format = false
+  .game-item= link_to( path, remote: format, class: 'lnk-adrie' )
     .line
       span= Gamer.model_name.human.pluralize + "(#{game.gamer_names.count}): "
       = game.gamer_names.join(', ')
@@ -10,7 +16,7 @@
       span= '; ' + (t :words)
       = game.words_list.name
     .line
-      - if game.in_play
+      - if game.in_play?
         span= game.last_played(:user)
         = ' ' + (t :played)
         = ' [' + game.last_played(:words) + '], ' + game.last_played(:points) + ' '

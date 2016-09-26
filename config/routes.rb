@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
+  resources :settings, :boards, :words_lists, :letter_sets
   resources :turns
-  resources :gamers
-  resources :games
-  resources :settings
-  resources :boards
-  resources :words_lists
-  root to: 'visitors#index'
+  resources :games do
+   member do
+    get 'play'
+   end
+  end
   devise_for :users
   resources :users
-  resources :letter_sets
+  root to: 'visitors#index'
 end

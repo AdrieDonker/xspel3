@@ -4,18 +4,31 @@
   /  = f.label :name
   /  = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group.row
-    = f.label :board
-    = f.select :board_id, Board.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
+    = f.label :board, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.select :board_id, Board.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
   .form-group.row
-    = f.label :letter_set
-    = f.select :letter_set_id, LetterSet.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
+    = f.label :letter_set, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.select :letter_set_id, LetterSet.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
   .form-group.row
-    = f.label :words_list
-    = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
+    = f.label :words_list, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
   .form-group.row
-    = f.label :gamers
-    = f.collection_check_boxes(:user_ids, User.all, :id, :name) do |g|
-      .checkbox
-        = g.label { g.check_box(type: 'checkbox') + g.text }
+    = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      select.selectpicker multiple="true"
+        option Mustard
+        option Ketchup
+        option Relish
+
+      
+      / = f.collection_check_boxes(:user_ids, User.all, :id, :name) do |g|
+        / .checkbox
+          / = g.label { g.check_box(type: 'checkbox') + '  ' + g.text }
+  - if @game.may_start_now?
+    = f.submit (t :btn_start), class: 'btn btn-adrie'
   = f.submit (t :btn_save), class: 'btn btn-adrie'
   button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)
+  / = javascript_tag "select_picker()", defer: 'defer'

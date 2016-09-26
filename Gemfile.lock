@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.11.0)
     actioncable (5.0.0)
       actionpack (= 5.0.0)
       nio4r (~> 1.2)
@@ -72,6 +73,8 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.12)
+    font-awesome-rails (4.6.3.1)
+      railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     high_voltage (3.0.0)
@@ -168,7 +171,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
-    state_machine (1.2.0)
     temple (0.7.7)
     tether-rails (1.3.3)
       rails (>= 3.1)
@@ -197,11 +199,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   better_errors
   bootstrap
   byebug
   coffee-rails
   devise
+  font-awesome-rails
   high_voltage
   hub
   jquery-rails
@@ -216,7 +220,6 @@ DEPENDENCIES
   slim-rails
   spring
   sqlite3
-  state_machine
   tether-rails
   turbolinks
   uglifier

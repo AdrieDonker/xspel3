@@ -17,6 +17,7 @@ nl:
   btn_edit: Wijzigen
   btn_delete: Verwijderen
   btn_save: Opslaan
+  btn_start: Start
   update: ' wijzigen'
   new: 'Nieuw '
   newe: 'Nieuwe '
@@ -26,6 +27,7 @@ nl:
   played: speelde
   points: punten
   not_started: (nog niet gestart)
+  start_game: Start spel
   visitors:
     index:
       title: XSPL
@@ -102,6 +104,8 @@ nl:
         letter_set: Letterset
         words_list: Woordenlijst
         started: Gestart
+        gamers: Spelers
+        owner: Gestart door
     errors:
       messages:
         blank: moet ingevuld zijn.
@@ -119,6 +123,8 @@ nl:
               confirmation: is niet goed ingevuld.
         game:
           attributes:
+            gamers:
+              minimum_2_players: ', minimaal 2 kiezen.'
   errors:
     messages:
       not_saved:
