@@ -16,5 +16,13 @@
 //= require tether
 //= require bootstrap-sprockets
 //= require plugins/bootstrap-select
-//= require_tree .
+//= require_tree
 
+
+jQuery.fn.cssInt = function(prop) {
+  return parseInt(this.css(prop), 10) || 0;
+};
+
+jQuery.fn.cssFloat = function(prop) {
+  return parseFloat(this.css(prop)) || 0;
+};

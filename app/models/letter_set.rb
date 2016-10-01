@@ -3,21 +3,21 @@ class LetterSet < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   # Return: 7 random letters uit volledige set
-  def select_7
-    de_7 = []
-    selected = []
-    alp = all_letters_points     # [ ['A', 1], ['A', 1], ...]
-    letters_tal = aantal_letters # tbv rand
-    while selected.size < 7
-      new_sel = rand(letters_tal)
-      while selected.include?(new_sel)
-        new_sel = rand(letters_tal)
-      end
-      selected << new_sel
-      de_7 << alp[new_sel]
-    end
-    return de_7
-  end
+  # def select_7
+  #   de_7 = []
+  #   selected = []
+  #   alp = all_letters_points     # [ ['A', 1], ['A', 1], ...]
+  #   letters_tal = aantal_letters # tbv rand
+  #   while selected.size < 7
+  #     new_sel = rand(letters_tal)
+  #     while selected.include?(new_sel)
+  #       new_sel = rand(letters_tal)
+  #     end
+  #     selected << new_sel
+  #     de_7 << alp[new_sel]
+  #   end
+  #   return de_7
+  # end
 
   # Return: aantal letters in set
   def aantal_letters
@@ -56,17 +56,27 @@ class LetterSet < ApplicationRecord
     lap
   end
 
-  # Return: (en save) standaard letterset als niet bestaat
-  def self.create_standard_letter_set
-    sls = LetterSet.new
-    sls.letter_amount_points = 
+  # Create 2 standard lettersets
+  def self.create_standard_letter_sets
+    sls1 = LetterSet.new
+    sls1.name = 'standaard'
+    sls1.letter_amount_points = 
       {:A=>[6, 1], :B=>[2, 3],  :C=>[2, 5], :D=>[5, 1], :E=>[18, 1], :F=>[2, 4], 
        :G=>[3, 3], :H=>[2, 4],  :I=>[4, 1], :J=>[2, 4], :K=>[3, 3],  :L=>[3, 3], 
        :M=>[3, 3], :N=>[10, 1], :O=>[6, 1], :P=>[2, 3], :Q=>[1, 10], :R=>[5, 2], 
        :S=>[5, 2], :T=>[5, 2],  :U=>[3, 4], :V=>[2, 4], :W=>[2, 5],  :X=>[1, 8], 
        :Y=>[1, 8], :Z=>[2, 4],  :""=>[2, 0]}
-    sls.name = 'standaard'
-    sls.save
+    sls1.save
+
+    sls2 = LetterSet.new
+    sls2.name = 'wordfeud NL'
+    sls2.letter_amount_points =
+      {:A=>[7, 1], :B=>[2, 4],  :C=>[2, 5], :D=>[5, 2], :E=>[18, 1], :F=>[2, 4], 
+       :G=>[3, 3], :H=>[2, 4],  :I=>[4, 2], :J=>[2, 4], :K=>[3, 3],  :L=>[3, 3], 
+       :M=>[3, 3], :N=>[11, 1], :O=>[6, 1], :P=>[2, 4], :Q=>[1, 10], :R=>[5, 2], 
+       :S=>[5, 2], :T=>[5, 2],  :U=>[2, 4], :V=>[2, 4], :W=>[2, 5],  :X=>[1, 8], 
+       :Y=>[1, 8], :Z=>[2, 5],  :""=>[2, 0]}
+    sls2.save
   end
   
 end

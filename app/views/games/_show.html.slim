@@ -17,10 +17,7 @@
 .form-group.row
   = label_tag Game.human_attribute_name(:gamers), nil, class: 'col-sm-4 col-form-label text-xs-right'
   .col-sm-8
-    p.form-control-static.show-control
-      - @game.users.each do |g|
-        = g.name
-        br/
+    p.form-control-static.show-control= @game.gamer_names.join(',')
 .form-group.row
   = label_tag Game.human_attribute_name(:started), nil, class: 'col-sm-4 col-form-label text-xs-right'
   .col-sm-8

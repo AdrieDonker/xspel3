@@ -4,35 +4,34 @@
       #board.col-md-8.col-sm-12.m-x-auto
         .sized
           table
-            - @game.board.layout.each do |row|
+            - @game.board.layout.each_with_index do |row, idx_r|
               tr
-                - row.each do |cel|
-                  td class="cel_#{cel.nil? ? 'bg' : cel}"
+                - row.each_with_index do |cel, idx_c|
+                  td [class="board_drop cel_#{cel.nil? ? 'bg' : cel}" id="board_pos_#{idx_r}_#{idx_c}"]
+                    /ondrop="drop_handler(event);" ondragover="dragover_handler(event)"]
       #controls.col-md-4.col-sm-12
-        = 'controls hier'
-        = @game.state
-/ Invite = start
-- if @game.startable?
-  #invite_modal.modal.fade role="dialog" tabindex="-1" data-backdrop="static"
-    .modal-dialog.modal-md.container role="document"
-      h3#am-title.modal-title= (t :start_game)
-      .modal-body
-        .form-group.row
-          = label_tag Game.human_attribute_name(:board), nil, class: 'col-sm-4 col-form-label text-xs-right'
-          .col-sm-8
-            p.form-control-static.show-control= @game.board.name
-        .form-group.row
-          = label_tag Game.human_attribute_name(:letter_set), nil, class: 'col-sm-4 col-form-label text-xs-right'
-          .col-sm-8
-            p.form-control-static.show-control= @game.letter_set.name
-        .form-group.row
-          = label_tag Game.human_attribute_name(:words_list), nil, class: 'col-sm-4 col-form-label text-xs-right'
-          .col-sm-8
-            p.form-control-static.show-control= @game.words_list.name
-        .form-group.row
-          = label_tag Game.human_attribute_name(:gamers), nil, class: 'col-sm-4 col-form-label text-xs-right'
-          .col-sm-8
-            - @game.users.each do |g|
-              p.form-control-static.show-control= g.name
-        button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)
-    = javascript_tag "$('#invite_modal').modal('show')"
+        - unless @turn.nil?
+          .sized
+            .shelf
+              table
+                tr
+                  - @turn.start_letters.each_with_index do |l_w, idx|
+                    td[ id="play_letters_pos_#{idx}" class="shelf_drop"]
+                      .play_letter [ id="letter_#{idx}" data-letter="#{l_w[0]}" data-punten="#{l_w[1]}" 
+                        draggable='true']
+                        /ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event)"]
+                        = (l_w[0] == ' ' ? "?" : l_w[0])
+                        .play_points= l_w[1]
+                  - (@turn.start_letters.size).upto(6) do |x|
+                    td[ id = "play_letters_pos_#{x}" ] 
+            .play_btns
+              table
+                tr
+                  td 
+                    .play_btn play
+                  td
+                    .play_btn pass
+                  td
+                    .play_btn ruil
+        - else
+          | naah

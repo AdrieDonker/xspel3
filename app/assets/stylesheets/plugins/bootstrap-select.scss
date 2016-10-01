@@ -37,6 +37,12 @@ select.selectpicker {
     width: 100%;
     padding-right: 25px;
     z-index: 1;
+    // adrie
+    color: #55595c;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
 
     &.bs-placeholder,
     &.bs-placeholder:hover,
@@ -163,9 +169,10 @@ select.selectpicker {
   .dropdown-toggle {
     .filter-option {
       display: inline-block;
-      overflow: hidden;
+      overflow: auto;
       width: 100%;
       text-align: left;
+      white-space: wrap;  //adrie
     }
 
     .caret {

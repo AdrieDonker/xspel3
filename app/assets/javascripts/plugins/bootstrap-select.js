@@ -1,6 +1,28 @@
-// (function ($) {
-  // 'use strict';
-  // alert("bsss");
+/*!
+ * Bootstrap-select v1.10.0 (http://silviomoreto.github.io/bootstrap-select)
+ *
+ * Copyright 2013-2016 bootstrap-select
+ * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
+ */
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["jquery"], function (a0) {
+      return (factory(a0));
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("jquery"));
+  } else {
+    factory(jQuery);
+  }
+}(this, function (jQuery) {
+
+(function ($) {
+  'use strict';
 
   //<editor-fold desc="Shims">
   if (!String.prototype.includes) {
@@ -127,26 +149,11 @@
     };
   }
 
-  // set data-selected on select element if the value has been programmatically selected
-  // prior to initialization of bootstrap-select
-  // * consider removing or replacing an alternative method *
-  var valHooks = {
-    useDefault: false,
-    _set: $.valHooks.select.set
-  };
-
-  $.valHooks.select.set = function(elem, value) {
-    if (value && !valHooks.useDefault) $(elem).data('selected', true);
-
-    return valHooks._set.apply(this, arguments);
-  };
-
-  var changed_arguments = null;
   $.fn.triggerNative = function (eventName) {
     var el = this[0],
         event;
 
-    if (el.dispatchEvent) { // for modern browsers & IE9+
+    if (el.dispatchEvent) {
       if (typeof Event === 'function') {
         // For modern browsers
         event = new Event(eventName, {
@@ -159,51 +166,52 @@
       }
 
       el.dispatchEvent(event);
-    } else if (el.fireEvent) { // for IE8
-      event = document.createEventObject();
-      event.eventType = eventName;
-      el.fireEvent('on' + eventName, event);
     } else {
-      // fall back to jQuery.trigger
+      if (el.fireEvent) {
+        event = document.createEventObject();
+        event.eventType = eventName;
+        el.fireEvent('on' + eventName, event);
+      }
+
       this.trigger(eventName);
     }
   };
   //</editor-fold>
 
   // Case insensitive contains search
-  $.expr.pseudos.icontains = function (obj, index, meta) {
+  $.expr[':'].icontains = function (obj, index, meta) {
     var $obj = $(obj);
     var haystack = ($obj.data('tokens') || $obj.text()).toString().toUpperCase();
     return haystack.includes(meta[3].toUpperCase());
   };
 
   // Case insensitive begins search
-  $.expr.pseudos.ibegins = function (obj, index, meta) {
+  $.expr[':'].ibegins = function (obj, index, meta) {
     var $obj = $(obj);
     var haystack = ($obj.data('tokens') || $obj.text()).toString().toUpperCase();
     return haystack.startsWith(meta[3].toUpperCase());
   };
 
   // Case and accent insensitive contains search
-  $.expr.pseudos.aicontains = function (obj, index, meta) {
+  $.expr[':'].aicontains = function (obj, index, meta) {
     var $obj = $(obj);
     var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toString().toUpperCase();
     return haystack.includes(meta[3].toUpperCase());
   };
 
   // Case and accent insensitive begins search
-  $.expr.pseudos.aibegins = function (obj, index, meta) {
+  $.expr[':'].aibegins = function (obj, index, meta) {
     var $obj = $(obj);
     var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toString().toUpperCase();
     return haystack.startsWith(meta[3].toUpperCase());
   };
 
   /**
-  * Remove all diatrics from the given text.
-  * @access private
-  * @param {String} text
-  * @returns {String}
-  */
+   * Remove all diatrics from the given text.
+   * @access private
+   * @param {String} text
+   * @returns {String}
+   */
   function normalizeToBase(text) {
     var rExps = [
       {re: /[\xC0-\xC6]/g, ch: "A"},
@@ -246,12 +254,6 @@
   }
 
   var Selectpicker = function (element, options, e) {
-    // bootstrap-select has been initialized - revert valHooks.select.set back to its original function
-    if (!valHooks.useDefault) {
-      $.valHooks.select.set = valHooks._set;
-      valHooks.useDefault = true;
-    }
-
     if (e) {
       e.stopPropagation();
       e.preventDefault();
@@ -285,11 +287,11 @@
     this.init();
   };
 
-  Selectpicker.VERSION = '1.11.2';
+  Selectpicker.VERSION = '1.10.0';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
-    noneSelectedText: 'Nothing selected',
+    noneSelectedText: 'Klik om te kiezen',
     noneResultsText: 'No results matched {0}',
     countSelectedText: function (numSelected, numTotal) {
       return (numSelected == 1) ? "{0} item selected" : "{0} items selected";
@@ -384,14 +386,12 @@
 
       this.$newElement.on({
         'hide.bs.dropdown': function (e) {
-          that.$menuInner.attr('aria-expanded', false);
           that.$element.trigger('hide.bs.select', e);
         },
         'hidden.bs.dropdown': function (e) {
           that.$element.trigger('hidden.bs.select', e);
         },
         'show.bs.dropdown': function (e) {
-          that.$menuInner.attr('aria-expanded', true);
           that.$element.trigger('show.bs.select', e);
         },
         'shown.bs.dropdown': function (e) {
@@ -440,7 +440,7 @@
       var searchbox = this.options.liveSearch ?
       '<div class="bs-searchbox">' +
       '<input type="text" class="form-control" autocomplete="off"' +
-      (null === this.options.liveSearchPlaceholder ? '' : ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"') + ' role="textbox" aria-label="Search">' +
+      (null === this.options.liveSearchPlaceholder ? '' : ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"') + '>' +
       '</div>'
           : '';
       var actionsbox = this.multiple && this.options.actionsBox ?
@@ -466,17 +466,17 @@
           : '';
       var drop =
           '<div class="btn-group bootstrap-select' + showTick + inputGroup + '">' +
-          '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" data-toggle="dropdown"' + autofocus + ' role="button">' +
+          '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" data-toggle="dropdown"' + autofocus + '>' +
           '<span class="filter-option pull-left"></span>&nbsp;' +
           '<span class="bs-caret">' +
           this.options.template.caret +
           '</span>' +
           '</button>' +
-          '<div class="dropdown-menu open" role="combobox">' +
+          '<div class="dropdown-menu open">' +
           header +
           searchbox +
           actionsbox +
-          '<ul class="dropdown-menu inner" role="listbox" aria-expanded="false">' +
+          '<ul class="dropdown-menu inner" role="menu">' +
           '</ul>' +
           donebutton +
           '</div>' +
@@ -514,12 +514,12 @@
 
       // Helper functions
       /**
-      * @param content
-      * @param [index]
-      * @param [classes]
-      * @param [optgroup]
-      * @returns {string}
-      */
+       * @param content
+       * @param [index]
+       * @param [classes]
+       * @param [optgroup]
+       * @returns {string}
+       */
       var generateLI = function (content, index, classes, optgroup) {
         return '<li' +
             ((typeof classes !== 'undefined' & '' !== classes) ? ' class="' + classes + '"' : '') +
@@ -529,26 +529,24 @@
       };
 
       /**
-      * @param text
-      * @param [classes]
-      * @param [inline]
-      * @param [tokens]
-      * @returns {string}
-      */
+       * @param text
+       * @param [classes]
+       * @param [inline]
+       * @param [tokens]
+       * @returns {string}
+       */
       var generateA = function (text, classes, inline, tokens) {
         return '<a tabindex="0"' +
             (typeof classes !== 'undefined' ? ' class="' + classes + '"' : '') +
             (typeof inline !== 'undefined' ? ' style="' + inline + '"' : '') +
             (that.options.liveSearchNormalize ? ' data-normalized-text="' + normalizeToBase(htmlEscape(text)) + '"' : '') +
             (typeof tokens !== 'undefined' || tokens !== null ? ' data-tokens="' + tokens + '"' : '') +
-            ' role="option">' + text +
-            // '<i class="fa fa-check-circle"></i>'
+            '>' + text +
             // '<span class="' + that.options.iconBase + ' ' + that.options.tickIcon + ' check-mark"></span>' +
             // '</a>';
             '<span class="' + that.options.iconBase + ' ' + that.options.tickIcon + ' check-mark">' + 
             '<i class="fa fa-check-circle"></i>'
             '</span></a>';
-
       };
 
       if (this.options.title && !this.multiple) {
@@ -563,11 +561,11 @@
           titleOption.appendChild(document.createTextNode(this.options.title));
           titleOption.value = '';
           element.insertBefore(titleOption, element.firstChild);
-          // Check if selected or data-selected attribute is already set on an option. If not, select the titleOption option.
-          // the selected item may have been changed by user or programmatically before the bootstrap select plugin runs,
-          // if so, the select will have the data-selected attribute
+          // Check if selected attribute is already set on an option. If not, select the titleOption option.
+          // attr gets the 'default' selected option (from markup), prop gets the 'current' selected option
+          // the selected item may have been changed by user or programmatically before the bootstrap select plugin runs
           var $opt = $(element.options[element.selectedIndex]);
-          if ($opt.attr('selected') === undefined && this.$element.data('selected') === undefined) {
+          if ($opt.attr('selected') === undefined && $opt.prop('selected') === false) {
             titleOption.selected = true;
           }
         }
@@ -701,8 +699,8 @@
     },
 
     /**
-    * @param [updateLi] defaults to true
-    */
+     * @param [updateLi] defaults to true
+     */
     render: function (updateLi) {
       var that = this,
           notDisabled;
@@ -715,9 +713,9 @@
           that.setDisabled(index, this.disabled || this.parentNode.tagName === 'OPTGROUP' && this.parentNode.disabled, $lis);
           that.setSelected(index, this.selected, $lis);
         });
-      }
 
-      this.togglePlaceholder();
+        this.togglePlaceholder();
+      }
 
       this.tabIndex();
 
@@ -780,9 +778,9 @@
     },
 
     /**
-    * @param [style]
-    * @param [status]
-    */
+     * @param [style]
+     * @param [status]
+     */
     setStyle: function (style, status) {
       if (this.$element.attr('class')) {
         this.$newElement.addClass(this.$element.attr('class').replace(/selectpicker|mobile-device|bs-select-hidden|validate\[.*\]/gi, ''));
@@ -915,22 +913,11 @@
           selectOffsetLeft,
           selectOffsetRight,
           getPos = function() {
-            var pos = that.$newElement.offset(),
-                $container = $(that.options.container),
-                containerPos;
-
-            if (that.options.container && !$container.is('body')) {
-              containerPos = $container.offset();
-              containerPos.top += parseInt($container.css('borderTopWidth'));
-              containerPos.left += parseInt($container.css('borderLeftWidth'));
-            } else {
-              containerPos = { top: 0, left: 0 };
-            }
-
-            selectOffsetTop = pos.top - containerPos.top - $window.scrollTop();
-            selectOffsetBot = $window.height() - selectOffsetTop - selectHeight - containerPos.top;
-            selectOffsetLeft = pos.left - containerPos.left - $window.scrollLeft();
-            selectOffsetRight = $window.width() - selectOffsetLeft - selectWidth - containerPos.left;
+            var pos = that.$newElement.offset();
+            selectOffsetTop = pos.top - $window.scrollTop();
+            selectOffsetBot = $window.height() - selectOffsetTop - selectHeight;
+            selectOffsetLeft = pos.left - $window.scrollLeft();
+            selectOffsetRight = $window.width() - selectOffsetLeft - selectWidth;
           };
 
       getPos();
@@ -1065,27 +1052,15 @@
       this.$bsContainer = $('<div class="bs-container" />');
 
       var that = this,
-          $container = $(this.options.container),
           pos,
-          containerPos,
           actualHeight,
           getPlacement = function ($element) {
             that.$bsContainer.addClass($element.attr('class').replace(/form-control|fit-width/gi, '')).toggleClass('dropup', $element.hasClass('dropup'));
             pos = $element.offset();
-
-            if (!$container.is('body')) {
-              containerPos = $container.offset();
-              containerPos.top += parseInt($container.css('borderTopWidth')) - $container.scrollTop();
-              containerPos.left += parseInt($container.css('borderLeftWidth')) - $container.scrollLeft();
-            } else {
-              containerPos = { top: 0, left: 0 };
-            }
-
             actualHeight = $element.hasClass('dropup') ? 0 : $element[0].offsetHeight;
-
             that.$bsContainer.css({
-              'top': pos.top - containerPos.top + actualHeight,
-              'left': pos.left - containerPos.left,
+              'top': pos.top + actualHeight,
+              'left': pos.left,
               'width': $element[0].offsetWidth
             });
           };
@@ -1116,33 +1091,33 @@
     },
 
     /**
-    * @param {number} index - the index of the option that is being changed
-    * @param {boolean} selected - true if the option is being selected, false if being deselected
-    * @param {JQuery} $lis - the 'li' element that is being modified
-    */
+     * @param {number} index - the index of the option that is being changed
+     * @param {boolean} selected - true if the option is being selected, false if being deselected
+     * @param {JQuery} $lis - the 'li' element that is being modified
+     */
     setSelected: function (index, selected, $lis) {
       if (!$lis) {
         this.togglePlaceholder(); // check if setSelected is being called by changing the value of the select
         $lis = this.findLis().eq(this.liObj[index]);
       }
 
-      $lis.toggleClass('selected', selected).find('a').attr('aria-selected', selected);
+      $lis.toggleClass('selected', selected);
     },
 
     /**
-    * @param {number} index - the index of the option that is being disabled
-    * @param {boolean} disabled - true if the option is being disabled, false if being enabled
-    * @param {JQuery} $lis - the 'li' element that is being modified
-    */
+     * @param {number} index - the index of the option that is being disabled
+     * @param {boolean} disabled - true if the option is being disabled, false if being enabled
+     * @param {JQuery} $lis - the 'li' element that is being modified
+     */
     setDisabled: function (index, disabled, $lis) {
       if (!$lis) {
         $lis = this.findLis().eq(this.liObj[index]);
       }
 
       if (disabled) {
-        $lis.addClass('disabled').children('a').attr('href', '#').attr('tabindex', -1).attr('aria-disabled', true);
+        $lis.addClass('disabled').children('a').attr('href', '#').attr('tabindex', -1);
       } else {
-        $lis.removeClass('disabled').children('a').removeAttr('href').attr('tabindex', 0).attr('aria-disabled', false);
+        $lis.removeClass('disabled').children('a').removeAttr('href').attr('tabindex', 0);
       }
     },
 
@@ -1178,7 +1153,7 @@
     },
 
     tabIndex: function () {
-      if (this.$element.data('tabindex') !== this.$element.attr('tabindex') && 
+      if (this.$element.data('tabindex') !== this.$element.attr('tabindex') &&
         (this.$element.attr('tabindex') !== -98 && this.$element.attr('tabindex') !== '-98')) {
         this.$element.data('tabindex', this.$element.attr('tabindex'));
         this.$button.attr('tabindex', this.$element.data('tabindex'));
@@ -1249,7 +1224,7 @@
           if (!that.multiple) { // Deselect all others if not multi select box
             $options.prop('selected', false);
             $option.prop('selected', true);
-            that.$menuInner.find('.selected').removeClass('selected').find('a').attr('aria-selected', false);
+            that.$menuInner.find('.selected').removeClass('selected');
             that.setSelected(clickedIndex, true);
           } else { // Toggle the one we have chosen if we are multi select.
             $option.prop('selected', !state);
@@ -1323,8 +1298,8 @@
           if (triggerChange) {
             if ((prevValue != that.$element.val() && that.multiple) || (prevIndex != that.$element.prop('selectedIndex') && !that.multiple)) {
               // $option.prop('selected') is current option state (selected/unselected). state is previous option state.
-              changed_arguments = [clickedIndex, $option.prop('selected'), state];
               that.$element
+                .trigger('changed.bs.select', [clickedIndex, $option.prop('selected'), state])
                 .triggerNative('change');
             }
           }
@@ -1380,8 +1355,6 @@
 
       this.$element.change(function () {
         that.render(false);
-        that.$element.trigger('changed.bs.select', changed_arguments);
-        changed_arguments = null;
       });
     },
 
@@ -1492,13 +1465,13 @@
           $lisVisible = this.$lis.not('.divider, .dropdown-header, .disabled, .hidden'),
           lisVisLen = $lisVisible.length,
           selectedOptions = [];
-          
+
       if (status) {
         if ($lisVisible.filter('.selected').length === $lisVisible.length) return;
       } else {
         if ($lisVisible.filter('.selected').length === 0) return;
       }
-          
+
       $lisVisible.toggleClass('selected', status);
 
       for (var i = 0; i < lisVisLen; i++) {
@@ -1513,6 +1486,7 @@
       this.togglePlaceholder();
 
       this.$element
+        .trigger('changed.bs.select')
         .triggerNative('change');
     },
 
@@ -1601,7 +1575,7 @@
 
       if (that.options.container) $parent = that.$menu;
 
-      $items = $('[role="listbox"] li', $parent);
+      $items = $('[role=menu] li', $parent);
 
       isActive = that.$newElement.hasClass('open');
 
@@ -1618,13 +1592,14 @@
       }
 
       if (that.options.liveSearch) {
-        if (/(^9$|27)/.test(e.keyCode.toString(10)) && isActive) {
+        if (/(^9$|27)/.test(e.keyCode.toString(10)) && isActive && that.$menu.find('.active').length === 0) {
           e.preventDefault();
-          e.stopPropagation();
-          that.$button.click().focus();
+          that.$menu.parent().removeClass('open');
+          if (that.options.container) that.$newElement.removeClass('open');
+          that.$button.focus();
         }
         // $items contains li elements when liveSearch is enabled
-        $items = $('[role="listbox"] li' + selector, $parent);
+        $items = $('[role=menu] li' + selector, $parent);
         if (!$this.val() && !/(38|40)/.test(e.keyCode.toString(10))) {
           if ($items.filter('.active').length === 0) {
             $items = that.$menuInner.find('li');
@@ -1852,33 +1827,22 @@
 
   $(document)
       .data('keycount', 0)
-      .on('keydown.bs.select', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="listbox"], .bs-searchbox input', Selectpicker.prototype.keydown)
-      .on('focusin.modal', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="listbox"], .bs-searchbox input', function (e) {
+      .on('keydown.bs.select', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="menu"], .bs-searchbox input', Selectpicker.prototype.keydown)
+      .on('focusin.modal', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="menu"], .bs-searchbox input', function (e) {
         e.stopPropagation();
       });
 
   // SELECTPICKER DATA-API
   // =====================
-  $(window).on('load.bs.select.data-api', function () {
+  // $(window).on('load.bs.select.data-api', function () {
+  $(document).on('turbolinks:load', function () {
     $('.selectpicker').each(function () {
       var $selectpicker = $(this);
       Plugin.call($selectpicker, $selectpicker.data());
     })
   });
   
-  // $(document).on('turbolinks:load', function () {
-  //   alert('hallo turbo')
-  //   $('.selectpicker').each(function () {
-  //     var $selectpicker = $(this);
-  //     Plugin.call($selectpicker, $selectpicker.data());
-  //   })
-  // });
-  
-  // $('#ajax-modal-1').on('load', '.selectpicker', function () {
-  //   alert('hallo modal')
-  //   $('.selectpicker').each(function () {
-  //     var $selectpicker = $(this);
-  //     Plugin.call($selectpicker, $selectpicker.data());
-  //   })
-  // });
-// })(jQuery);
+})(jQuery);
+
+
+}));

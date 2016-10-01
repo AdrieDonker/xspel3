@@ -9,10 +9,6 @@
             th= LetterSet.human_attribute_name(:letter_amount_points)
         tbody
           = render @letter_sets
-    select.selectpicker multiple="true"
-      option Mustard
-      option Ketchup
-      option Relish
     = link_to t(:btn_new), new_letter_set_path, :class => 'btn btn-adrie'
     / = fa_icon "check-circle", class: "fa-2x"
     

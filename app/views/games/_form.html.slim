@@ -18,17 +18,11 @@
   .form-group.row
     = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
-      select.selectpicker multiple="true"
-        option Mustard
-        option Ketchup
-        option Relish
-
-      
-      / = f.collection_check_boxes(:user_ids, User.all, :id, :name) do |g|
-        / .checkbox
-          / = g.label { g.check_box(type: 'checkbox') + '  ' + g.text }
+      = f.collection_select :user_ids, User.all, :id, :name, {:selected => @game.users.map(&:id)}, {:multiple => true, :class => 'selectpicker'}
   - if @game.may_start_now?
     = f.submit (t :btn_start), class: 'btn btn-adrie'
   = f.submit (t :btn_save), class: 'btn btn-adrie'
+  - unless @game.new_record?
+    = link_to t(:btn_delete), game_path(@game), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'
   button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)
-  / = javascript_tag "select_picker()", defer: 'defer'
+  = javascript_tag "$('.selectpicker').selectpicker();"

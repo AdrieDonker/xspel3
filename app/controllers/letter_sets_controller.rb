@@ -5,7 +5,7 @@ class LetterSetsController < ApplicationController
   def index
     @letter_sets = LetterSet.all
     if @letter_sets.size == 0
-      LetterSet.create_standard_letter_set
+      LetterSet.create_standard_letter_sets
     end
     @letter_sets = LetterSet.all
   end

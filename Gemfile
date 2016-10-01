@@ -10,7 +10,6 @@ gem 'turbolinks'
 # gem 'jbuilder'      
 gem 'aasm' 
 gem 'font-awesome-rails'
-# gem 'font-awesome-sass'
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'

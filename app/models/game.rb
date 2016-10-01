@@ -24,7 +24,8 @@ class Game < ApplicationRecord
       errors.add(:gamers, :minimum_2_players)
     end
   end
-    
+  
+  # Return array with gamer-names  
   def gamer_names
     gn = []
     self.users.each do |g|
@@ -33,9 +34,37 @@ class Game < ApplicationRecord
     return gn
   end
   
+  # Create turn for gamer
+  def create_turn(gamer)
+    # if self.game.turns.count == 0
+      Turn.create( 
+        user_id: gamer.id, 
+        game_id: self.id
+      )
+    # end
+  end
+  
+  # Return (max 7) random letters
+  def give_letters(nbr_of)
+    new_stock = []
+    count_letters = []
+
+    stock_letters.shuffle.each do |v|
+      if count_letters.size < nbr_of
+        count_letters << v
+      else
+        new_stock << v
+      end
+    end
+    self.stock_letters = new_stock
+    self.save
+    return count_letters
+  end
+  
+  # Return 
   def last_played(attr)
-    unless self.turns.last.nil?
-      lp = self.turns.last
+    unless turns.last.nil?
+      lp = turns.last
       case attr
         when :user
           lp.user.name
@@ -51,32 +80,28 @@ class Game < ApplicationRecord
     end
   end
 
-  # private #-----------------------------------------------------------------------------------
+  private #-----------------------------------------------------------------------------------
 
   # Callbacks
-  before_validation do
-    # self.starter = current_user
-    # starter.save
-  end
   before_create do
-    # self.started = Time.now if status
-    # self.laid_letters = Array.new(15){Array.new(15)} 
-    self.stock_letters = letter_set.all_letters_points.shuffle
-    # self.gamers << current_user
+    self.laid_letters = Array.new(15){Array.new(15)}
+    self.stock_letters = letter_set.all_letters_points  #.shuffle
+    self.words_list_groups = set_words_list_groups
   end
-
-  before_save do 
-    # self.state = 'startable'
-    set_words_list_delen
+  before_save do
+    if startable?
+      self.stock_letters = letter_set.all_letters_points  #.shuffle
+      self.words_list_groups = set_words_list_groups
+    end
   end
   
-  def set_words_list_delen
+  def set_words_list_groups
     # Read wordslists
     wl_groups = []
     WordsList.where( {:name => words_list.name}, :order => "group").each do |wl|
       wl_groups << [wl.group, wl.id] if wl.id != words_list.id
     end
-    self.words_list_groups = wl_groups
+    return wl_groups
   end
   
   # State Machine
@@ -96,7 +121,7 @@ class Game < ApplicationRecord
       # transitions startable: :playable #, guard: :send_invites
     end
     event :play_now do
-      transitions playable: :in_play, guard: :turns_started
+      transitions from: :playable, to: :in_play, guard: :invites_completed
     end
     event :ending do
        transitions in_play: :ended
@@ -110,8 +135,16 @@ class Game < ApplicationRecord
     true
   end
     
-  def turns_started
-    self.turns.count > 0
+  def invites_completed
+    if gamers.where(state: 'invited').count > 0 
+      errors[:base] << "Er zijn nog lopende uitnodigingen!"
+      false
+    elsif gamers.where(state: 'accepted').count < 2
+      errors[:base] << "Er zijn minder dan 2 geaccepteerde uitnodigingen!"
+      false
+    else
+      true
+    end
   end
   
 

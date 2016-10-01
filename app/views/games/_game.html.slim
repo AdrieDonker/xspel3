@@ -8,7 +8,7 @@
     - format = false
   .game-item= link_to( path, remote: format, class: 'lnk-adrie' )
     .line
-      span= Gamer.model_name.human.pluralize + "(#{game.gamer_names.count}): "
+      span= "#{game.id}: " + Gamer.model_name.human.pluralize + "(#{game.gamer_names.count}): "
       = game.gamer_names.join(', ')
     .line
       span= Game.human_attribute_name(:started) + ': '
