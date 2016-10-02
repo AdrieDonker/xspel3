@@ -70,8 +70,7 @@ body {
         overflow: hidden;
         border-collapse: separate;
         border-spacing: 1px;
-        border: 2px solid grey;
-        // width:100%;
+        border: 2px solid #f59f59;
       }
       td {
         padding: 1px;
@@ -82,6 +81,7 @@ body {
     .play_btns {
       table {
         width:100%;
+        // border: 2px solid #f59f59;
       }
       td {
         width:33%;
@@ -93,6 +93,7 @@ body {
         text-align:center;
         font-variant:small-caps;
         font-weight:bold;
+        padding:0px -10px;
       }
     }
     // For small screens
@@ -110,7 +111,9 @@ body {
         border:0px solid green;
         display:inline-block;
         width:43%;
-        & > div{
+        cursor:pointer;
+        & div{
+          margin-bottom: 3px
         }
       }
     }
@@ -122,13 +125,13 @@ body {
     }
   }
   // For #board and #controls
-  div.play_letter{
+  div.play_letter, div.letter {
     position: relative;
     border-radius: 16%;                    /* werkt niet in android emulator */
     background-color: #fdff7a;
     border: 1px solid grey;
     text-align:center;
-    div.play_points{
+    div.play_points, div.points {
       vertical-align: top;
       float: right;
       font-size: 10px;

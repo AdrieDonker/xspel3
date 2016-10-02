@@ -1,31 +1,5 @@
 // drag and drop handlers
 // coffeescript doensn't work
-// function dragstart_handler(ev) {
-//   ev.dataTransfer.setData("text", ev.target.id);
-//   ev.dataTransfer.effectAllowed = "move";
-// }
-
-// function drop_handler(ev) {
-//   ev.preventDefault();
-//   var tile = $('#' + ev.dataTransfer.getData("text"));
-//   var cel = $(ev.target)
-//   // alert(cel.cssInt('width'))
-//   // ev.target.appendChild(document.getElementById(data));
-//   var new_size = (cel.cssInt('width') - 2).toString() + 'px'
-//   cel.css({height: new_size, width: new_size});
-//   // alert('sss')
-//   cel.append(tile);
-// }
-
-// function dragover_handler(ev) {
-//   ev.preventDefault();
-//   ev.dataTransfer.dropEffect = "move"
-// }
-
-// function dragend_handler(ev) {
-//   ev.dataTransfer.clearData()
-// }
-
 var dragged;
 
 /* events fired on the draggable target */
@@ -79,18 +53,19 @@ document.addEventListener("drop", function( event ) {
     letter_resize(dragged, elem);
     hide_drop_elem (elem);
     elem.append(dragged)
+    set_buttons()
   } else   if ( event.target.className == "shelf_drop" ) {
     letter_resize(dragged, elem);
     hide_drop_elem (elem);
     elem.append(dragged)
+    set_buttons()
   }
 }, false);
 
 function show_drop_elem(elem) { elem.css('opacity', .5); }
 function hide_drop_elem(elem) { elem.css('opacity', ''); }
 
-
-// letter_resize
+// resize letter after moving
 function letter_resize(letter, to_elem) {
   var letter_size, points_size, tile_size, tile_width;
   td_width = to_elem.cssInt('width');
@@ -105,3 +80,41 @@ function letter_resize(letter, to_elem) {
   points_size = (td_width * 0.3).toString() + 'px';
   letter.children().css('font-size', points_size);
 };
+
+// set play-button handlers
+function init_buttons(){
+  $('#controls').on('click', '.play_btn', function(){
+    if ($(this).hasClass('play') == true) {
+      console.log('play')
+    } else if ($(this).hasClass('pass') == true){
+      console.log('pass')
+    } else if ($(this).hasClass('shuffle') == true){
+      console.log('shuffle')
+      
+    } else if ($(this).hasClass('clear') == true){
+      $('#board .play_letter').each(function(){
+        empty = $('#controls .shelf td').filter(function(){ return this.children.length < 1}).first()
+        empty.append($(this))
+        letter_resize(empty.children(), empty)
+      })
+    } else if ($(this).hasClass('swap') == true){
+      console.log('swap')
+    }
+  })
+}
+
+// set the play-buttons
+function set_buttons(){
+  // no play-letters on the board
+  if ($('#board .play_letter').length == 0){
+    $('.play_btn.play').parent().css('display', 'none')
+    $('.play_btn.pass').parent().css('display', 'table-cell')
+    $('.play_btn.shuffle').parent().css('display', 'table-cell')
+    $('.play_btn.clear').parent().css('display', 'none')
+  } else {
+    $('.play_btn.play').parent().css('display', 'table-cell')
+    $('.play_btn.pass').parent().css('display', 'none')
+    $('.play_btn.shuffle').parent().css('display', 'none')
+    $('.play_btn.clear').parent().css('display', 'table-cell')
+  }
+}

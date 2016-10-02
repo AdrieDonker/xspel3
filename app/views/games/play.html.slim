@@ -8,7 +8,11 @@
               tr
                 - row.each_with_index do |cel, idx_c|
                   td [class="board_drop cel_#{cel.nil? ? 'bg' : cel}" id="board_pos_#{idx_r}_#{idx_c}"]
-                    /ondrop="drop_handler(event);" ondragover="dragover_handler(event)"]
+                    - if !@game.laid_letters[idx_r][idx_c].blank?
+                      .letter
+                        = @game.laid_letters[idx_r][idx_c][0]
+                        .points
+                          = @game.laid_letters[idx_r][idx_c][0]
       #controls.col-md-4.col-sm-12
         - unless @turn.nil?
           .sized
@@ -16,22 +20,26 @@
               table
                 tr
                   - @turn.start_letters.each_with_index do |l_w, idx|
-                    td[ id="play_letters_pos_#{idx}" class="shelf_drop"]
+                    td[id="play_letters_pos_#{idx}" class="shelf_drop"]
                       .play_letter [ id="letter_#{idx}" data-letter="#{l_w[0]}" data-punten="#{l_w[1]}" 
                         draggable='true']
-                        /ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event)"]
                         = (l_w[0] == ' ' ? "?" : l_w[0])
                         .play_points= l_w[1]
                   - (@turn.start_letters.size).upto(6) do |x|
-                    td[ id = "play_letters_pos_#{x}" ] 
+                    td[id = "play_letters_pos_#{x}" ] 
             .play_btns
               table
                 tr
                   td 
-                    .play_btn play
+                    .play_btn.play= (t :btn_play)
                   td
-                    .play_btn pass
+                    .play_btn.pass= (t :btn_pass)
                   td
-                    .play_btn ruil
+                    .play_btn.shuffle= (t :btn_shuffle)
+                  td
+                    .play_btn.clear= (t :btn_clear)
+                  td
+                    .play_btn.swap= (t :btn_swap)
         - else
           | naah
+= javascript_tag "init_buttons();set_buttons()"

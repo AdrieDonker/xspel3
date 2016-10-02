@@ -8,18 +8,17 @@ $ ->
 
 # document all loads
 $(document).on 'turbolinks:load', ->
-  board_resize()
+  game_resize()
   # controls_resize()
   return
 
 # window resize corrections 
 $(window).resize ->
-  board_resize()
-  # controls_resize()
+  game_resize()
   return
   
-# make the board squared and adjust shelf
-board_resize = ->
+# make the board squared and adjust controls
+game_resize = ->
   
   # the board
   td_width = Math.floor(($('#board .sized').cssInt('width') - 16) / 15)
@@ -41,7 +40,7 @@ board_resize = ->
   # the shelf
   td_width = Math.floor(($('#controls .shelf').cssInt('width') - 12) / 7 )
   td_size = td_width.toString() + 'px'
-  $('#controls table td').css {'width': td_size, 'height': td_size}
+  $('#controls .shelf td').css {'width': td_size, 'height': td_size}
 
   # letters on the shelf
   tile_size = (td_width - 2).toString() + 'px';
@@ -56,7 +55,6 @@ board_resize = ->
   $('#controls div.play_points').css 'font-size', points_size
   
   # play buttons
-  # line_size = letter_size = (td_width * .7).toString() + 'px'
   $('#controls .play_btn').css {
     'height': tile_size, 
     'line-height': letter_size,

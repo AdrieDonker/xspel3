@@ -28,6 +28,11 @@ nl:
   points: punten
   not_started: (nog niet gestart)
   start_game: Start spel
+  btn_play: speel
+  btn_pass: pas
+  btn_shuffle: mix
+  btn_clear: terug
+  btn_swap: ruil
   visitors:
     index:
       title: XSPL
