@@ -19,8 +19,7 @@
     = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
       = f.collection_select :user_ids, User.all, :id, :name, {:selected => @game.users.map(&:id)}, {:multiple => true, :class => 'selectpicker'}
-  - if @game.may_start_now?
-    = f.submit (t :btn_start), class: 'btn btn-adrie'
+  = f.submit (t :btn_start), class: 'btn btn-adrie'
   = f.submit (t :btn_save), class: 'btn btn-adrie'
   - unless @game.new_record?
     = link_to t(:btn_delete), game_path(@game), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'

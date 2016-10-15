@@ -1,0 +1,16 @@
+h4= 'll'
+#blank_area
+  .shelf
+    table
+      tr
+        - count = 1
+        - [1,2,3,4,5,6,7,8,9,0].each do |lt|
+          - if count < 6
+            td[style="border:1px solid brown"]= lt
+          - else
+            tr
+              td[style="border:1px solid brown"]= lt
+            - count = 1
+          - count += 1
+br/
+br/

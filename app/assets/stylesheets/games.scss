@@ -5,12 +5,12 @@ body {
 }
 // Games summary
 .game-item{
-  height: 4rem;
+  height: 4.2rem;
   background-color: #af5b5a;
   border-radius: 0.25rem;
   margin: 6px -8px;
   color: white;
-  padding:0.3rem;
+  padding:0.1rem 0.5rem;
   white-space: nowrap;
   &:hover{
     background-color: #ad6b6b;
@@ -30,9 +30,9 @@ body {
 }
 
 // Play board
-
-#game-area{
-  & div.row > div {
+// #game-area {
+  // & div.row > div {
+  #game-area div.row > div {
     padding: 0px;
   }
   // #board and #controls specific
@@ -62,7 +62,7 @@ body {
       }
     }
   }
-  #controls{
+  #controls, #swap_area{
     border: 0px solid green;
     .shelf {
       border:0px solid black;
@@ -93,7 +93,14 @@ body {
         text-align:center;
         font-variant:small-caps;
         font-weight:bold;
-        padding:0px -10px;
+        color:black;
+        cursor:pointer;
+        // padding:0px -10px;
+      }
+      .disable {
+        font-weight:normal;
+        color: grey;
+        cursor:not-allowed;
       }
     }
     // For small screens
@@ -111,7 +118,6 @@ body {
         border:0px solid green;
         display:inline-block;
         width:43%;
-        cursor:pointer;
         & div{
           margin-bottom: 3px
         }
@@ -124,6 +130,19 @@ body {
       }
     }
   }
+  #gamers {
+    table {
+      width:100%;
+      margin-top:10px;
+      .name, .state {
+        padding-left:10px;
+      }
+      .score {
+        padding-right:10px;
+        text-align:right;
+      }
+    }
+  }
   // For #board and #controls
   div.play_letter, div.letter {
     position: relative;
@@ -131,12 +150,27 @@ body {
     background-color: #fdff7a;
     border: 1px solid grey;
     text-align:center;
+    cursor:pointer;
     div.play_points, div.points {
       vertical-align: top;
       float: right;
       font-size: 10px;
       line-height: 12px;
       margin: 1px 2px -6px -6px;
+    }
+  }
+// }
+#blank_area {
+  table {
+    border-collapse: separate;
+  }
+  td {
+    background-color:#ab5b5b;
+    font-size:18px;
+    color:black;
+    text-align: center;
+    &:hover {
+      background-color:#ce9090;
     }
   }
 }

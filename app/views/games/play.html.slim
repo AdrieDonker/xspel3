@@ -17,16 +17,7 @@
         - unless @turn.nil?
           .sized
             .shelf
-              table
-                tr
-                  - @turn.start_letters.each_with_index do |l_w, idx|
-                    td[id="play_letters_pos_#{idx}" class="shelf_drop"]
-                      .play_letter [ id="letter_#{idx}" data-letter="#{l_w[0]}" data-punten="#{l_w[1]}" 
-                        draggable='true']
-                        = (l_w[0] == ' ' ? "?" : l_w[0])
-                        .play_points= l_w[1]
-                  - (@turn.start_letters.size).upto(6) do |x|
-                    td[id = "play_letters_pos_#{x}" ] 
+              = render partial: 'shelf'
             .play_btns
               table
                 tr
@@ -41,5 +32,24 @@
                   td
                     .play_btn.swap= (t :btn_swap)
         - else
-          | naah
-= javascript_tag "init_buttons();set_buttons()"
+          = (t :not_a_gamer)
+        #gamers
+          table
+            tr
+              td.state[colspan="2"]= (current_user.admin? ? "#{@game.id}: " : "") + "#{t :play_state} : #{@game.aasm.human_state}"
+              td= @game.stock_letters.count
+            - @game.gamers.order(:sequence_nbr).each do |g|
+              tr
+                td.name= (current_user.admin? ? "#{g.id}: " : "") + "#{g.user.name}"
+                td.state= "#{g.play_state}"
+                td.score= "#{g.score}"
+#game_data[
+  data-game_id="#{@game ? @game.id : ''}" 
+  data-game_state="#{@game ? @game.state : ''}" 
+  data-turn_id="#{@turn ? @turn.id : ''}" 
+  data-turn_state="#{@turn ? @turn.state : ''}" 
+  data-allow_swap="#{@game.stock_letters.size > 6 ? true : false}"
+  data-drop_pos="" 
+  style="display:none"
+]
+= javascript_tag "init_buttons();"

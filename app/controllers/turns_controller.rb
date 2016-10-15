@@ -1,70 +1,104 @@
 class TurnsController < ApplicationController
-  before_action :set_turn, only: [:show, :edit, :update, :destroy]
+  before_action :set_turn, only: [:pass, :play, :swap, :blank]
 
-  # GET /turns
-  # GET /turns.json
-  def index
-    @turns = Turn.all
-  end
+  def play
+    
+    # letters to array [ [row, column, letter, points], [...  ]
+    letters = []
+    laid_letters.split('_').each_slice(4) do |ll|
+      letters << ll
+    end
 
-  # GET /turns/1
-  # GET /turns/1.json
-  def show
-  end
-
-  # GET /turns/new
-  def new
-    @turn = Turn.new
-  end
-
-  # GET /turns/1/edit
-  def edit
-  end
-
-  # POST /turns
-  # POST /turns.json
-  def create
-    @turn = Turn.new(turn_params)
-
-    respond_to do |format|
-      if @turn.save
-        format.html { redirect_to @turn, notice: 'Turn was successfully created.' }
-        format.json { render :show, status: :created, location: @turn }
+    # Check laying of letters
+    if laid_oke(letters) == 0
+      
+      # Check the words
+      if words_nok(letters) == ''
+      
+        # Next turn
+        stop
+        
+        
+      # Wrong words
       else
-        format.html { render :new }
-        format.json { render json: @turn.errors, status: :unprocessable_entity }
+        # show wrong words
+        
       end
+      # broadcast
+      #   laid_letters and update board
+      #   <gamer> played <words> <points>
+      @turn.
+      
+
+    # Laying not oke
+    else
+      # show wrong laying
+      
+    end
+    
+  end
+  
+  def pass
+    set_turn
+
+    # answered YES
+    if params[:answer]
+      @turn.passing
+      @turn.score = 0
+      @turn.end_letters = @turn.start_letters
+      @turn.save
+      @game.goto_next(@turn)
+      
+      redirect_to play_game_path(@game)
+      
+    # JS: ask confirmmation
+    else
     end
   end
-
-  # PATCH/PUT /turns/1
-  # PATCH/PUT /turns/1.json
-  def update
-    respond_to do |format|
-      if @turn.update(turn_params)
-        format.html { redirect_to @turn, notice: 'Turn was successfully updated.' }
-        format.json { render :show, status: :ok, location: @turn }
-      else
-        format.html { render :edit }
-        format.json { render json: @turn.errors, status: :unprocessable_entity }
+  
+  def swap
+    # answered YES
+    if params[:answer]
+      swap_letters = []
+      params[:letters].each {|k, v| swap_letters << [v[0].to_sym, v[1].to_i]}
+      
+      # delete swap letters
+      @turn.end_letters = @turn.start_letters
+      swap_letters.each do |sl|
+        pos = @turn.end_letters.rindex(sl)
+        @turn.end_letters.slice!(pos) if pos
       end
+
+      logger.info 'swap letters: ' + swap_letters.to_s
+      logger.info 'start letters: ' + @turn.start_letters.to_s
+      logger.info 'end letters: ' + @turn.end_letters.to_s
+      @turn.swapping
+      @turn.score = 0
+      @turn.save
+      @turn = @game.goto_next(@turn)
+      
+      render :swap_done
+      # redirect_to play_game_path(@game)
+      
+    # JS: ask confirmmation
     end
   end
 
-  # DELETE /turns/1
-  # DELETE /turns/1.json
-  def destroy
-    @turn.destroy
-    respond_to do |format|
-      format.html { redirect_to turns_url, notice: 'Turn was successfully destroyed.' }
-      format.json { head :no_content }
+  # GET: exchange blank JS
+  def blank
+    if params[:answer]
+    
+    # JS: choose
+    else
+      @letters = @game.letters
     end
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_turn
-      @turn = Turn.find(params[:id])
+      @game = Game.find(params[:game_id])
+      @turn = Turn.find(params[:turn_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

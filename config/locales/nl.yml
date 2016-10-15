@@ -1,4 +1,8 @@
 nl:
+  do_yes: Ja
+  do_no: Nee
+  oke: Oké
+  back: Terug
   edit_account: Account wijzigen
   sign_out: Uitloggen
   sign_in: Inloggen
@@ -21,7 +25,6 @@ nl:
   update: ' wijzigen'
   new: 'Nieuw '
   newe: 'Nieuwe '
-  back: Terug
   words: 'Woorden: '
   not_yet: '(niet)'
   played: speelde
@@ -33,6 +36,18 @@ nl:
   btn_shuffle: mix
   btn_clear: terug
   btn_swap: ruil
+  pass: Passen
+  really_pass: Wilt u echt passen?
+  swap: Letters ruilen
+  select_letters_to_swap: Kies te ruilen letters
+  not_a_gamer: U speelt niet mee
+  play_state: Spelstatus
+  waits_for_you: Wacht op jouw reactie!
+  waits_for_play: Er is nog niet gespeeld.
+  play: Spelen
+  want_to_play: Wilt u spelen?
+  exchange_blank: Blanco ruilen
+  select_letter: Kies een letter
   visitors:
     index:
       title: XSPL
@@ -108,14 +123,40 @@ nl:
         board: Bord
         letter_set: Letterset
         words_list: Woordenlijst
-        started: Gestart
+        started_at: Gestart
         gamers: Spelers
         owner: Gestart door
+        state:
+          startable: Moet nog gestart worden
+          playable: Wacht op reactie(s).
+          in_play: Wordt nu  gespeeld!
+          pre_aborted: Voortijdig afgebroken.
+          ended: Normaal beeindigd.
+          aborted: Afgebroken.
+      gamer:
+        state:
+          selected: Gekozen.
+          invited: Moet nog reageren.
+          accepted: Wil meespelen.
+          rejected: Heeft afgewezen.
+          expired: Is te laat.
+          waiting: Wacht.
+          in_turn: Speelt nu.
+      turn:
+        state: 
+          wait: Wacht ...
+          play: Speelt nu!
+          passed: Gepast
+          swapped: Geruild
+          played: Speelde
+          ended: Te laat
     errors:
       messages:
         blank: moet ingevuld zijn.
         taken: is reeds in gebruik.
         required: is verplicht.
+        record_invalid: Ongeldig record
+        too_less_gamers: Te weinig spelers!
       models:
         user:
           attributes:

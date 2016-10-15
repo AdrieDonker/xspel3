@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010190258) do
+ActiveRecord::Schema.define(version: 20160910182357) do
 
   create_table "boards", force: :cascade do |t|
     t.string   "name"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20161010190258) do
   end
 
   create_table "gamers", force: :cascade do |t|
-    t.integer  "game_id"
+    t.integer  "game_id" 
     t.integer  "user_id"
     t.integer  "sequence_nbr"
     t.integer  "score"
@@ -40,15 +40,12 @@ ActiveRecord::Schema.define(version: 20161010190258) do
     t.integer  "words_list_id"
     t.text     "words_list_groups"
     t.text     "extra_words_lists"
-    t.datetime "started_at"
+    t.datetime "started"
     t.text     "laid_letters"
     t.text     "stock_letters"
     t.string   "state"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.datetime "invited_at"
-    t.integer  "invite_time"
-    t.integer  "play_time"
     t.index ["board_id"], name: "index_games_on_board_id"
     t.index ["letter_set_id"], name: "index_games_on_letter_set_id"
     t.index ["words_list_id"], name: "index_games_on_words_list_id"
@@ -91,7 +88,6 @@ ActiveRecord::Schema.define(version: 20161010190258) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "words"
-    t.integer  "gamer_id"
     t.index ["game_id"], name: "index_turns_on_game_id"
     t.index ["user_id"], name: "index_turns_on_user_id"
   end

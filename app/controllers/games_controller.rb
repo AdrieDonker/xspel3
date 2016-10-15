@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :blank]
 
   # GET /games.js
   def index
@@ -21,9 +21,8 @@ class GamesController < ApplicationController
   end
   
   # GET: Show the board to play the game
-  def play
+  def play 
     set_game
-    @turn = @game.turns.where({user_id: current_user.id}).last
   end
 
   # PATCH/PUT /games/1 as JS
@@ -35,23 +34,11 @@ class GamesController < ApplicationController
       
       # Saved, start immediately
       if params[:commit] == (t :btn_start)
-        @game.start_now rescue nil    # send invites
 
-        # Invites should have been send
-        if @game.playable?
-          @game.save
-          
-          # current_user = gamer?
-          if @game.users.include?(current_user)
-            @game.create_turn(current_user)
-          end
-          
-          # Open the game (redirect)
-          redirect_to action: :play, status: 303 #See Other
-          
-        # else error with invites, from model
-        end
-        
+        # Start and Open the game (redirect)
+        start_game
+        redirect_to action: :play, id: @game.id, status: 303 #See Other
+
       # Only saved, back to index
       else
         flash.now[:notice] = (t :model_updated, name: @game.name, model: Game.model_name.human)
@@ -77,26 +64,14 @@ class GamesController < ApplicationController
 
       # Saved, start immediately
       if params[:commit] == (t :btn_start)
-        @game.start_now rescue nil    # send invites
 
-        # Invites should have been send
-        if @game.playable?
-          @game.save
-          
-          # current_user = gamer?
-          if @game.users.include?(current_user)
-            @game.create_turn(current_user)
-          end
-          
-          # Open the game (redirect)
-          redirect_to action: :play, id: @game.id, status: 303 #See Other
-          
-        # else error with invites, from model
-        end
-        
+        # Start and Open the game (redirect)
+        start_game
+        redirect_to action: :play, id: @game.id, status: 303 #See Other
+
       # Only saved, back to index
       else
-        flash.now[:notice] = (t :model_updated, name: @game.name, model: Game.model_name.human)
+        flash.now[:notice] = (t :model_created, name: @game.name, model: Game.model_name.human)
         flash.keep
         redirect_to action: :index
       end
@@ -109,14 +84,32 @@ class GamesController < ApplicationController
     redirect_to games_path, :notice => (t :model_deleted, name: name, model: Game.model_name.human)
   end
 
-  private
+  private #===============================================================
+
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
+      @turn = Turn.where(game_id: @game.id, user_id: current_user.id).last
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
       params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, :user_ids => [])
     end
+    
+    # make game playable for accepters (play = disabled)
+    def start_game
+      @game.start_now!
+
+      # current_user = gamer? -> accept!
+      if @game.users.include?(current_user)
+        gamer = Gamer.find_by(game_id: @game.id, user_id: current_user.id)
+        gamer.accept!
+        @turn = Turn.find_by(game_id: @game.id, user_id: current_user.id)
+      end
+      
+      # boradcast to gamers
+      #  update buttons/state of the players
+    end
+
 end

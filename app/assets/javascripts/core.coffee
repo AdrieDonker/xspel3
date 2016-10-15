@@ -9,6 +9,8 @@ $ ->
 # document all loads
 $(document).on 'turbolinks:load', ->
   game_resize()
+  # $('#swap_area').resize_swap_letters();
+  # resize_swap_letters()
   # controls_resize()
   return
 
@@ -37,7 +39,18 @@ game_resize = ->
   points_size = (td_width * 0.3).toString() + 'px'
   $('#board div.play_points').css 'font-size', points_size
 
+  game_resize_shelf()
   # the shelf
+  
+  # play buttons
+  $('#controls .play_btn').css {
+    'height': tile_size, 
+    'line-height': letter_size,
+    'font-size': letter_size
+  }
+  return
+
+@game_resize_shelf = ->
   td_width = Math.floor(($('#controls .shelf').cssInt('width') - 12) / 7 )
   td_size = td_width.toString() + 'px'
   $('#controls .shelf td').css {'width': td_size, 'height': td_size}
@@ -53,13 +66,6 @@ game_resize = ->
   }
   points_size = (td_width * 0.3).toString() + 'px'
   $('#controls div.play_points').css 'font-size', points_size
-  
-  # play buttons
-  $('#controls .play_btn').css {
-    'height': tile_size, 
-    'line-height': letter_size,
-    'font-size': letter_size
-  }
   return
 
 # extend jQuery's css to nums

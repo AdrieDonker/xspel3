@@ -545,7 +545,7 @@
             // '<span class="' + that.options.iconBase + ' ' + that.options.tickIcon + ' check-mark"></span>' +
             // '</a>';
             '<span class="' + that.options.iconBase + ' ' + that.options.tickIcon + ' check-mark">' + 
-            '<i class="fa fa-check-circle"></i>'
+            '<i class="fa fa-check-circle"></i>' +
             '</span></a>';
       };
 

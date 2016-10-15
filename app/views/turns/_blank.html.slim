@@ -1,0 +1,12 @@
+h4=(t :select_letter)
+#blank_area
+  .shelf
+    table
+      - @letters.each_slice(5) do |lt|
+        tr
+          - lt.each do |le|
+            td= le
+br/
+br/
+= link_to t(:oke), "javascript:swap_blank('oke')", :class => 'btn btn-adrie'
+= link_to t(:back), "javascript:swap_blank('nok')", :class => 'btn btn-adrie'

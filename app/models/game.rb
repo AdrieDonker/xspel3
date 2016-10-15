@@ -6,7 +6,7 @@ class Game < ApplicationRecord
   belongs_to :words_list
   belongs_to :owner, class_name: "User"  
   # belongs_to :starter, class_name: "User"
-  has_many :gamers
+  has_many :gamers #, -> { order(:sequence_nbr) }
   has_many :users, through: :gamers
   has_many :turns
   
@@ -28,8 +28,9 @@ class Game < ApplicationRecord
   # Return array with gamer-names  
   def gamer_names
     gn = []
-    self.users.each do |g|
-      gn << g.name
+    gamers.sort_by(&:sequence_nbr).each do |g|
+    # self.users.each do |g|
+      gn << g.user.name
     end
     return gn
   end
@@ -39,12 +40,21 @@ class Game < ApplicationRecord
     # if self.game.turns.count == 0
       Turn.create( 
         user_id: gamer.id, 
-        game_id: self.id
+        game_id: id
       )
     # end
   end
-  
-  # Return (max 7) random letters
+
+  # Add old_letters up to 7 letters
+  def adjust_letters(letters_old)
+    if letters_old.size < 7 
+      letters_old + give_letters(7 - letters_old.size)
+    else
+      return letters_old
+    end
+  end
+
+  # Return (max 7) random letters from stock
   def give_letters(nbr_of)
     new_stock = []
     count_letters = []
@@ -61,33 +71,80 @@ class Game < ApplicationRecord
     return count_letters
   end
   
-  # Return 
-  def last_played(attr)
-    unless turns.last.nil?
-      lp = turns.last
-      case attr
-        when :user
-          lp.user.name
-        when :words
-          lp.words
-        when :points
-          lp.score
-        else
-          'fout'
-      end
+  # Return last completed turn
+  def last_played
+    lp = turns.last(2)[0]
+    
+    # not yet played
+    if lp.wait?
+      I18n.t :waits_for_play
+    
+    # played
+    elsif lp.played?
+      lp.user.name + ' ' + (I18n.t :played) + ' [' + lp.words + ']: ' + 
+        lp.score.to_s + ' ' + (I18n.t :points)
+    
+    #other
     else
-      '(geen)'
+      lp.user.name + ': ' + lp.aasm.human_state
     end
   end
 
-  private #-----------------------------------------------------------------------------------
+  # Check on invite
+  def waits_for_you(user)
+    users.include?(user) and gamers.find_by(user_id: user.id).state == 'invited'
+  end
+
+  # Up to the next gamer/turn
+  def goto_next(last_turn) 
+
+    # gamer had his turn
+    last_turn.gamer.turned!
+    
+    # swapped, then swap letters back to stock
+    if last_turn.swapped?
+      self.stock_letters += (last_turn.start_letters - last_turn.end_letters)
+      save
+    end
+    
+    # set next turn/gamer to play
+    Turn.find_by(
+      game_id: id, 
+      sequence_nbr: last_turn.sequence_nbr + 1
+    ).get_turn!
+    
+    # create new turn for gamer
+    new_letters = adjust_letters(last_turn.end_letters)
+    logger.info 'new letters' + new_letters.to_s
+    Turn.create(
+      game_id: id, 
+      user_id: last_turn.user.id,
+      gamer_id: last_turn.gamer.id,
+      start_letters: new_letters,
+      sequence_nbr: turns.order(:sequence_nbr).last.sequence_nbr + 1
+    )
+  end
+  
+  # Available letters from lettersets
+  def letters
+    ltrs = []
+    letter_set.letter_amount_points.each do |k, v|
+      ltrs << k.to_s unless k == :""
+    end
+    return ltrs.sort
+  end
+  
+  # private #-----------------------------------------------------------------------------------
 
   # Callbacks
   before_create do
     self.laid_letters = Array.new(15){Array.new(15)}
     self.stock_letters = letter_set.all_letters_points  #.shuffle
     self.words_list_groups = set_words_list_groups
+    self.invite_time = 10.hours
+    self.play_time = 10.hours
   end
+
   before_save do
     if startable?
       self.stock_letters = letter_set.all_letters_points  #.shuffle
@@ -104,48 +161,115 @@ class Game < ApplicationRecord
     return wl_groups
   end
   
-  # State Machine
-  # aasm_column :state  #[DEPRECATION] aasm_column is deprecated. Use aasm.attribute_name instead
-  aasm.attribute_name :state
-  # aasm column: :state do
-  aasm do
+  # # State Machine
+  aasm column: :state do
     state :startable, initial: true
     state :playable
-    state :pre_aborted
+    state :pre_abort
     state :in_play
     state :ended
     state :aborted
     
     event :start_now do
-      transitions from: :startable, to: :playable, guard: :send_invites
-      # transitions startable: :playable #, guard: :send_invites
+      transitions from: :startable, to: :playable, after: :create_base
     end
     event :play_now do
-      transitions from: :playable, to: :in_play, guard: :invites_completed
+      transitions from: :playable, to: :in_play, 
+        guard: :invites_completed, after: :init_play
     end
-    event :ending do
-       transitions in_play: :ended
+    event :incompletion do
+      transitions from: :playable, to: :pre_abort, guard: :too_less_players
     end
-      
+    event :played_out do
+      transitions from: :in_play, to: :ended
+    end
+    event :pre_ended do
+      transitions from: :in_play, to: :abort
+    end
+
   end
   
-  def send_invites
-    # errors[:base] << "Invites versturen mislukt!"
-    # logger.info "Invites niet verstuurd"
-    true
+  # create first turns and player sequence
+  def create_base
+
+    # create turns and send invites
+    seq = 0
+    gamers.shuffle.each do |g|
+      seq += 1
+      g.invite!
+      g.update(sequence_nbr: seq)
+    end
+    self.invited_at = Time.now
+    save
+  end
+
+  # invites completed, resequence the players/turns, delete non-acceptants turns
+  def init_play
+    
+    seq = 0
+    # gamers.sort_by(&:sequence_nbr).each do |g|
+    gamers.order(:sequence_nbr).each do |g|
+      turn = Turn.find_by(game_id: id, user_id: g.user_id)
+      if g.accepted?
+        seq += 1
+        g.sequence_nbr = seq
+        g.game_started
+        g.save
+        turn.sequence_nbr = seq
+        turn.get_turn if seq == 1 #first player
+        turn.save   
+      else
+        g.sequence_nbr = 0
+        g.save
+        turn.delete
+      end
+    end
   end
     
   def invites_completed
-    if gamers.where(state: 'invited').count > 0 
+    if inviting_ended
+      if enough_gamers
+        true
+      
+      # not enough players, quit
+      else
+        incompletion!  # pre_abort
+        errors.add(:gamers, :too_less_players)
+        # errors[:base] << (I18n.t 'too_less_players') #"Er zijn minder dan 2 geaccepteerde uitnodigingen!"
+        false
+      end
+    else
       errors[:base] << "Er zijn nog lopende uitnodigingen!"
       false
-    elsif gamers.where(state: 'accepted').count < 2
-      errors[:base] << "Er zijn minder dan 2 geaccepteerde uitnodigingen!"
-      false
-    else
-      true
     end
   end
-  
+
+  def too_less_players
+    if inviting_ended and not enough_gamers
+      incompletion  # pre_abort
+      save
+      # errors.add(:gamers, :too_less_gamers)
+      errors[:base] << :too_less_gamers
+      true
+    else
+      false
+    end
+  end
+    
+  def inviting_ended
+    invite_time_expired? or running_invites == 0
+  end
+
+  def running_invites
+    gamers.where(state: 'invited').count
+  end
+
+  def invite_time_expired?
+    Time.now - invited_at >= invite_time # seconds
+  end
+    
+  def enough_gamers
+    gamers.where(state: 'accepted').count > 1
+  end
 
 end

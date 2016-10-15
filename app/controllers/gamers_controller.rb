@@ -1,74 +1,63 @@
 class GamersController < ApplicationController
-  before_action :set_gamer, only: [:show, :edit, :update, :destroy]
+  before_action :set_gamer, only: [:invite]
 
-  # GET /gamers
-  # GET /gamers.json
-  def index
-    @gamers = Gamer.all
-  end
+  # handle invite
+  def invite
+    set_gamer
 
-  # GET /gamers/1
-  # GET /gamers/1.json
-  def show
-  end
-
-  # GET /gamers/new
-  def new
-    @gamer = Gamer.new
-  end
-
-  # GET /gamers/1/edit
-  def edit
-  end
-
-  # POST /gamers
-  # POST /gamers.json
-  def create
-    @gamer = Gamer.new(gamer_params)
-
-    respond_to do |format|
-      if @gamer.save
-        format.html { redirect_to @gamer, notice: 'Gamer was successfully created.' }
-        format.json { render :show, status: :created, location: @gamer }
+    # answered
+    if params[:answer]
+      if params[:answer] == 'oke'
+        @gamer.accept!
+        if check_play_now
+          redirect_to play_game_path(@game)
+        
+        # too less players
+        elsif @game.pre_abort?
+          redirect_to games_path
+          
+        # not all players reacted
+        else
+          redirect_to play_game_path(@game)
+        end
+        
+      elsif params[:answer] == 'nok'
+        @gamer.reject!
+        check_play_now
+        redirect_to games_path
+      
       else
-        format.html { render :new }
-        format.json { render json: @gamer.errors, status: :unprocessable_entity }
       end
+      
+    # do the invite
     end
   end
-
-  # PATCH/PUT /gamers/1
-  # PATCH/PUT /gamers/1.json
-  def update
-    respond_to do |format|
-      if @gamer.update(gamer_params)
-        format.html { redirect_to @gamer, notice: 'Gamer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @gamer }
-      else
-        format.html { render :edit }
-        format.json { render json: @gamer.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /gamers/1
-  # DELETE /gamers/1.json
-  def destroy
-    @gamer.destroy
-    respond_to do |format|
-      format.html { redirect_to gamers_url, notice: 'Gamer was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_gamer
-      @gamer = Gamer.find(params[:id])
+      @gamer = Gamer.find(params[:gamer_id])
+      @game = Game.find(params[:game_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def gamer_params
       params.require(:gamer).permit(:game_id, :user_id, :sequence_nbr, :score, :state, :position)
     end
+    
+    # Check if playing can start
+    def check_play_now
+      if @game.may_play_now?
+        @game.started_at = Time.now
+        @game.play_now!
+        
+        # broadcast
+        #  game is started
+        #  update buttons/state of the players
+        true
+      else
+        false
+      end
+    end
+    
 end

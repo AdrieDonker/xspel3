@@ -3,6 +3,10 @@
   - format = true
   - if game.startable?
     - path = ( game.owner_id == current_user.id ? edit_game_path(game) : game_path(game) )
+  - elsif game.waits_for_you(current_user)
+    - gamer = game.gamers.find_by(user_id: current_user.id)
+    /- path = edit_game_path(game, xhr_function: 'reaction')
+    - path = game_gamer_invite_path(game, gamer)
   - else
     - path = play_game_path(game)
     - format = false
@@ -12,14 +16,15 @@
       = game.gamer_names.join(', ')
     .line
       span= Game.human_attribute_name(:started) + ': '
-      = game.started.nil? ? (t :not_yet) : game.started.strftime("%-d-%-m-'%y %H:%M")
+      = game.started_at.nil? ? (t :not_yet) : game.started_at.strftime("%-d-%-m-'%y %H:%M")
       span= '; ' + (t :words)
       = game.words_list.name
     .line
-      - if game.in_play?
-        span= game.last_played(:user)
-        = ' ' + (t :played)
-        = ' [' + game.last_played(:words) + '], ' + game.last_played(:points) + ' '
-        span= (t :points)
+      - if game.startable?
+        = game.aasm.human_state + ' door ' + game.owner.name
+      - elsif game.in_play?
+        = game.last_played
+      - elsif game.waits_for_you(current_user)
+        = (t :waits_for_you)
       - else
-        = (t :not_started)
+        = game.aasm.human_state
