@@ -1,0 +1,10 @@
+/ The gamers: name, last turn, points
+table
+  tr
+    td.state[colspan="2"]= (current_user.admin? ? "#{@game.id}: " : "") + "#{t :play_state} : #{@game.aasm.human_state}"
+    td= @game.stock_letters.count
+  - @game.gamers.order(:sequence_nbr).each do |g|
+    tr
+      td.name= (current_user.admin? ? "#{g.id}: " : "") + "#{g.user.name}"
+      td.state= "#{g.play_state}"
+      td.score= "#{g.score}"

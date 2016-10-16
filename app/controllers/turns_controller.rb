@@ -5,37 +5,37 @@ class TurnsController < ApplicationController
     
     # letters to array [ [row, column, letter, points], [...  ]
     letters = []
-    laid_letters.split('_').each_slice(4) do |ll|
-      letters << ll
+    params[:laid_letters].split('_').each_slice(4) do |ll|
+      letters << [ll[0].to_i, ll[1].to_i, ll[2], ll[3].to_i]
     end
 
     # Check laying of letters
-    if laid_oke(letters) == 0
+    @error = @turn.laid_oke(letters)
+    if  @error.blank?
       
       # Check the words
-      if words_nok(letters) == ''
-      
-        # Next turn
-        stop
-        
-        
+      @error = @turn.words_nok(letters)
+      if @error.size == 0
+
+        # Update game and set next turn
+        @turn.update_game(letters)
+        @turn.playing
+        @turn.save
+        @game.letters_to_board(letters)
+        @game.goto_next(@turn)
+
+        render :play_done
+
       # Wrong words
       else
-        # show wrong words
-        
+        render :play_error
       end
-      # broadcast
-      #   laid_letters and update board
-      #   <gamer> played <words> <points>
-      @turn.
-      
 
     # Laying not oke
     else
-      # show wrong laying
-      
+      render :play_error
     end
-    
+    # stop
   end
   
   def pass
@@ -43,9 +43,8 @@ class TurnsController < ApplicationController
 
     # answered YES
     if params[:answer]
-      @turn.passing
-      @turn.score = 0
       @turn.end_letters = @turn.start_letters
+      @turn.passing
       @turn.save
       @game.goto_next(@turn)
       
@@ -63,17 +62,8 @@ class TurnsController < ApplicationController
       params[:letters].each {|k, v| swap_letters << [v[0].to_sym, v[1].to_i]}
       
       # delete swap letters
-      @turn.end_letters = @turn.start_letters
-      swap_letters.each do |sl|
-        pos = @turn.end_letters.rindex(sl)
-        @turn.end_letters.slice!(pos) if pos
-      end
-
-      logger.info 'swap letters: ' + swap_letters.to_s
-      logger.info 'start letters: ' + @turn.start_letters.to_s
-      logger.info 'end letters: ' + @turn.end_letters.to_s
+      @turn.set_end_letters(swap_letters)
       @turn.swapping
-      @turn.score = 0
       @turn.save
       @turn = @game.goto_next(@turn)
       

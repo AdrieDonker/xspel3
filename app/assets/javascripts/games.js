@@ -145,7 +145,7 @@ function init_buttons(){
 
     // Play: 
     if ($(this).hasClass('play') == true && $(this).hasClass('disable') == false) {
-      $.get('turns/' + turn_id + '/play', {laid_letters: laid_letters()}, null, 'script');
+      $.get('turns/' + turn_id + '/play', {laid_letters: letters_laid()}, null, 'script');
 
     // Pass: confirm in modal
     } else if ($(this).hasClass('pass') == true && $(this).hasClass('disable') == false){
@@ -218,7 +218,7 @@ function set_buttons(){
 };
 
 // collect the laid letters as one string: <row1>_<col1>_<letter1>_<points1>_<row2....
-function laid_letters(){
+function letters_laid(){
     col = [];
     $('#board div.play_letter').each(function(){
         parts = $(this).parent().attr('id').split('_'); // 2=row, 3=column

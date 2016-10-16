@@ -3,16 +3,7 @@
     .row
       #board.col-md-8.col-sm-12.m-x-auto
         .sized
-          table
-            - @game.board.layout.each_with_index do |row, idx_r|
-              tr
-                - row.each_with_index do |cel, idx_c|
-                  td [class="board_drop cel_#{cel.nil? ? 'bg' : cel}" id="board_pos_#{idx_r}_#{idx_c}"]
-                    - if !@game.laid_letters[idx_r][idx_c].blank?
-                      .letter
-                        = @game.laid_letters[idx_r][idx_c][0]
-                        .points
-                          = @game.laid_letters[idx_r][idx_c][0]
+          = render partial: 'board'
       #controls.col-md-4.col-sm-12
         - unless @turn.nil?
           .sized
@@ -34,22 +25,6 @@
         - else
           = (t :not_a_gamer)
         #gamers
-          table
-            tr
-              td.state[colspan="2"]= (current_user.admin? ? "#{@game.id}: " : "") + "#{t :play_state} : #{@game.aasm.human_state}"
-              td= @game.stock_letters.count
-            - @game.gamers.order(:sequence_nbr).each do |g|
-              tr
-                td.name= (current_user.admin? ? "#{g.id}: " : "") + "#{g.user.name}"
-                td.state= "#{g.play_state}"
-                td.score= "#{g.score}"
-#game_data[
-  data-game_id="#{@game ? @game.id : ''}" 
-  data-game_state="#{@game ? @game.state : ''}" 
-  data-turn_id="#{@turn ? @turn.id : ''}" 
-  data-turn_state="#{@turn ? @turn.state : ''}" 
-  data-allow_swap="#{@game.stock_letters.size > 6 ? true : false}"
-  data-drop_pos="" 
-  style="display:none"
-]
-= javascript_tag "init_buttons();"
+          = render partial: 'gamers'
+#js_data
+  = render partial: 'game_data'

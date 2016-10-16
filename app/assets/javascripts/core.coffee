@@ -20,7 +20,7 @@ $(window).resize ->
   return
   
 # make the board squared and adjust controls
-game_resize = ->
+@game_resize = ->
   
   # the board
   td_width = Math.floor(($('#board .sized').cssInt('width') - 16) / 15)
@@ -30,14 +30,14 @@ game_resize = ->
   # letters on the board
   tile_size = (td_width - 2).toString() + 'px';
   letter_size = (td_width * .7).toString() + 'px'
-  $('#board div.play_letter').css {
+  $('#board div.letter').css {
     'height': tile_size,
     'width': tile_size, 
     'line-height': tile_size
     'font-size': letter_size
   }
   points_size = (td_width * 0.3).toString() + 'px'
-  $('#board div.play_points').css 'font-size', points_size
+  $('#board div.points').css 'font-size', points_size
 
   game_resize_shelf()
   # the shelf

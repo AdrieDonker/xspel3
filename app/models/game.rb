@@ -81,7 +81,8 @@ class Game < ApplicationRecord
     
     # played
     elsif lp.played?
-      lp.user.name + ' ' + (I18n.t :played) + ' [' + lp.words + ']: ' + 
+      wrds = lp.words.collect{|w| w[0]}.join(' ')
+      lp.user.name + ' ' + (I18n.t :played) + ' [' + wrds + ']: ' + 
         lp.score.to_s + ' ' + (I18n.t :points)
     
     #other
@@ -99,6 +100,7 @@ class Game < ApplicationRecord
   def goto_next(last_turn) 
 
     # gamer had his turn
+    last_turn.gamer.score += last_turn.score
     last_turn.gamer.turned!
     
     # swapped, then swap letters back to stock
@@ -107,24 +109,33 @@ class Game < ApplicationRecord
       save
     end
     
+    # create new turn for gamer
+    Turn.create(
+      game_id: id, 
+      user_id: last_turn.user.id,
+      gamer_id: last_turn.gamer.id,
+      start_letters: adjust_letters(last_turn.end_letters),
+      sequence_nbr: turns.order(:sequence_nbr).last.sequence_nbr + 1
+    )
+
     # set next turn/gamer to play
     Turn.find_by(
       game_id: id, 
       sequence_nbr: last_turn.sequence_nbr + 1
     ).get_turn!
-    
-    # create new turn for gamer
-    new_letters = adjust_letters(last_turn.end_letters)
-    logger.info 'new letters' + new_letters.to_s
-    Turn.create(
-      game_id: id, 
-      user_id: last_turn.user.id,
-      gamer_id: last_turn.gamer.id,
-      start_letters: new_letters,
-      sequence_nbr: turns.order(:sequence_nbr).last.sequence_nbr + 1
-    )
   end
   
+  # Save laid_letters in the board
+  def letters_to_board(letters)
+    logger.info 'ltrs= ' + letters.to_s
+    logger.info 'll voor: ' + laid_letters.to_s
+    letters.each do |ll|
+      self.laid_letters[ll[0]][ll[1]] = [ll[2], ll[3]]
+    end
+    logger.info 'll na: ' + laid_letters.to_s
+    save
+  end
+    
   # Available letters from lettersets
   def letters
     ltrs = []

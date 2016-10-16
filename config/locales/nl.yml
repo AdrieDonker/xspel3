@@ -48,6 +48,13 @@ nl:
   want_to_play: Wilt u spelen?
   exchange_blank: Blanco ruilen
   select_letter: Kies een letter
+  illegal: Niet geldig
+  reason: Reden
+  illegal_words: Deze woorden zijn niet toegestaan
+  not_same_direction: Letters moeten OF horizontaal OF verticaal worden gelegd.
+  first_turn_must_cross_center: Bij eerste beurt moet het centrumvak gebruikt worden
+  not_filled_up_to_word: Niet opgevuld tot 1 woord.
+  not_connected_to_others: Niet verbonden met andere worden.
   visitors:
     index:
       title: XSPL

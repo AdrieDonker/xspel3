@@ -1,0 +1,11 @@
+/ The playing board
+table
+  - @game.board.layout.each_with_index do |row, idx_r|
+    tr
+      - row.each_with_index do |cel, idx_c|
+        td [class="board_drop cel_#{cel.nil? ? 'bg' : cel}" id="board_pos_#{idx_r}_#{idx_c}"]
+          - if !@game.laid_letters[idx_r][idx_c].blank?
+            .letter
+              = @game.laid_letters[idx_r][idx_c][0]
+              .points
+                = @game.laid_letters[idx_r][idx_c][1]

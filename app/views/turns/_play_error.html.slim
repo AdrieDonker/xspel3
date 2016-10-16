@@ -1,0 +1,9 @@
+h4=(t :reason)
+- if @error.kind_of?(Array)
+  h5= (t :illegal_words)
+  = @error.join(',')
+- else
+  = (t @error)
+br/
+br/
+button.btn.btn-adrie data-dismiss="modal" type="button" =(t :oke)
