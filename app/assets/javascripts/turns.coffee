@@ -2,7 +2,8 @@
   sl = []
   $('#swap_area div.play_letter').each ->
     if $(this).css('opacity') < 1
-      sl.push [ $(this).attr('data-letter'), $(this).attr('data-points') ]
+      # sl.push [ $(this).attr('data-letter'), $(this).attr('data-points') ]
+      sl.push [ $(this).attr('data-letter'), $(this).data('points') ]
   $.get 'turns/' + turn_id + '/swap', {letters: sl, answer: 'yes'} , null, 'script'
   return 
   
@@ -48,7 +49,7 @@
   
   # chosen and oke
   if act == 'oke' and cl != undefined
-    pos = $('#game_data').attr 'data-drop_pos'
+    pos = $('#game_data').data 'drop_pos'
     $('#' + pos + ' div.play_letter').attr 'data-letter', cl
     $('#' + pos + ' div.play_letter').prepend cl
   
@@ -61,6 +62,7 @@
 # Get letters to swap with blank
 @init_swap_blank = (drop_target) ->
   # Save drop positie in #game_data
+  console.log 'init_swap_blank'
   $('#game_data').attr 'data-drop_pos', drop_target.attr('id')
   $.get 'turns/' + turn_id + '/blank', '', null, 'script'
   return

@@ -55,6 +55,7 @@ nl:
   first_turn_must_cross_center: Bij eerste beurt moet het centrumvak gebruikt worden
   not_filled_up_to_word: Niet opgevuld tot 1 woord.
   not_connected_to_others: Niet verbonden met andere worden.
+  letters_left: 'Over: '
   visitors:
     index:
       title: XSPL
@@ -136,7 +137,7 @@ nl:
         state:
           startable: Moet nog gestart worden
           playable: Wacht op reactie(s).
-          in_play: Wordt nu  gespeeld!
+          in_play: Er wordt nu gespeeld!
           pre_aborted: Voortijdig afgebroken.
           ended: Normaal beeindigd.
           aborted: Afgebroken.

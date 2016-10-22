@@ -109,7 +109,13 @@ class Game < ApplicationRecord
       save
     end
     
-    # create new turn for gamer
+    # set next turn/gamer to play
+    Turn.find_by(
+      game_id: id, 
+      sequence_nbr: last_turn.sequence_nbr + 1
+    ).get_turn!
+
+    # create new turn for gamer en return it
     Turn.create(
       game_id: id, 
       user_id: last_turn.user.id,
@@ -117,12 +123,6 @@ class Game < ApplicationRecord
       start_letters: adjust_letters(last_turn.end_letters),
       sequence_nbr: turns.order(:sequence_nbr).last.sequence_nbr + 1
     )
-
-    # set next turn/gamer to play
-    Turn.find_by(
-      game_id: id, 
-      sequence_nbr: last_turn.sequence_nbr + 1
-    ).get_turn!
   end
   
   # Save laid_letters in the board

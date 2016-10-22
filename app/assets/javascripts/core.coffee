@@ -43,6 +43,7 @@ $(window).resize ->
   # the shelf
   
   # play buttons
+  letter_size = (td_width * .8).toString() + 'px'
   $('#controls .play_btn').css {
     'height': tile_size, 
     'line-height': letter_size,

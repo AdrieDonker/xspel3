@@ -5,18 +5,6 @@ class Gamer < ApplicationRecord
   belongs_to :user
   has_many :turns
   
-  def play_state
-    if game.in_play?
-      if in_turn?
-        aasm.human_state
-      else
-        Turn.where(game_id: game_id, user_id: user.id).last(2)[0].aasm.human_state
-      end
-    else
-      aasm.human_state
-    end
-  end
-  
   private #============================================================
   
   before_create do

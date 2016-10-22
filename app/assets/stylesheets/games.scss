@@ -86,9 +86,9 @@ body {
       td {
         width:33%;
       }
-      & td > div {
+      .play_btn {
         background-color:#e8af65;
-        border-radius:10%;
+        border-radius:10px;
         border:1px solid blue;
         text-align:center;
         font-variant:small-caps;
@@ -171,6 +171,7 @@ body {
     text-align: center;
     &:hover {
       background-color:#ce9090;
+      cursor:pointer;
     }
   }
 }

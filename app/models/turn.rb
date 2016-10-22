@@ -8,6 +8,7 @@ class Turn < ApplicationRecord
   # attribute :
   serialize :start_letters
   serialize :end_letters
+  serialize :laid_letters
   serialize :words
   
   # Return: positions of laid letters are:
@@ -279,18 +280,21 @@ class Turn < ApplicationRecord
   end
 
   # Update game after good word(s) played
-  def update_game(laid_letters)
+  def update_turn(laid_letters)
     
     # Extract :<letter>, points
     letters = []
     laid_letters.each { |lt| letters << [lt[2].to_sym, lt[3]] }
     set_end_letters(letters)
     
+    self.laid_letters = laid_letters
     self.score = 0
     words.each { |w| self.score += w[1] }
     self.bingo = (laid_letters.size == 7 ? true : false )
     self.ended = Time.now
 
+    playing
+    save
   end
 
   private #---------------------------------------------

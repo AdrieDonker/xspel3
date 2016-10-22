@@ -1,10 +1,15 @@
 / The gamers: name, last turn, points
 table
   tr
-    td.state[colspan="2"]= (current_user.admin? ? "#{@game.id}: " : "") + "#{t :play_state} : #{@game.aasm.human_state}"
-    td= @game.stock_letters.count
-  - @game.gamers.order(:sequence_nbr).each do |g|
+    td#game_state.state[colspan="2" data-game_state="#{@game.state}"]= @game.aasm.human_state
+    td.score= (t :letters_left) + @game.stock_letters.count.to_s
+  /- @game.gamers.order(:sequence_nbr).each do |g|
+  - game_gamers(@game).each do |g|
     tr
-      td.name= (current_user.admin? ? "#{g.id}: " : "") + "#{g.user.name}"
-      td.state= "#{g.play_state}"
-      td.score= "#{g.score}"
+      td#gamer_details.name [
+        data-gamer_id="#{g[:gamer_id]}"
+        data-user_id="#{g[:user_id]}"] #{g[:user_name]}
+      td#turn_details.state [
+        data-turn_id="#{g[:turn_details][0]}"
+        data-turn_state="#{g[:turn_details][1]}"] #{g[:play_state]}
+      td.score= g[:score]

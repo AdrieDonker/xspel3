@@ -60,11 +60,12 @@ document.addEventListener("drop", function( event ) {
   // blank letter
   blank = (dragged.attr('data-points') == '0')
   if (blank == true) {
+    console.log('blank droppes')
     $('#game_data').attr('data-blank_from', dragged.parent().attr('id'))
     clear_tile(dragged)
   }
 
-  // move dragged elem to the selected drop target
+  // move dragged elem to the selected drop target on the board
   if ( elem.hasClass('board_drop') && elem.children().length == 0 ) {
     // console.log('board')
     letter_resize(dragged, elem);
@@ -73,6 +74,7 @@ document.addEventListener("drop", function( event ) {
     set_buttons()
     if (blank == true) {init_swap_blank(elem)}
 
+  // move dragged elem to the selected drop target on the shelf
   } else if ( elem.hasClass('shelf_drop') && elem.children().length == 0 ) {
     // console.log('shelf')
     letter_resize(dragged, elem);

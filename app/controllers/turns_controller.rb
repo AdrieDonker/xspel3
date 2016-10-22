@@ -18,13 +18,19 @@ class TurnsController < ApplicationController
       if @error.size == 0
 
         # Update game and set next turn
-        @turn.update_game(letters)
-        @turn.playing
-        @turn.save
+        @turn.update_turn(letters)
+        # @turn.playing
+        # @turn.save
         @game.letters_to_board(letters)
-        @game.goto_next(@turn)
+        @turn = @game.goto_next(@turn)
 
-        render :play_done
+        ActionCable.server.broadcast 'game_channel',
+          game_id: @game.id,
+          board: letters,
+          shelf: @turn.start_letters,
+          gamers: render(partial: 'games/gamers')
+        head :ok
+        # render :play_done
 
       # Wrong words
       else
@@ -39,16 +45,23 @@ class TurnsController < ApplicationController
   end
   
   def pass
-    set_turn
+    # set_turn
 
     # answered YES
     if params[:answer]
       @turn.end_letters = @turn.start_letters
       @turn.passing
       @turn.save
-      @game.goto_next(@turn)
+      @turn = @game.goto_next(@turn)
       
-      redirect_to play_game_path(@game)
+      ActionCable.server.broadcast 'game_channel',
+      # ActionCable.server.broadcast "games_#{@game.id}_channel",
+        game_id: @game.id,
+        # action: 'pass',
+        gamers: render(partial: 'games/gamers')
+      
+      head :ok 
+      # redirect_to play_game_path(@game)
       
     # JS: ask confirmmation
     else
@@ -67,7 +80,11 @@ class TurnsController < ApplicationController
       @turn.save
       @turn = @game.goto_next(@turn)
       
-      render :swap_done
+      ActionCable.server.broadcast 'game_channel', 
+        gamers: render(partial: 'games/gamers')
+      head :ok 
+
+      # render :swap_done
       # redirect_to play_game_path(@game)
       
     # JS: ask confirmmation
