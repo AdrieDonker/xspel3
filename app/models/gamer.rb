@@ -21,6 +21,8 @@ class Gamer < ApplicationRecord
     state :accepted
     state :rejected
     state :expired
+    state :given_up
+    state :played_out
     state :waiting
     state :in_turn
     
@@ -44,6 +46,12 @@ class Gamer < ApplicationRecord
     end
     event :turned do
       transitions from: :in_turn, to: :waiting
+    end
+    event :plays_out do
+      transitions from: :waiting, to: :played_out
+    end
+    event :gives_up do
+      transitions from: :in_turn, to: :given_up
     end
   end
   

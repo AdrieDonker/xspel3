@@ -21,30 +21,38 @@ class GamesController < ApplicationController
   end
   
   # GET: Show the board to play the game
-  def play 
+  def play
     set_game
+    
+    # check on turns too_late
+    play_turn = Turn.find_by game_id: params[:id], state: 'play'
+    if play_turn
+      
+      js_seconds = params[:game_js_time].to_i/1000
+      # turn is too late
+      while play_turn && Time.at(js_seconds) > play_turn.started + @game.play_time do
+        logger.info 'game / turn is too late: ' + @game.id.to_s + ' / ' + play_turn.id.to_s
+        logger.info '== game_js_time: ' + js_seconds.to_s
+        logger.info '== play_turn.started: ' + play_turn.started.to_s
+        play_turn.ended = Time.at(js_seconds + @game.play_time)
+        play_turn.end_letters = play_turn.start_letters
+        play_turn.expiring
+        play_turn.save
+        play_turn = @game.goto_next(play_turn)        
+      end
+    end
   end
 
   # PATCH/PUT /games/1 as JS
   def update
     
     # Update game settings
-    params[:game][:user_ids].reject!(&:empty?)
     if @game.update(game_params)
+      flash.now[:notice] = (t :model_updated, name: @game.name, model: Game.model_name.human)
+      flash.keep
       
-      # Saved, start immediately
-      if params[:commit] == (t :btn_start)
-
-        # Start and Open the game (redirect)
-        start_game
-        redirect_to action: :play, id: @game.id, status: 303 #See Other
-
-      # Only saved, back to index
-      else
-        flash.now[:notice] = (t :model_updated, name: @game.name, model: Game.model_name.human)
-        flash.keep
-        redirect_to action: :index
-      end
+      # saved, start or to index
+      start_game
     end
   end
   
@@ -55,26 +63,14 @@ class GamesController < ApplicationController
 
   # POST /games.js
   def create
-    params[:game][:user_ids].reject!(&:empty?)
     @game = Game.new(game_params)
     @game.owner = current_user
     if @game.save
       flash.now[:notice] = (t :model_created, name: @game.name, model: Game.model_name.human)
       flash.keep
 
-      # Saved, start immediately
-      if params[:commit] == (t :btn_start)
-
-        # Start and Open the game (redirect)
-        start_game
-        redirect_to action: :play, id: @game.id, status: 303 #See Other
-
-      # Only saved, back to index
-      else
-        flash.now[:notice] = (t :model_created, name: @game.name, model: Game.model_name.human)
-        flash.keep
-        redirect_to action: :index
-      end
+      # saved, start or to index
+      start_game
     end
   end
 
@@ -94,10 +90,12 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, :user_ids => [])
+      params[:game][:user_ids].reject!(&:empty?)
+      params.require(:game).permit(:name, :board_id, :letter_set_id, :words_list_id, :extra_words_lists, 
+      :play_time_days, :play_time_hours, :play_time_minutes, :js_time, :user_ids => [])
     end
     
-    # make game playable for accepters (play = disabled)
+    # make game playable for accepters (play btn = disabled)
     def start_game
       @game.start_now!
 
@@ -105,11 +103,20 @@ class GamesController < ApplicationController
       if @game.users.include?(current_user)
         gamer = Gamer.find_by(game_id: @game.id, user_id: current_user.id)
         gamer.accept!
-        @turn = Turn.find_by(game_id: @game.id, user_id: current_user.id)
+        # @turn = Turn.find_by(game_id: @game.id, user_id: current_user.id)
       end
       
-      # boradcast to gamers
-      #  update buttons/state of the players
+      # check play now (one player)
+      started = @game.check_play_now(params[:game][:js_time].to_i)
+
+      # saved, start immediately
+      if params[:commit] == (t :btn_start)
+        redirect_to action: :play, id: @game.id, js_time: params[:game][:js_time], status: 303 #See Other
+
+      # only saved, back to index
+      else
+        redirect_to action: :index
+      end
     end
 
 end

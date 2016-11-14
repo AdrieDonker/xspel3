@@ -1,11 +1,10 @@
 / Game-data for js to reference
 #game_data[
-  data-game_id="#{@game ? @game.id : ''}" 
-  data-game_state="#{@game ? @game.state : ''}" 
-  data-turn_id="#{@turn ? @turn.id : ''}" 
-  data-turn_state="#{@turn ? @turn.state : ''}" 
-  data-allow_swap="#{@game.stock_letters.size > 6 ? true : false}"
+  data-game_id="#{@game.nil? ? 'all' : @game.id}"
+  data-user_id="#{current_user.id}"
+  data-game_play_time="#{@game.nil? ? '' : @game.play_time}"
+  data-game_started_at="#{@game.nil? ? '' : @game.started_at.to_f * 100}"
   data-drop_pos="" 
   style="display:none"
 ]
-= javascript_tag "init_buttons();"
+

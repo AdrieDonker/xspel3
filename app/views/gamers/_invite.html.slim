@@ -1,3 +1,5 @@
 h4=(t :want_to_play)
-= link_to t(:do_yes), game_gamer_invite_path(@game, @gamer, answer: 'oke'), class: 'btn btn-adrie'
-= link_to t(:do_no), game_gamer_invite_path(@game, @gamer, answer: 'nok'), class: 'btn btn-adrie'
+= form_for(game_gamer_invite_path(@game, @gamer), :html => {:role => 'form', remote: :true, onSubmit: "set_js_time();$('#ajax-modal-1').modal('hide')"}) do |f|
+  = hidden_field_tag 'game_js_time'
+  = f.submit t(:do_yes), class: 'btn btn-adrie'
+  = f.submit t(:do_no), class: 'btn btn-adrie'

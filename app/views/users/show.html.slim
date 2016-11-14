@@ -13,9 +13,17 @@
     .col-sm-8
       p.form-control-static.show-control #{@user.language.try(:name)}
   .form-group.row
+    = label_tag User.human_attribute_name(:time_zone), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.time_zone}
+  .form-group.row
     = label_tag User.human_attribute_name(:role), nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
       p.form-control-static.show-control #{@user.role.titleize}
+  .form-group.row
+    = label_tag User.human_attribute_name(:knows_users), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      p.form-control-static.show-control #{@user.knows_users_names}
   = link_to t(:btn_edit), edit_user_path(@user), :class => 'btn btn-adrie'
   = link_to t(:btn_delete), user_path(@user), :data => { :confirm => t(:sure) }, :method => :delete, :class => 'btn btn-adrie'
       

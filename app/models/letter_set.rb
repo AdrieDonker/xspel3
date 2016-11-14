@@ -2,28 +2,23 @@ class LetterSet < ApplicationRecord
   serialize   :letter_amount_points       # hash {‘A’ => [6, 1], ‘B’ => [2, 3]], ..  <letter> => [<aantal>, <punten>]
   validates :name, presence: true, uniqueness: true
 
-  # Return: 7 random letters uit volledige set
-  # def select_7
-  #   de_7 = []
-  #   selected = []
-  #   alp = all_letters_points     # [ ['A', 1], ['A', 1], ...]
-  #   letters_tal = aantal_letters # tbv rand
-  #   while selected.size < 7
-  #     new_sel = rand(letters_tal)
-  #     while selected.include?(new_sel)
-  #       new_sel = rand(letters_tal)
-  #     end
-  #     selected << new_sel
-  #     de_7 << alp[new_sel]
-  #   end
-  #   return de_7
-  # end
-
-  # Return: aantal letters in set
-  def aantal_letters
-    alle_letters.size
+  def lap=(l_a_p)
+    lap_new = []
+    l_a_p.each do |value|
+      val = value.gsub(/\s\s+/, "")
+      if val.gsub(/\s+/, "") != ""
+        vals = val.split
+        vals[2] = 0 if vals[0] == '?'
+        lap_new << [vals[0], [vals[1].to_i, vals[2].to_i] ]
+      end
+    end
+    self.letter_amount_points = lap_new.sort
   end
 
+  def lap
+    self.letter_amount_points ||= []
+  end
+  
   # Return: alle letters van set: AAAAAABBBCCDDDDEEEEEEEEEEE...
   def alle_letters
     self.letter_amount_points ||= {}

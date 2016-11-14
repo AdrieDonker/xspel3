@@ -1,10 +1,15 @@
+@send_pass = ->
+  $.get 'turns/' + turn_id + '/pass', {answer: 'yes', js_time: Date.now()} , null, 'script'
+  return 
+    
 @send_swap_letters = ->
   sl = []
   $('#swap_area div.play_letter').each ->
     if $(this).css('opacity') < 1
       # sl.push [ $(this).attr('data-letter'), $(this).attr('data-points') ]
       sl.push [ $(this).attr('data-letter'), $(this).data('points') ]
-  $.get 'turns/' + turn_id + '/swap', {letters: sl, answer: 'yes'} , null, 'script'
+      
+  $.get 'turns/' + turn_id + '/swap', {letters: sl, answer: 'yes', js_time: Date.now()} , null, 'script'
   return 
   
 @set_swap_letters = ->
@@ -30,32 +35,28 @@
 @set_swap_blank = ->
   # wait till modal shown, to resize
   $('#ajax-modal-1').on 'shown.bs.modal', ->
+    new_size = $('#controls td').cssInt 'width'
+    font_size = (new_size * 0.7).toString() + 'px';
+    size_new = (new_size-2).toString() + 'px';
     elems = $('#blank_area td')
-    elems.css {
-      'width': ($('#controls div.play_letter').css 'width'),
-      'height': ($('#controls div.play_letter').css 'height'),
-      'line-height': ($('#controls div.play_letter').css 'line-height'),
-      'font-size': ($('#controls div.play_letter').css 'font-size'),
-    }
+    elems.css { 'width': size_new, 'height': size_new, 'line-height': size_new, 'font-size': font_size }
     # and make letters selectable
-    elems.on 'click', ->
-      elems.css 'opacity', '1'
-      $(this).css 'opacity', '.5'
+    elems.off('click').on 'click', ->
+      swap_blank($(this).text())
   return
 
 # Replace blank with chosen letter
-@swap_blank = (act) ->
-  cl = $('#blank_area td[style*="opacity: 0.5"]').first().text()
+@swap_blank = (letter) ->
+
+  # not chosen or back: back to shelf
+  if letter == '' 
+    to_shelf(dragged)
   
   # chosen and oke
-  if act == 'oke' and cl != undefined
-    pos = $('#game_data').data 'drop_pos'
-    $('#' + pos + ' div.play_letter').attr 'data-letter', cl
-    $('#' + pos + ' div.play_letter').prepend cl
-  
-  # not chosen or back: back to shelf
   else
-    to_shelf(dragged)
+    pos = $('#game_data').attr 'data-drop_pos'
+    $('#' + pos + ' div.play_letter').attr 'data-letter', letter
+    $('#' + pos + ' div.play_letter').prepend letter
   $('#ajax-modal-1').modal 'hide'
   return 
 

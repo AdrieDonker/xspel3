@@ -46,7 +46,7 @@ class LetterSetsController < ApplicationController
   private
   
   def letter_set_params
-    params.require(:letter_set).permit(:name, :letter_amount_points)
+    params.require(:letter_set).permit(:name, :letter_amount_points, :lap => [])
   end
   
   def set_letter_set

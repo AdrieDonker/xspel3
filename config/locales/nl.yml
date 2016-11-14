@@ -3,6 +3,11 @@ nl:
   do_no: Nee
   oke: Oké
   back: Terug
+  by: door
+  result: Uitslag
+  days: dagen
+  hours: uren
+  minutes: minuten
   edit_account: Account wijzigen
   sign_out: Uitloggen
   sign_in: Inloggen
@@ -28,6 +33,7 @@ nl:
   words: 'Woorden: '
   not_yet: '(niet)'
   played: speelde
+  plays_now: speelt nu
   points: punten
   not_started: (nog niet gestart)
   start_game: Start spel
@@ -37,15 +43,15 @@ nl:
   btn_clear: terug
   btn_swap: ruil
   pass: Passen
-  really_pass: Wilt u echt passen?
+  really_pass: Wil je echt passen?
   swap: Letters ruilen
   select_letters_to_swap: Kies te ruilen letters
-  not_a_gamer: U speelt niet mee
+  not_a_gamer: Jij speelt niet mee
   play_state: Spelstatus
   waits_for_you: Wacht op jouw reactie!
   waits_for_play: Er is nog niet gespeeld.
   play: Spelen
-  want_to_play: Wilt u spelen?
+  want_to_play: Wil je spelen?
   exchange_blank: Blanco ruilen
   select_letter: Kies een letter
   illegal: Niet geldig
@@ -54,7 +60,7 @@ nl:
   not_same_direction: Letters moeten OF horizontaal OF verticaal worden gelegd.
   first_turn_must_cross_center: Bij eerste beurt moet het centrumvak gebruikt worden
   not_filled_up_to_word: Niet opgevuld tot 1 woord.
-  not_connected_to_others: Niet verbonden met andere worden.
+  not_connected_to_others: Niet verbonden met andere woorden.
   letters_left: 'Over: '
   visitors:
     index:
@@ -103,10 +109,12 @@ nl:
         email: 'E-mail'
         locale: Taal
         language: Taal
+        time_zone: Tijdzone
         role: Rol
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
         current_password: Huidig wachtwoord
+        knows_users: Tegenspelers
       password_confirmation:
         confirmation: Wachtwoord moet bevestigd worden.
       letter_set: 
@@ -134,6 +142,7 @@ nl:
         started_at: Gestart
         gamers: Spelers
         owner: Gestart door
+        play_time: Speeltijd
         state:
           startable: Moet nog gestart worden
           playable: Wacht op reactie(s).
@@ -150,6 +159,8 @@ nl:
           expired: Is te laat.
           waiting: Wacht.
           in_turn: Speelt nu.
+          played_out: Uitgespeeld
+          given_up: Opgegeven.
       turn:
         state: 
           wait: Wacht ...
@@ -177,8 +188,10 @@ nl:
               confirmation: is niet goed ingevuld.
         game:
           attributes:
+            play_time:
+              min_1_minute: moet minimaal 1 minuut zijn.
             gamers:
-              minimum_2_players: ', minimaal 2 kiezen.'
+              minimum_1_player: ', minimaal 1 kiezen.'
   errors:
     messages:
       not_saved:

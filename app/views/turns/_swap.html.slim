@@ -6,7 +6,7 @@ h4=(t :select_letters_to_swap)
         - @turn.start_letters.each_with_index do |l_w, idx|
           td[id="play_letters_pos_#{idx}" class="shelf_drop"]
             .play_letter [ id="letter_#{idx}" data-letter="#{l_w[0]}" data-points="#{l_w[1]}"]
-              = (l_w[0] == ' ' ? "?" : l_w[0])
+              = (l_w[0] == '?' ? "" : l_w[0])
               .play_points= l_w[1]
 br/
 br/

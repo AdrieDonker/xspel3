@@ -13,7 +13,16 @@
     .col-sm-8
       = f.select :locale, Language.all.collect {|lang| [lang.name, lang.abbreviation]},{} , class: 'form-control'
   .form-group.row
+    = f.label :time_zone, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-8
+      = f.time_zone_select :time_zone, nil, {include_blank: true}, class: 'form-control'
+  .form-group.row
     = f.label :role, nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
       = f.select :role, User.roles.keys.map {|role| [role.titleize,role]},{} , class: 'form-control'
+  - unless @user.new_record?
+    .form-group.row
+      = f.label :knows_users, nil, class: 'col-sm-4 col-form-label text-xs-right'
+      .col-sm-8
+        = f.collection_select :knows_users, @user.knows_users_objects, :id, :name, {:selected => @user.knows_users}, {:multiple => true, :class => 'selectpicker'}
   = f.submit (t :btn_save), :class => 'btn btn-adrie'

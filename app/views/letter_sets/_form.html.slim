@@ -7,5 +7,9 @@
   .form-group.row
     = f.label :letter_amount_points, nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
-      = f.text_area :letter_amount_points, class: 'form-control'
+      - @letter_set.lap.each_with_index do |ls, idx|
+        = text_field_tag "letter_set[lap][]", "#{ls[0]} #{ls[1][0]} #{ls[1][1]}", class: 'show-control', id: "letter_set_lap_#{idx}"
+      - cnt = @letter_set.letter_amount_points.count
+      - (cnt..34).each_with_index do |ls, idx|
+        = text_field_tag "letter_set[lap][]", nil, class: 'show-control', id: "letter_setlap_#{cnt+idx}"
   = f.submit (t :btn_save), :class => 'btn btn-adrie'

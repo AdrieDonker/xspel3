@@ -1,15 +1,23 @@
 / The gamers: name, last turn, points
-table
+table#game_details [
+  data-game_state="#{@game.state}" 
+  data-allow_swap="#{@game.stock_letters.size > 6 ? true : false}"
+  data-started_at="#{@game.started_at.to_f*1000}"]
   tr
-    td#game_state.state[colspan="2" data-game_state="#{@game.state}"]= @game.aasm.human_state
+    / td.state[colspan="2"]= @game.aasm.human_state
+    td.state[colspan="2"]= gamer_in_play(@game)
     td.score= (t :letters_left) + @game.stock_letters.count.to_s
-  /- @game.gamers.order(:sequence_nbr).each do |g|
+  tr
+    td.timer_lane[colspan="3"]
+      #timer
   - game_gamers(@game).each do |g|
-    tr
-      td#gamer_details.name [
-        data-gamer_id="#{g[:gamer_id]}"
-        data-user_id="#{g[:user_id]}"] #{g[:user_name]}
-      td#turn_details.state [
-        data-turn_id="#{g[:turn_details][0]}"
-        data-turn_state="#{g[:turn_details][1]}"] #{g[:play_state]}
-      td.score= g[:score]
+    tr.gamer_details [
+      data-gamer_id="#{g[:gamer_id]}"
+      data-user_id="#{g[:user_id]}"
+      data-turn_id="#{g[:turn_id]}"
+      data-turn_state="#{g[:turn_state]}"
+      data-turn_started="#{g[:turn_started]}"
+      data-turn_sequence_nbr="#{g[:turn_sequence_nbr]}"] 
+      td.name= g[:dsp_user_name]
+      td.state= g[:dsp_play_state]
+      td.score= g[:dsp_score]

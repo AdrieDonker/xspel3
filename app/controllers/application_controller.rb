@@ -4,9 +4,14 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
-  # before_action :games_in_play
+  around_filter :user_time_zone, if: :current_user
 
   private
+
+  # adjust to users timezone
+  def user_time_zone(&block)
+    Time.use_zone(current_user.time_zone, &block)
+  end
 
   # Sanitize devise permitted parameters
   def configure_permitted_parameters

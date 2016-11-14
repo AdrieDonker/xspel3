@@ -39,15 +39,16 @@ $(window).resize ->
   points_size = (td_width * 0.3).toString() + 'px'
   $('#board div.points').css 'font-size', points_size
 
-  game_resize_shelf()
+  sizes = []
+  sizes = game_resize_shelf()
   # the shelf
   
   # play buttons
-  letter_size = (td_width * .8).toString() + 'px'
+  letter_size = (td_width * .75).toString() + 'px'
   $('#controls .play_btn').css {
-    'height': tile_size, 
-    'line-height': letter_size,
-    'font-size': letter_size
+    'height': sizes[0], 
+    'line-height': sizes[1],
+    'font-size': sizes[1]
   }
   return
 
@@ -67,8 +68,15 @@ $(window).resize ->
   }
   points_size = (td_width * 0.3).toString() + 'px'
   $('#controls div.play_points').css 'font-size', points_size
-  return
+  
+  return [tile_size, letter_size]
 
+# close alert slowly
+@close_alert = ->
+  $('.alert').fadeTo(2000, 500).slideUp 500, ->
+    $('.alert').slideUp 500
+    return
+  
 # extend jQuery's css to nums
 jQuery.fn.cssInt = (prop) ->
   parseInt(@css(prop), 10) or 0

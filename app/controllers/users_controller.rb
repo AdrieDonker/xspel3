@@ -42,7 +42,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :role, :locale, :email)
+    params[:user][:knows_users].reject!(&:empty?)
+    params.require(:user).permit(:name, :role, :locale, :time_zone, :email, :knows_users => [])
   end
 
   def set_user

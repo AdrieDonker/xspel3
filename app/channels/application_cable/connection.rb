@@ -17,5 +17,13 @@ module ApplicationCable
     #       reject_unauthorized_connection
     #     end
     #   end
+    # identified_by :uuid
+
+    def connect
+      # logger.add_tags 'ActionCable', "module ApplCable: #{params.to_s}"
+      # logger.add_tags 'ActionCable', "module ApplCable: #{@game.id}"
+      # self.uuid = SecureRandom.uuid
+      # self.uuid = @game.id
+    end
   end
 end

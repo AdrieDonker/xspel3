@@ -1,35 +1,36 @@
 class GamersController < ApplicationController
   before_action :set_gamer, only: [:invite]
 
-  # handle invite
+  # handle invite get and post
   def invite
     set_gamer
 
     # answered
-    if params[:answer]
-      if params[:answer] == 'oke'
+    if request.post?
+      if params[:commit] == t(:do_yes)
         @gamer.accept!
-        if check_play_now
-          redirect_to play_game_path(@game)
+        @game.check_play_now(params[:game_js_time].to_i)
+
+        ActionCable.server.broadcast 'game_channel',
+          user_id: current_user.id.to_s,
+          game_id: @game.id.to_s,
+          gamers: render_to_string(partial: 'games/gamers')
         
-        # too less players
-        elsif @game.pre_abort?
-          redirect_to games_path
-          
-        # not all players reacted
-        else
-          redirect_to play_game_path(@game)
-        end
-        
-      elsif params[:answer] == 'nok'
+        redirect_to play_game_path(@game), game_js_time: params[:game_js_time].to_i
+
+      else      #  params[:commit] == 'no'
         @gamer.reject!
-        check_play_now
+        @game.check_play_now(params[:game_js_time].to_i)
+
+        ActionCable.server.broadcast 'game_channel',
+          user_id: current_user.id.to_s,
+          game_id: @game.id.to_s,
+          gamers: render_to_string(partial: 'games/gamers')
+        
         redirect_to games_path
       
-      else
       end
-      
-    # do the invite
+    # else: JS do the invite
     end
   end
   
@@ -44,20 +45,5 @@ class GamersController < ApplicationController
     def gamer_params
       params.require(:gamer).permit(:game_id, :user_id, :sequence_nbr, :score, :state, :position)
     end
-    
-    # Check if playing can start
-    def check_play_now
-      if @game.may_play_now?
-        @game.started_at = Time.now
-        @game.play_now!
-        
-        # broadcast
-        #  game is started
-        #  update buttons/state of the players
-        true
-      else
-        false
-      end
-    end
-    
+
 end

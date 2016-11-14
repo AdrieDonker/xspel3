@@ -6,7 +6,7 @@ class Turn < ApplicationRecord
   belongs_to :gamer
 
   # attribute :
-  serialize :start_letters
+  serialize :start_letters      # [ [<letter>, <points>], [<.... ]
   serialize :end_letters
   serialize :laid_letters
   serialize :words
@@ -102,7 +102,7 @@ class Turn < ApplicationRecord
     
     # Collect the words
     collect_words(letters)
-    
+
     # Test the words
     # Init
     wrong_words = []          
@@ -123,13 +123,13 @@ class Turn < ApplicationRecord
         end
       end
     end
-    search_parts.sort!
+    # search_parts.sort!
 
     # Get words_lists_ids
     wl_ids = []
     search_parts.each do |z|
       temp = nil
-      game.words_list_groups.each do |w|
+      game.words_list_groups.sort.each do |w|
         a = z[0]; b = w[0]
         if z[0].downcase >= w[0]                      # bewaar laatste goede = de goede
           temp = w
@@ -153,7 +153,7 @@ class Turn < ApplicationRecord
         end
       end
     end
-    logger.info wrong_words
+    # logger.info wrong_words
     return wrong_words
   end
   
@@ -162,9 +162,9 @@ class Turn < ApplicationRecord
   
     # Init
     new_laid_letters = add_to_laid_letters(letters)
-    new_laid_letters.each do |ll|
-      logger.info ll
-    end
+    # new_laid_letters.each do |ll|
+    #   logger.info ll
+    # end
 
     self.words = []    # [[<word>, <points>, <row>, <column>, h/v], [<word>, <points..  ] ]
     direction = 'h'
@@ -273,28 +273,36 @@ class Turn < ApplicationRecord
   # Remove used/swapped letters
   def set_end_letters(letters)
     self.end_letters = start_letters
+    logger.info 'end_letters=' + end_letters.to_s
+    logger.info 'letters=' + letters.to_s
     letters.each do |sl|
+      # blank (0 points) adjust
+      sl[0] = "?" if sl[1] == 0
       pos = end_letters.rindex(sl)
-      self.end_letters.slice!(pos) if pos
+      if pos
+        self.end_letters.slice!(pos) 
+      else
+        logger.info 'letter (blank?) not found: ' + sl.to_s
+      end
     end
   end
 
   # Update game after good word(s) played
   def update_turn(laid_letters)
-    
     # Extract :<letter>, points
+    logger.info '@@@@@@@@@@ update_turn: laid_letters: ' + laid_letters.to_s
     letters = []
-    laid_letters.each { |lt| letters << [lt[2].to_sym, lt[3]] }
+    laid_letters.each { |lt| letters << [lt[2], lt[3]] }
     set_end_letters(letters)
-    
+
     self.laid_letters = laid_letters
     self.score = 0
     words.each { |w| self.score += w[1] }
     self.bingo = (laid_letters.size == 7 ? true : false )
+    self.score += 50 if bingo
     self.ended = Time.now
+    playing!
 
-    playing
-    save
   end
 
   private #---------------------------------------------
@@ -311,34 +319,33 @@ class Turn < ApplicationRecord
     state :passed
     state :swapped
     state :played
-    state :ended
+    state :too_late
     
     event :get_turn, after: :start_turn do
       transitions from: :wait, to: :play
     end
-    event :passing, after: :set_score_0 do
+    event :passing, after: :stop_turn do
       transitions from: :play, to: :passed
     end
-    event :swapping, after: :set_score_0 do
+    event :swapping, after: :stop_turn do
       transitions from: :play, to: :swapped
     end
     event :playing do
       transitions from: :play, to: :played
     end
-    event :expiring do
-      transitions from: :play, to: :ended
+    event :expiring, after: :stop_turn do
+      transitions from: :play, to: :too_late
     end
 
   end
   
   def start_turn
-    self.started = Time.now
-    save
     gamer.gets_turn!
   end
 
-  def set_score_0
+  def stop_turn
     self.score = 0
+    # self.ended = Time.now
   end
   
   # =======================================================

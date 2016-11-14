@@ -7,11 +7,13 @@ Rails.application.routes.draw do
    end
    resources :gamers do
     get 'invite'
+    post 'invite'
    end
    resources :turns do
     get 'pass'
     get 'swap'
     get 'play'
+    get 'too_late'
     get 'blank'
    end
   end

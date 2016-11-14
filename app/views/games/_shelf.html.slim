@@ -4,7 +4,7 @@ table
       td[id="play_letters_pos_#{idx}" class="shelf_drop"]
         .play_letter [ id="letter_#{idx}" data-letter="#{l_w[0]}" data-points="#{l_w[1]}" 
           draggable='true']
-          = (l_w[0] == ' ' ? "?" : l_w[0])
+          = (l_w[0] == '?' ? ' ' : l_w[0])
           .play_points= l_w[1]
     - (@turn.start_letters.size).upto(6) do |x|
       td[id = "play_letters_pos_#{x}" ] 

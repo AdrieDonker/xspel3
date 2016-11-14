@@ -135,23 +135,38 @@ function letter_resize(letter, to_elem) {
 };
 
 // set play-button handlers
-var game_id, game_state, turn_id, allow_swap;
+var user_id, game_id, game_state, turn_id, turn_state, allow_swap;
 function init_buttons(){
+  user_id = $('#game_data').attr('data-user_id');
   game_id = $('#game_data').attr('data-game_id');
-  game_state = $('#game_data').attr('data-game_state');
-  turn_id = $('#game_data').attr('data-turn_id');
-  turn_state = $('#game_data').attr('data-turn_state');
-  allow_swap = $('#game_data').attr('data-allow_swap');
+  game_state = $('#game_details').attr('data-game_state');
+  allow_swap = $('#game_details').attr('data-allow_swap');
+  // user specific
+  gamer = $('#game_details .gamer_details[data-user_id="' + user_id + '"]');
+  gamer_id = gamer.attr('data-gamer_id');
+  turn_id = gamer.attr('data-turn_id');
+  turn_state = gamer.attr('data-turn_state');
   
+  // display available buttons
+  set_buttons();
+};
+
+// Play buttons
+function handle_play_button(){
   $('#controls').on('click', '.play_btn', function(){
 
     // Play: 
     if ($(this).hasClass('play') == true && $(this).hasClass('disable') == false) {
-      $.get('turns/' + turn_id + '/play', {laid_letters: letters_laid()}, null, 'script');
+      // console.log('turn_id:'+ turn_id)
+      // add Time (miliseconds) for next turn to stay in synch with js time
+      // dt = new Date() // end_time this turn = start_time next_turn
+      // dt_start = $('.gamer_details[data-turn_state="play"]').attr('data-turn_started')
+      // console.log('dt_start: ' + dt_start)
+      $.get('turns/' + turn_id + '/play', {laid_letters: letters_laid(), js_time: Date.now()}, null, 'script');
 
     // Pass: confirm in modal
     } else if ($(this).hasClass('pass') == true && $(this).hasClass('disable') == false){
-      $.get('turns/' + turn_id + '/pass', '', null, 'script');
+      $.get('turns/' + turn_id + '/pass', {js_time: Date.now()}, null, 'script');
 
     // Shuffle: the letters
     } else if ($(this).hasClass('shuffle') == true){
@@ -165,15 +180,13 @@ function init_buttons(){
     } else if ($(this).hasClass('clear') == true){
       clear_board();
 
-    //Swap: select in modal
-    } else if ($(this).hasClass('swap') == true ){
+    // Swap: select in modal
+    } else if ($(this).hasClass('swap') == true && $(this).hasClass('disable') == false) {
       clear_board();
       $.get('turns/' + turn_id + '/swap', null, 'script');
     }
   })
-  // display available buttons
-  set_buttons();
-};
+}
 
 // Clear: put play-letters back on the shelf
 function clear_board(){
@@ -207,7 +220,9 @@ function set_buttons(){
     $('.play_btn.clear').parent().css('display', 'table-cell');
   }
   // dis- or enable
-  $('play_btn').removeClass('disable');
+  $('.play_btn').each(function(){
+    $(this).removeClass('disable');
+  })
   // gamer not in turn
   if (turn_state != 'play'){
     $('.play_btn.play').addClass('disable');
@@ -229,9 +244,14 @@ function letters_laid(){
     return col.join('_');
 };
 
-// Clear tile from 
+// Clear tile from content (blank)
 function clear_tile(tile){
   tile.contents().filter(function(){
     return (this.nodeType == 3);
   }).remove();
+}
+
+// update tag with browser time for Start game and Invite Oke
+function set_js_time(){
+  $('#game_js_time').val(Date.now())
 }

@@ -2,4 +2,5 @@ tr.click-this data-href="#{user_path(user)}"
   td= user.name
   td= user.email
   td= user.language.try(:name)
+  td= user.time_zone
   td= user.role.titleize

@@ -1,3 +1,5 @@
 tr.click-this data-href="#{letter_set_path(letter_set)}" 
   td= letter_set.name
-  td= letter_set.letter_amount_points
+  td
+    - letter_set.lap.each do |ls|
+      div.form-control-static.show-control #{ls[0]} => [ #{ls[1][0]}, #{ls[1][1]} ]

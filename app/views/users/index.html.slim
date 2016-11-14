@@ -8,6 +8,7 @@
             th= User.human_attribute_name(:name)
             th= User.human_attribute_name(:email)
             th= User.human_attribute_name(:language)
+            th= User.human_attribute_name(:time_zone)
             th= User.human_attribute_name(:role)
         tbody
           = render @users

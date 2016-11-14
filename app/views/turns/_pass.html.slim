@@ -1,3 +1,4 @@
 h4=(t :really_pass)
-= link_to t(:do_yes), game_turn_pass_path(@game.id, @turn.id, answer: 'oke'), class: 'btn btn-adrie', remote: true
+= link_to t(:oke), "javascript:send_pass()", :class => 'btn btn-adrie', remote: true
+/ = link_to t(:do_yes), game_turn_pass_path(@game.id, @turn.id, answer: 'oke'), class: 'btn btn-adrie', remote: true
 button.btn.btn-adrie data-dismiss="modal" type="button" =(t :do_no)

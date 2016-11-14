@@ -1,4 +1,4 @@
-= form_for(@game, :html => {:role => 'form', remote: :true}) do |f|
+= form_for(@game, :html => {:role => 'form', remote: :true, onSubmit: 'set_js_time()'}) do |f|
   #am-errors= render 'errors/error', model: @game
   / .form-group.row
   /  = f.label :name
@@ -16,9 +16,21 @@
     .col-sm-8
       = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
   .form-group.row
+    = f.label :play_time, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    .col-sm-2
+      =(t :days)
+      = f.select :play_time_days, options_for_select((0..10).to_a, @game.play_time_days), {}, class: 'form-control'
+    .col-sm-2
+      =(t :hours)
+      = f.select :play_time_hours, options_for_select((0..23).to_a, @game.play_time_hours), {}, class: 'form-control'
+    .col-sm-2
+      =(t :minutes)
+      = f.select :play_time_minutes, options_for_select((0..15).to_a + (20..55).step(5).to_a, @game.play_time_minutes), {}, class: 'form-control'
+  .form-group.row
     = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-xs-right'
     .col-sm-8
       = f.collection_select :user_ids, User.all, :id, :name, {:selected => @game.users.map(&:id)}, {:multiple => true, :class => 'selectpicker'}
+  = f.hidden_field :js_time
   = f.submit (t :btn_start), class: 'btn btn-adrie'
   = f.submit (t :btn_save), class: 'btn btn-adrie'
   - unless @game.new_record?
