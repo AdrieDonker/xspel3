@@ -3,9 +3,7 @@ class BoardsController < ApplicationController
 
   def index
     @boards = Board.all
-    if @boards.size == 0
-      Board.create_standard_board
-    end
+    Board.create_standard_board if @boards.empty?
     @boards = Board.all
   end
 
@@ -28,9 +26,9 @@ class BoardsController < ApplicationController
     end
   end
 
-    def update
+  def update
     if @board.update_attributes(board_params)
-      redirect_to boards_path, :notice => (t :model_updated, name: @board.name, model: Board.model_name.human)
+      redirect_to boards_path, notice: (t :model_updated, name: @board.name, model: Board.model_name.human)
     else
       render :edit
     end
@@ -39,15 +37,15 @@ class BoardsController < ApplicationController
   def destroy
     name = @board.name
     @board.destroy
-    redirect_to boards_path, :notice => (t :model_deleted, name: name, model: Board.model_name.human)
+    redirect_to boards_path, notice: (t :model_deleted, name: name, model: Board.model_name.human)
   end
 
   private
-  
+
   def board_params
     params.require(:board).permit(:name, :layout)
   end
-  
+
   def set_board
     @board = Board.find(params[:id])
   end
@@ -57,5 +55,4 @@ class BoardsController < ApplicationController
       redirect_back fallback_location: root_path, alert: (t :no_access)
     end
   end
-
 end

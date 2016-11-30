@@ -24,9 +24,9 @@ class SettingsController < ApplicationController
     end
   end
 
-    def update
+  def update
     if @setting.update_attributes(setting_params)
-      redirect_to settings_path, :notice => (t :model_updated, name: @setting.name, model: Setting.model_name.human)
+      redirect_to settings_path, notice: (t :model_updated, name: @setting.name, model: Setting.model_name.human)
     else
       render :edit
     end
@@ -35,11 +35,11 @@ class SettingsController < ApplicationController
   def destroy
     name = @setting.name
     @setting.destroy
-    redirect_to settings_path, :notice => (t :model_deleted, name: name, model: Setting.model_name.human)
+    redirect_to settings_path, notice: (t :model_deleted, name: name, model: Setting.model_name.human)
   end
 
   private
-  
+
   def set_setting
     @setting = Setting.find(params[:id])
   end
@@ -47,11 +47,10 @@ class SettingsController < ApplicationController
   def setting_params
     params.require(:setting).permit(:name, :max_invite_hours, :max_play_hours, :extra_on_bingo)
   end
-  
+
   def admin_only
     unless current_user.admin?
       redirect_back fallback_location: root_path, alert: (t :no_access)
     end
   end
-
 end

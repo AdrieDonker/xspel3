@@ -3,7 +3,8 @@ html
   head
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     = csrf_meta_tags
-    / = action_cable_meta_tag
+    / = action_cable_meta_tag 
+    / http://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     title= content_for?(:title) ? yield(:title) : "Xspel3"
     meta content=("#{content_for?(:description) ? yield(:description) : "Xspel3"}") name="description" /

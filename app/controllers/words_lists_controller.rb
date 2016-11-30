@@ -27,12 +27,12 @@ class WordsListsController < ApplicationController
 
   def update
     if @words_list.update_attributes(words_list_params)
-      
+
       # Name changed?
       if @words_list.name != params[:old_name]
-        WordsList.where( name: params[:old_name] ).update_all( name: @words_list.name )
+        WordsList.where(name: params[:old_name]).update_all(name: @words_list.name)
       end
-      redirect_to words_lists_path, :notice => (t :model_updated, name: @words_list.name, model: WordsList.model_name.human)
+      redirect_to words_lists_path, notice: (t :model_updated, name: @words_list.name, model: WordsList.model_name.human)
     else
       render :edit
     end
@@ -41,15 +41,15 @@ class WordsListsController < ApplicationController
   def destroy
     name = @words_list.name
     @words_list.destroy
-    redirect_to words_lists_path, :notice => (t :model_deleted, name: name, model: WordsList.model_name.human)
+    redirect_to words_lists_path, notice: (t :model_deleted, name: name, model: WordsList.model_name.human)
   end
 
   private
-  
+
   def words_list_params
     params.require(:words_list).permit(:name, :group, :description, :words_spaced)
   end
-  
+
   def set_words_list
     @words_list = WordsList.find(params[:id])
   end
@@ -59,5 +59,4 @@ class WordsListsController < ApplicationController
       redirect_back fallback_location: root_path, alert: (t :no_access)
     end
   end
-
 end

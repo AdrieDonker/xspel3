@@ -10,6 +10,7 @@ gem 'turbolinks'
 # gem 'jbuilder'      
 gem 'aasm' 
 gem 'font-awesome-rails'
+gem 'rubocop', require: false
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
@@ -32,4 +33,6 @@ gem 'high_voltage'
 gem 'slim-rails'
 group :production do
   gem 'pg'
+  # Use Redis adapter to run Action Cable in production
+  # gem 'redis', '~> 3.0'
 end

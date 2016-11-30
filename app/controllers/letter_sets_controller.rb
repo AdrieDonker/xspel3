@@ -4,9 +4,7 @@ class LetterSetsController < ApplicationController
 
   def index
     @letter_sets = LetterSet.all
-    if @letter_sets.size == 0
-      LetterSet.create_standard_letter_sets
-    end
+    LetterSet.create_standard_letter_sets if @letter_sets.empty?
     @letter_sets = LetterSet.all
   end
 
@@ -31,7 +29,7 @@ class LetterSetsController < ApplicationController
 
   def update
     if @letter_set.update_attributes(letter_set_params)
-      redirect_to letter_sets_path, :notice => (t :model_updated, name: @letter_set.name, model: LetterSet.model_name.human)
+      redirect_to letter_sets_path, notice: (t :model_updated, name: @letter_set.name, model: LetterSet.model_name.human)
     else
       render :edit
     end
@@ -40,23 +38,21 @@ class LetterSetsController < ApplicationController
   def destroy
     name = @letter_set.name
     @letter_set.destroy
-    redirect_to letter_sets_path, :notice => (t :model_deleted, name: name, model: LetterSet.model_name.human)
+    redirect_to letter_sets_path, notice: (t :model_deleted, name: name, model: LetterSet.model_name.human)
   end
 
   private
-  
+
   def letter_set_params
-    params.require(:letter_set).permit(:name, :letter_amount_points, :lap => [])
+    params.require(:letter_set).permit(:name, :letter_amount_points, lap: [])
   end
-  
+
   def set_letter_set
     @letter_set = LetterSet.find(params[:id])
   end
 
   def admin_only
-    unless current_user.admin?
-      redirect_back fallback_location: root_path, alert: (t :no_access)
-    end
+    return if current_user.admin?
+    redirect_back fallback_location: root_path, alert: (t :no_access)
   end
-
 end

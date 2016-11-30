@@ -20,18 +20,17 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:locale, :name, :email])
     # logger.info "INFO: did > configure_permitted_parameters"
   end
-  
+
   # Set the language
   def set_locale
     I18n.locale = current_user.try(:locale) || extract_locale_from_accept_language_header
   end
-  
+
   # Extract language from HHTP-header
   def extract_locale_from_accept_language_header
     lang = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
     logger.info "INFO: Language #{lang} determined from header"
     lang
-  end  
+  end
   # I18n.default_locale
-  
 end
