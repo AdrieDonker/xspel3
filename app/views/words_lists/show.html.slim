@@ -1,19 +1,19 @@
 .container
   h3= WordsList.model_name.human
   .form-group.row
-    = label_tag WordsList.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag WordsList.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       p.form-control-static.show-control #{@words_list.name}
   .form-group.row
-    = label_tag WordsList.human_attribute_name(:group), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag WordsList.human_attribute_name(:group), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       p.form-control-static.show-control #{@words_list.group}
   .form-group.row
-    = label_tag WordsList.human_attribute_name(:description), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag WordsList.human_attribute_name(:description), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       p.form-control-static.show-control #{@words_list.description}
   .form-group.row
-    = label_tag WordsList.human_attribute_name(:words), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag WordsList.human_attribute_name(:words), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       p.form-control-static.show-control.large-control #{@words_list.words_spaced}
   = link_to t(:btn_edit), edit_words_list_path(@words_list), :class => 'btn btn-adrie'

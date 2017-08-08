@@ -1,25 +1,25 @@
 .form-group.row
-  = label_tag Game.human_attribute_name(:owner), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:owner), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= @game.owner.name
 .form-group.row
-  = label_tag Game.human_attribute_name(:board), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:board), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= @game.board.name
 .form-group.row
-  = label_tag Game.human_attribute_name(:letter_set), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:letter_set), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= @game.letter_set.name
 .form-group.row
-  = label_tag Game.human_attribute_name(:words_list), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:words_list), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= @game.words_list.name
 .form-group.row
-  = label_tag Game.human_attribute_name(:gamers), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:gamers), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= gamer_names(@game)
 .form-group.row
-  = label_tag Game.human_attribute_name(:started_at), nil, class: 'col-sm-4 col-form-label text-xs-right'
+  = label_tag Game.human_attribute_name(:started_at), nil, class: 'col-sm-4 col-form-label text-sm-right'
   .col-sm-8
     p.form-control-static.show-control= @game.started_at.nil? ? (t :not_yet) : game.started.strftime("%-d-%-m-'%y %H:%M")
 button.btn.btn-adrie data-dismiss="modal" type="button" =(t :back)

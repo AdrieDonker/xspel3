@@ -80,7 +80,7 @@ class GamesController < ApplicationController
 
   private #===============================================================
 
-  # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share layer_1 setup or constraints between actions.
   def set_game
     @game = Game.find(params[:id])
     @turn = Turn.where(game_id: @game.id, user_id: current_user.id).last

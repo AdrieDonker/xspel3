@@ -1,19 +1,19 @@
 .container
   h3= Setting.model_name.human
   .form-group.row
-    = label_tag Setting.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag Setting.human_attribute_name(:name), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       p.form-control-static.show-control #{@setting.name}
   .form-group.row
-    = label_tag Setting.human_attribute_name(:max_invite_hours), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag Setting.human_attribute_name(:max_invite_hours), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8 
       p.form-control-static.show-control #{@setting.max_invite_hours}
   .form-group.row
-    = label_tag Setting.human_attribute_name(:max_play_hours), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag Setting.human_attribute_name(:max_play_hours), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8 
       p.form-control-static.show-control #{@setting.max_play_hours}
   .form-group.row
-    = label_tag Setting.human_attribute_name(:extra_on_bingo), nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = label_tag Setting.human_attribute_name(:extra_on_bingo), nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8 
       p.form-control-static.show-control #{@setting.extra_on_bingo}
   = link_to t(:btn_edit), edit_setting_path(@setting), :class => 'btn btn-adrie'

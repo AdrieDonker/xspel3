@@ -3,11 +3,11 @@
   = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f|
     = devise_error_messages!
     .form-group.row
-      = f.label :email, nil, class: 'col-sm-4 col-form-label text-xs-right'
+      = f.label :email, nil, class: 'col-sm-4 col-form-label text-sm-right'
       .col-sm-8
         = f.email_field :email, :autofocus => true, class: 'form-control'
     .form-group.row
-      = f.label :password, nil, class: 'col-sm-4 col-form-label text-xs-right'
+      = f.label :password, nil, class: 'col-sm-4 col-form-label text-sm-right'
       .col-sm-8
         = f.password_field :password, class: 'form-control'
     .row

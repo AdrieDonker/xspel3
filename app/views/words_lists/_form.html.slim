@@ -1,19 +1,19 @@
 = form_for(@words_list, :html => {:role => 'form'}) do |f|
   = render 'errors/error', model: @words_list
   .form-group.row
-    = f.label :name, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :name, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group.row
-    = f.label :group, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :group, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_field :group, class: 'form-control'
   .form-group.row
-    = f.label :description, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :description, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_field :description, class: 'form-control'
   .form-group.row
-    = f.label :words_spaced, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :words_spaced, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_area :words_spaced, class: 'form-control large-control'
   = f.submit (t :btn_save), :class => 'btn btn-adrie'

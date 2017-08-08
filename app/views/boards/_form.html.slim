@@ -1,11 +1,11 @@
 = form_for(@board, :html => {:role => 'form'}) do |f|
   = render 'errors/error', model: @board
   .form-group.row
-    = f.label :name, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :name, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group.row
-    = f.label :layout, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :layout, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_area :layout, class: 'form-control large-control'
   = f.submit 'Oke', :class => 'btn btn-adrie'

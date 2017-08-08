@@ -94,7 +94,7 @@ class TurnsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share layer_1 setup or constraints between actions.
   def set_turn
     @game = Game.find(params[:game_id])
     @turn = Turn.find(params[:turn_id])

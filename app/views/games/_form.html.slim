@@ -4,19 +4,19 @@
   /  = f.label :name
   /  = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group.row
-    = f.label :board, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :board, nil, class: 'col-sm-4 col-form-labeltext-sm-right '
     .col-sm-8
       = f.select :board_id, Board.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
   .form-group.row
-    = f.label :letter_set, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :letter_set, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.select :letter_set_id, LetterSet.all.collect {|x| [x.name, x.id]},{} , class: 'form-control'
   .form-group.row
-    = f.label :words_list, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :words_list, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.select :words_list_id, WordsList.all.collect {|x| [x.name, x.id] if x.group == '00'}.compact ,{} , class: 'form-control'
   .form-group.row
-    = f.label :play_time, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :play_time, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-2
       =(t :days)
       = f.select :play_time_days, options_for_select((0..10).to_a, @game.play_time_days), {}, class: 'form-control'
@@ -27,7 +27,7 @@
       =(t :minutes)
       = f.select :play_time_minutes, options_for_select((0..15).to_a + (20..55).step(5).to_a, @game.play_time_minutes), {}, class: 'form-control'
   .form-group.row
-    = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :gamers, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.collection_select :user_ids, User.all, :id, :name, {:selected => @game.users.map(&:id)}, {:multiple => true, :class => 'selectpicker'}
   = f.hidden_field :js_time

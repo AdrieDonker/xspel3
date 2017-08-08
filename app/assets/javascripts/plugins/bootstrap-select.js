@@ -12,8 +12,8 @@
       return (factory(a0));
     });
   } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
+    // Node. Does not work with strict layer_1JS, but
+    // only layer_1JS-like environments that support module.exports,
     // like Node.
     module.exports = factory(require("jquery"));
   } else {

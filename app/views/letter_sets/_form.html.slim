@@ -1,11 +1,11 @@
 = form_for(@letter_set, :html => {:role => 'form'}) do |f|
   = render 'errors/error', model: @letter_set
   .form-group.row
-    = f.label :name, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :name, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       = f.text_field :name, :autofocus => true, class: 'form-control'
   .form-group.row
-    = f.label :letter_amount_points, nil, class: 'col-sm-4 col-form-label text-xs-right'
+    = f.label :letter_amount_points, nil, class: 'col-sm-4 col-form-label text-sm-right'
     .col-sm-8
       - @letter_set.lap.each_with_index do |ls, idx|
         = text_field_tag "letter_set[lap][]", "#{ls[0]} #{ls[1][0]} #{ls[1][1]}", class: 'show-control', id: "letter_set_lap_#{idx}"
